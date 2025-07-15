@@ -1,0 +1,3 @@
+# ensures that this information is not pushed into github as they are confidential
+.env
+node_modules/

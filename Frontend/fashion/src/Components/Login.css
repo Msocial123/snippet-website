@@ -1,0 +1,155 @@
+/* Prevent scroll */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; ✅ Prevent vertical and horizontal scrolling */
+}
+
+/* Header */
+.login-header {
+  background-color: #b9a6a6;
+  color: black;
+  font-size: 2.9rem;
+  padding: 10px 20px;
+  font-family: 'Georgia', serif;
+}
+
+/* Wrapper to center image and box */
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   height: 100vh; /* Full viewport height */
+  background-color: #fff;
+  margin-top: -10px;
+}
+
+/* Background image */
+.login-image {
+  background-image: url('/public/photo1.PNG'); /* Put image in public folder */
+  background-size: cover;
+  background-position: center;
+  width: 900px;
+  height: 900px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login Box (glass effect) */
+.login-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+/* Headings */
+.login-box h2 {
+  margin-bottom: 10px;
+  font-size: 2.3rem;
+}
+
+.login-box p {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  color: #444;
+}
+
+/* Input Fields */
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1.3rem;
+}
+
+/* Login Button */
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+.login-box button:hover {
+  background-color: #333;
+}
+
+/* Links */
+.login-links {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.login-links a {
+  display: block;
+  color: #333;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+/* Signup button */
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.signup button {
+  /* padding: 6px 10px; */
+  font-size: 1rem;
+  background: #eee;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  cursor: pointer;
+  color: black;
+  width: 100px;
+  margin-left: 20px;
+}
+
+.signup button:hover {
+  background: #ccc;
+}
+
+h1 {
+  margin: 0;
+  padding: 10px 20px;
+  background-color: #b9a6a6;
+  font-size: 3rem;
+  font-family: 'Amarante', sans-serif;
+  line-height: 1.2;
+}
+
+.login-page {
+  margin-top: 0;
+  padding-top: 0;
+  /* keep rest of your styles */
+}
+
+.password-wrapper {
+  display:flex;
+  flex-direction: column;
+
+}
+
+.show-password input[type="checkbox"]{
+ margin: 0; 
+  width: 16px;
+  height: 16px;
+}

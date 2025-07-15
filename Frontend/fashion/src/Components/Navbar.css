@@ -1,0 +1,143 @@
+/* src/components/Navbar.css */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+.brand-title{
+    background-color: white;
+    font-size:53px;
+}
+
+.navbar {
+  background-color: #b9a6a6;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
+  height: 70px;
+}
+
+.logo {
+  font-size: 2 rem;
+  font-weight: 700;
+  color: black;
+  text-decoration: none;
+}
+
+.navbar-center {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.navbar-center a,
+.navbar-right a {
+  color: black;
+  text-decoration: none;
+  font-size: 1.9rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-center a:hover,
+.navbar-right a:hover {
+cursor: pointer;
+ border: 1px solid black;
+}
+
+.dropdown {
+  position: relative;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  z-index: 1001;
+  min-width: 160px;
+  flex-direction: column;
+   font-size: 2rem;
+  justify-content: space-evenly;
+}
+
+.dropdown-content a {
+  padding: 10px 15px;
+  white-space: nowrap;
+  color: black;
+  background-color: white;
+  font-size: 17px;
+
+}
+
+.dropdown p {
+  padding: 10px 15px;
+  white-space: nowrap;
+  color: black;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.dropdown p:hover{
+ border: 1px solid black;
+}
+.dropdown-content a:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 1.6rem;
+  height: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-center,
+  .navbar-right {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
+  }
+}
+
+.search-form {
+  background: #f5f8ff;
+  border-radius: 12px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  margin-right: 11px;
+  width: 700px;
+  justify-content: center;
+}
+
+.search-form i {
+  color: #888;
+  margin-right: 8px;
+}
+
+.search-form input {
+  border: none;
+  background: transparent;
+  outline: none;
+  margin-right:0;
+  font-size: 14px;
+}
