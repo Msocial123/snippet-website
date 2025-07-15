@@ -1,0 +1,25 @@
+.footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  padding: 2rem 0;
+  background: #22223b;
+  color: #fff;
+}
+
+.footer-content > div {
+  min-width: 180px;
+}
+
+.footer-content h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #a21caf;
+}
+
+.footer-content p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  color: #fff;
+}
