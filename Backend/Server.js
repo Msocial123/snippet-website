@@ -137,6 +137,9 @@ const {
 } = require('./Controller/Signupcontroller');
 
 const landingPageRoutes = require('./Controller/Landingpagecontroller'); // ✅ FIXED: Import routes
+const authController = require('./Controller/authController'); // ✅ Add this line
+const productController = require('./Controller/productController'); // ✅ Add this if missing
+
 
 const app = express();
 app.use(cors());
@@ -152,6 +155,16 @@ app.post('/api/facebook-signup', facebookSignup);
 // ✅ Product + Reviews Routes
 app.use('/api/products', landingPageRoutes); // Routes are: /api/products/landing & /api/products/reviews
 
+app.post("/login", authController.login);
+app.post("/forgot-password", authController.forgotPassword);
+app.post("/reset-password", authController.resetPassword);
+
+
+// ✅ Product Routes
+app.get("/api/products", productController.getAllProducts);
+app.get("/api/products/category/:category", productController.getProductsByCategory);
+app.get("/api/products/:id", productController.getProductById);
+app.get("/api/reviews/:id", productController.getProductReviews);
 // ✅ Start Server
 const PORT = 5000;
 app.listen(PORT, () => {

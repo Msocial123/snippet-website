@@ -1,0 +1,38 @@
+.blog-wrapper {
+  background-color: #fefefe;
+  padding: 3rem 1rem;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.blog-container {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
+}
+
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.blog-content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+/* .blog-banner {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+} */

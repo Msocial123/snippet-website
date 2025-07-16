@@ -1,0 +1,30 @@
+.sustainability-wrapper {
+  padding: 3rem 1rem;
+  background-color: #f6fdf6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.sustainability-container {
+  max-width: 800px;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.sustainability-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1c1c1c;
+}
+
+.sustainability-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #444;
+}

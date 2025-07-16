@@ -1,0 +1,30 @@
+.craft-wrapper {
+  padding: 3rem 1rem;
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.craft-container {
+  max-width: 800px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+.craft-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1d1d1d;
+}
+
+.craft-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #444;
+}

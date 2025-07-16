@@ -1,0 +1,141 @@
+* {
+  box-sizing: border-box;
+}
+
+/* ✅ CARD STYLING */
+.product-card {
+  flex: 1 1 540px; 
+  max-width: 500px;                /* Increased width */
+  height: auto;                /* Increased height */
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;         /* ✅ Ensure space below card */
+   min-width: 0; 
+}
+
+
+/* ✅ CARD HOVER */
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ IMAGE */
+.product-img {
+  width: 100%;
+  height: 220px;               /* Adjusted for increased card height */
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* ✅ HEART ICON */
+.wishlist-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.wishlist-icon:hover {
+  color: red;
+}
+
+/* ✅ TEXT INFO */
+.product-info {
+  text-align: center;
+}
+
+.brand-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.product-name {
+  font-size: 15px;
+  color: #111;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.product-price {
+  color: #000;
+}
+
+.product-oldprice {
+  color: #999;
+  text-decoration: line-through;
+  font-weight: normal;
+}
+
+.product-discount {
+  color: #388e3c;
+}
+
+/* ✅ RATING */
+.product-rating {
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 6px 0;
+}
+
+.rating-value {
+  font-weight: bold;
+  color: #222;
+}
+
+.star {
+  color: gold;
+  font-size: 14px;
+}
+
+.review-count {
+  color: #777;
+  font-size: 13px;
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;           /* ✅ Allows multiple rows */
+  gap: 32px;                 /* ✅ Adds spacing between cards */
+   padding: 24px;                    /* space between cards */
+  justify-content: center;     /* center cards horizontally */
+  box-sizing: border-box;
+}
+
+.product-section {
+  width: 100%;
+  max-width: 1440px; /* Optional */
+  margin: 0 auto;
+}
+
+.home-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
