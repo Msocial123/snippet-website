@@ -10,7 +10,7 @@ const StylePlaybook = () => {
         <p className="blog-content">
           Style Playbook is your go-to guide for mastering outfit combinations, layering techniques, and seasonal transitions. Learn how to elevate basics and build a wardrobe that reflects your personality.
         </p>
-<img src={Style} alt="Drop Diaries Banner" className="blog-banner" />
+{/* <img src={Style} alt="Drop Diaries Banner" className="blog-banner" /> */}
       </div>
     </div>
   );
