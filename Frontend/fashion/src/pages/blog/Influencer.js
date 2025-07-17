@@ -10,7 +10,7 @@ const InfluencerPick = () => {
         <p className="blog-content">
           Curated by top influencers, this blog highlights their favorite Snippet pieces and how they style them. Get inspired by street-savvy looks and everyday fashion icons.
         </p>
-        <img src={influencer} alt="Drop Diaries Banner" className="blog-banner" />
+        {/* <img src={influencer} alt="Drop Diaries Banner" className="blog-banner" /> */}
         
       </div>
     </div>

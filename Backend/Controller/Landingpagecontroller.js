@@ -205,7 +205,7 @@ router.get('/category/:category', async (req, res) => {
 
   try {
     const [results] = await pool.query(`
-      SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, p.StockQuantity, pd.Images 
+      SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, pd.Images 
       FROM products p
       LEFT JOIN product_details pd ON p.PID = pd.PID
       WHERE LOWER(REPLACE(p.Category, ' ', '')) = ?

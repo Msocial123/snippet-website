@@ -10,7 +10,7 @@ const SnippetXCelebs = () => {
         <p className="blog-content">
           Celebrities love Snippet too! See how top artists and actors are styling our latest collections. Get the celeb look with affordable alternatives.
         </p>
-        <img src={celebs} alt="Drop Diaries Banner" className="blog-banner" />
+        {/* <img src={celebs} alt="Drop Diaries Banner" className="blog-banner" /> */}
       </div>
     </div>
   );

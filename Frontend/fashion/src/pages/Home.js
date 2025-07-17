@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React, { useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard";
 import "./Home.css";
@@ -17,32 +16,23 @@ const Home = () => {
         return res.json();
       })
       .then((data) => {
-        setProducts(data);
+        setProducts(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
         setError("Something went wrong while fetching products.");
+        setProducts([]);
         setLoading(false);
       });
   }, []);
-  const getUniqueProductsByCategory = (products) => {
-  const seen = new Set();
-  return products.filter((product) => {
-    const key = product.Category?.toLowerCase().trim();
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-};
-
 
   return (
     <div className="home-wrapper">
       {/* ✅ Banner section */}
       <div className="banner">
         <img
-          src="/photo.png" // make sure photo.png is in public folder
+          src="/photo.png"
           alt="Banner"
           className="banner-image"
         />
@@ -56,13 +46,13 @@ const Home = () => {
         {error && <p className="error">{error}</p>}
 
         <div className="product-grid">
-          {/* {products.map((product) => (
-            <ProductCard key={product.PID} product={product} />
-          ))} */}
-          {getUniqueProductsByCategory(products).map((product) => (
-  <ProductCard key={product.PID} product={product} />
-))}
-
+          {Array.isArray(products) && products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard key={product.PID} product={product} />
+            ))
+          ) : (
+            !loading && !error && <p>No products found.</p>
+          )}
         </div>
       </div>
     </div>

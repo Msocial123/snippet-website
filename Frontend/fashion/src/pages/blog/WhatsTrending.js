@@ -10,7 +10,7 @@ const WhatsTrending = () => {
         <p className="blog-content">
           Discover what’s hot in fashion right now. From rising trends to popular prints and colors, stay updated on the movements shaping today’s streetwear culture.
         </p>
-        <img src={Trending} alt="Drop Diaries Banner" className="blog-banner" />
+        {/* <img src={Trending} alt="Drop Diaries Banner" className="blog-banner" /> */}
       </div>
     </div>
   );

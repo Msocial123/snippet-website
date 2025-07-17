@@ -10,7 +10,7 @@ const DropDiaries = () => {
         <p className="blog-content">
           Welcome to Drop Diaries! Stay in the loop with our latest fashion drops, exclusive releases, and behind-the-scenes stories. From streetwear essentials to statement pieces, we bring you the story behind every launch.
         </p>
-        <img src={photo} alt="Drop Diaries Banner" className="blog-banner" />
+        {/* <img src={photo} alt="Drop Diaries Banner" className="blog-banner" /> */}
 
       </div>
     </div>
