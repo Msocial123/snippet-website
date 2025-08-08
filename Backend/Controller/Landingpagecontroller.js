@@ -135,18 +135,10 @@
 // module.exports = router;
 
 
-
-const express = require('express');
+// Backend/controller.js
+const express = require("express");
 const router = express.Router();
-const mysql = require('mysql2/promise');
-
-// ✅ DB connection
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'swethar@2003',
-  database: 'snitch_store',
-});
+const db = require("../db");
 
 // ✅ Helper to get first image
 const extractFirstImage = (imageData) => {
@@ -154,23 +146,22 @@ const extractFirstImage = (imageData) => {
     const parsed = JSON.parse(imageData);
     return Array.isArray(parsed) ? parsed[0] : parsed;
   } catch {
-    if (imageData?.includes(',')) {
-      return imageData.split(',')[0];
+    if (imageData?.includes(",")) {
+      return imageData.split(",")[0];
     }
     return imageData;
   }
 };
 
-// ✅ Fetch 12 latest products
-router.get('/landing', async (req, res) => {
+// ✅ Latest 12 Products for Landing Page
+router.get("/landing", async (req, res) => {
   try {
-    const [products] = await pool.query(`
-      SELECT p.PID, p.Name, p.Price, p.Brand, p.ReviewSummary, pd.Images, pd.Description, p.Category
-      FROM products p
-      JOIN product_details pd ON p.PID = pd.PID
-      ORDER BY p.PID DESC
-      LIMIT 12
-    `);
+    const [products] = await db.query(`
+    SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, p.ReviewSummary, p.CreatedAt, pd.Images
+    FROM products p
+    LEFT JOIN product_details pd ON p.PID = pd.PID
+    ORDER BY p.CreatedAt DESC
+  `);
 
     const formatted = products.map(p => ({
       ...p,
@@ -179,32 +170,51 @@ router.get('/landing', async (req, res) => {
 
     res.json(formatted);
   } catch (err) {
-    console.error('❌ Error fetching products:', err);
-    res.status(500).json({ message: 'Error fetching products' });
+    console.error("❌ Error fetching products:", err);
+    res.status(500).json({ message: "Error fetching products" });
   }
 });
+
+// ✅ All Reviews
+// router.get("/reviews", async (req, res) => {
+//   try {
+//     const [reviews] = await db.query(`
+//       SELECT r.ReviewID, r.PID, r.UID, r.Rating, r.Comment, u.FirstName, u.LastName
+//       FROM reviews r
+//       JOIN users u ON r.UID = u.UID
+//       ORDER BY r.ReviewID DESC
+//     `);
+//     res.json(reviews);
+//   } catch (err) {
+//     console.error("Error fetching reviews:", err);
+//     res.status(500).json({ error: "Failed to fetch reviews" });
+//   }
+// });
+
 router.get('/reviews', async (req, res) => {
   try {
-    const [reviews] = await pool.query(`
-      SELECT u.FirstName AS name, r.Comment AS review
+    const [reviews] = await db.query(`
+      SELECT 
+        r.Comment AS review, 
+        r.Rating, 
+        CONCAT(u.FirstName, ' ', u.LastName) AS name
       FROM reviews r
       JOIN users u ON r.UID = u.UID
       ORDER BY r.ReviewID DESC
-      LIMIT 6
     `);
     res.json(reviews);
   } catch (err) {
-    console.error('❌ Error fetching reviews:', err);
-    res.status(500).json({ message: 'Error fetching reviews' });
+    console.error("❌ Error fetching reviews:", err);
+    res.status(500).json({ error: "Failed to fetch reviews" });
   }
 });
 
-// ✅ Fetch products by category
-router.get('/category/:category', async (req, res) => {
-  const category = req.params.category;
 
+// ✅ Category-wise Products
+router.get("/category/:category", async (req, res) => {
+  const category = req.params.category;
   try {
-    const [results] = await pool.query(`
+    const [results] = await db.query(`
       SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, pd.Images 
       FROM products p
       LEFT JOIN product_details pd ON p.PID = pd.PID
@@ -224,5 +234,24 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
-module.exports = router;
+// ✅ Additional Review Route (if used)
+// router.get("/api/reviews", async (req, res) => {
+//   try {
+//     const [results] = await db.query(`
+//       SELECT 
+//         reviews.*,
+//         users.FirstName AS reviewer_name,
+//         products.Name AS product_name
+//       FROM reviews
+//       JOIN users ON reviews.UID = users.UID
+//       JOIN products ON reviews.PID = products.PID
+//       ORDER BY reviews.ReviewID DESC
+//     `);
+//     res.json(results);
+//   } catch (err) {
+//     console.error("Error fetching reviews:", err);
+//     res.status(500).json({ error: "Database error" });
+//   }
+// });
 
+module.exports = router;

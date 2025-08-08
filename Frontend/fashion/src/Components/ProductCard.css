@@ -2,11 +2,9 @@
   box-sizing: border-box;
 }
 
-/* ✅ CARD STYLING */
 .product-card {
-  flex: 1 1 540px; 
-  max-width: 500px;                /* Increased width */
-  height: auto;                /* Increased height */
+  flex: 1 1 540px;
+  max-width: 500px;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -17,41 +15,41 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  margin-bottom: 20px;         /* ✅ Ensure space below card */
-   min-width: 0; 
+  margin-bottom: 20px;
+  min-width: 0;
 }
 
-
-/* ✅ CARD HOVER */
 .product-card:hover {
   transform: scale(1.05);
 }
 
-/* ✅ IMAGE */
 .product-img {
   width: 100%;
-  height: 220px;               /* Adjusted for increased card height */
+  height: 220px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
 }
 
-/* ✅ HEART ICON */
 .wishlist-icon {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 18px;
-  color: #aaa;
+  font-size: 50px;
+  color: #0e0505;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .wishlist-icon:hover {
   color: red;
+  transform: scale(1.2);
 }
 
-/* ✅ TEXT INFO */
+.wishlist-icon.wishlisted {
+  color: red;
+}
+
 .product-info {
   text-align: center;
 }
@@ -93,7 +91,6 @@
   color: #388e3c;
 }
 
-/* ✅ RATING */
 .product-rating {
   font-size: 14px;
   color: #555;
@@ -121,16 +118,16 @@
 
 .product-grid {
   display: flex;
-  flex-wrap: wrap;           /* ✅ Allows multiple rows */
-  gap: 32px;                 /* ✅ Adds spacing between cards */
-   padding: 24px;                    /* space between cards */
-  justify-content: center;     /* center cards horizontally */
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 24px;
+  justify-content: center;
   box-sizing: border-box;
 }
 
 .product-section {
   width: 100%;
-  max-width: 1440px; /* Optional */
+  max-width: 1440px;
   margin: 0 auto;
 }
 

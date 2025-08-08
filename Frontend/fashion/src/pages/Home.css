@@ -1,4 +1,4 @@
-/* src/pages/Home.css */
+src/pages/Home.css
 
 .home-container {
   max-width: 1200px;
@@ -7,10 +7,11 @@
 }
 
 .product-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* exactly 4 items per row */
+  gap: 30px;
+  padding: 30px 10px;
+  justify-items: center;
 }
 
 /* src/pages/Home.css */

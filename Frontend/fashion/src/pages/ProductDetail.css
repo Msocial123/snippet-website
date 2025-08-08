@@ -1,4 +1,4 @@
-.product-detail-container {
+/* .product-detail-container {
   display: flex;
   gap: 40px;
   padding: 40px;
@@ -39,4 +39,123 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+} */
+
+
+
+/* Product Detail Container */
+.product-detail-container {
+  max-width: 1100px;
+  margin: 3rem auto 2rem auto;
+  background: #fff;
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(233, 30, 99, 0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main Product Image */
+.product-detail-img {
+  width: 340px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px rgba(233, 30, 99, 0.13);
+  margin-bottom: 2rem;
+  border: 5px solid #fff0f6;
+}
+
+/* Product Info */
+.product-detail-container h2 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #e91e63;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.product-detail-container p {
+  font-size: 1.15rem;
+  color: #333;
+  margin: 0.3rem 0;
+}
+
+.product-detail-container strong {
+  color: #e91e63;
+}
+
+.product-detail-container .price {
+  font-size: 1.5rem;
+  color: #c2185b;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Reviews */
+.review {
+  background: #fff7fa;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(233, 30, 99, 0.07);
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.review strong {
+  color: #e91e63;
+  font-size: 1.1rem;
+}
+
+.review p {
+  margin: 0.2rem 0;
+  color: #444;
+}
+
+/* Similar Products Section */
+.similar-products-section {
+  width: 100%;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #ffe0ef;
+}
+
+.similar-products-section h3 {
+  font-size: 2rem;
+  color: #e91e63;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: flex-start;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .product-detail-container {
+    padding: 1.2rem 0.5rem;
+  }
+  .product-detail-img {
+    width: 100%;
+    height: 220px;
+  }
+ .product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* exactly 4 items per row */
+  gap: 30px;
+  padding: 30px 10px;
+  justify-items: center;
+}
+  .review {
+    max-width: 100%;
+    padding: 0.7rem 1rem;
+  }
 }
