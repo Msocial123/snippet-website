@@ -1,0 +1,84 @@
+/* Base reset */
+* {
+  box-sizing: border-box;
+}
+
+.wishlist-page {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wishlist-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.no-wishlist-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+  margin-top: 40px;
+}
+
+/* Grid layout */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}
+
+/* Card styling */
+.wishlist-item-wrapper {
+  position: relative;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
+}
+
+.wishlist-item-wrapper:hover {
+  transform: scale(1.02);
+}
+
+/* Wishlist icon styling */
+.wishlist-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 1.7rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #aaa;
+  z-index: 10;
+}
+
+.wishlist-toggle.active {
+  color: #ff3e3e;
+}
+
+.wishlist-toggle:hover {
+  transform: scale(1.2);
+}
+
+/* Toast custom styling */
+.custom-toast {
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 12px 16px;
+  text-align: center;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 600px) {
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+}

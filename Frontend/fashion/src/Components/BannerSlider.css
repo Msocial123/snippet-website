@@ -1,0 +1,104 @@
+/* Base banner container */
+.container-fluid-slider {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 80px; /* Adjust based on fixed header */
+  margin-bottom: 40px;
+  padding: 0;
+}
+
+/* Image base style */
+.custom-img {
+  height: 450px;
+  object-fit: fill;
+  transition: transform 0.4s ease;
+}
+
+/* Hover zoom effect (optional) */
+.carousel-item:hover .custom-img {
+  transform: scale(1.02);
+}
+
+/* Medium devices (tablets) */
+@media (max-width: 992px) {
+  .custom-img {
+    height: 350px;
+  }
+}
+
+/* Small devices (large phones) */
+@media (max-width: 768px) {
+  .custom-img {
+    height: 250px;
+  }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 576px) {
+  .custom-img {
+    height: 180px;
+  }
+
+  .container-fluid-slider {
+    padding-top: 20px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+  .custom-img {
+    height: 150px;
+  }
+}
+.banner {
+  position: relative;
+  width: 100%;
+  height: 60vh; /* ⬅️ Increased from 60vh or similar to 100vh */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+/* Ensure the slider container takes full width */
+.container-fluid-slider {
+  padding: 0;
+  margin: 0;
+}
+
+/* Adjusted carousel and image height */
+.carousel-inner,
+.carousel-item,
+.custom-img {
+  height: 70vh; /* Reduced from 85vh */
+}
+
+/* Ensure image covers the space neatly */
+.custom-img {
+  object-fit: fill;
+  width: 100%;
+}
+
+/* Smooth transition */
+.carousel-item {
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Navigation controls */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+/* Carousel indicators */
+.carousel-indicators [data-bs-target] {
+  background-color: #000;
+}
+
+.carousel-indicators .active {
+  background-color: #fff;
+}

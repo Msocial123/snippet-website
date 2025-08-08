@@ -1,35 +1,43 @@
 /* src/components/Navbar.css */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
+
+/* Brand Title */
 .brand-title {
   background-color: white;
-  font-size: 53px;
+  font-size: 60px;
+  font-weight: bold;
+  padding: 0 20px;
 }
 
+/* Navbar Container */
 .navbar {
-  background-color: #b9a6a6;
+  background-color: #e0d6d6;
   color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0;
+  padding: 0 30px;
   position: sticky;
   top: 0;
   z-index: 1000;
   font-family: 'Segoe UI', sans-serif;
-  height: 70px;
+  height: 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
+/* Logo */
 .logo {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.5rem;
+  font-weight: 800;
   color: black;
   text-decoration: none;
 }
 
+/* Navbar Center Links */
 .navbar-center {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -37,21 +45,35 @@
 .navbar-right a {
   color: black;
   text-decoration: none;
-  font-size: 1.9rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
 }
 
 .navbar-center a:hover,
 .navbar-right a:hover {
-  cursor: pointer;
-  border: 1px solid black;
+  background-color: black;
+  color: white;
+  border-radius: 6px;
 }
 
+/* Dropdown */
 .dropdown {
   position: relative;
   font-weight: bold;
-  display: inline-block;
+}
+
+.dropdown p {
+  padding: 8px 16px;
+  font-size: 1.9rem;
+  cursor: pointer;
+}
+
+.dropdown p:hover {
+  background-color: black;
+  color: white;
+  border-radius: 6px;
 }
 
 .dropdown-content {
@@ -60,73 +82,44 @@
   top: 100%;
   left: 0;
   background-color: white;
-  z-index: 1001;
-  min-width: 160px;
+  min-width: 180px;
   flex-direction: column;
-  font-size: 2rem;
-  justify-content: space-evenly;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1001;
 }
 
 .dropdown-content a {
-  padding: 10px 15px;
-  white-space: nowrap;
+  padding: 12px 18px;
+  font-size: 1.4rem;
   color: black;
-  background-color: white;
-  font-size: 17px;
-}
-
-.dropdown p {
-  padding: 10px 15px;
   white-space: nowrap;
-  color: black;
-  font-size: 25px;
-  cursor: pointer;
-}
-
-.dropdown p:hover {
-  border: 1px solid black;
 }
 
 .dropdown-content a:hover {
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
 }
 
 .dropdown:hover .dropdown-content {
   display: flex;
 }
 
+/* Right Side */
 .navbar-right {
   display: flex;
-  gap: 20px;
+  gap: 25px;
   align-items: center;
-  font-size: 1.6rem;
-  height: 20px;
 }
 
-@media screen and (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .navbar-center,
-  .navbar-right {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 10px;
-    gap: 10px;
-  }
-}
-
+/* Search Form */
 .search-form {
-  background: #f5f8ff;
-  border-radius: 12px;
-  padding: 6px 12px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 6px 15px;
   display: flex;
   align-items: center;
-  margin-right: 11px;
   width: 700px;
-  justify-content: center;
+  height: 50px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .search-form i {
@@ -138,23 +131,143 @@
   border: none;
   background: transparent;
   outline: none;
-  margin-right: 0;
-  font-size: 14px;
+  font-size: 15px;
+  width: 100%;
 }
 
-/* Home button styled like other navbar links */
+/* Home Button */
 .home-button {
   color: black;
   text-decoration: none;
-  font-size: 1.9rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
-  margin-right: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
 .home-button:hover {
+  background-color: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+/* Left Side Container */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Gender Buttons */
+.gender-btn {
+  background-color: transparent;
+  color: #333;
+  border: 2px solid #333;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 25px;
   cursor: pointer;
-  border: 1px solid black;
+  transition: all 0.3s ease;
+}
+
+.gender-btn:hover {
+  background-color: #333;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    height: auto;
+  }
+
+  .navbar-center,
+  .navbar-right {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+}
+
+
+/* Navbar Base */
+.navbar {
+  background-color: #b9a6a6;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: large;
+  height: 110px; /* Increased height */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Common Style for All Links (Home, Men, Women, etc.) */
+.navbar-center a,
+.navbar-right a,
+.home-button,
+.gender-btn {
+  color: black;
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 14px 24px; /* Adjusted for taller navbar */
+  border-radius: 8px;
+  border: 2px solid transparent;
+  border: 2px solid black;
+  background-color: rgb(233, 229, 229);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-center a:hover,
+.navbar-right a:hover,
+.home-button:hover,
+.gender-btn:hover {
+  cursor: pointer;
+  border-color: black;
+  background-color: black;
+  color: rgb(223, 218, 218);
+  transform: scale(1.05);
+}
+
+/* Gender Buttons Specific Adjustments (same style as links now) */
+.gender-btn {
+  font-size: 1.6rem;
+  font-weight: 600;
+  border: 2px solid black;
+  background-color: rgb(222, 214, 214);
+  color: black;
+  padding: 14px 24px;
+  border-radius: 8px;
+}
+
+/* Logo Size Increase (Optional for better proportion) */
+.logo {
+  font-size: 3rem;
+}
+
+/* Responsive Consideration (no changes needed unless height overflow on small screens) */
+
+.navbar {
+  
+  height: 100px; /* already increased */
+  margin-bottom: 20px; /* <-- Add this */
 }
 
 .cart-icon-wrapper {

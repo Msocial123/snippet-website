@@ -1,4 +1,8 @@
+
+
+import React from "react";
 import React, { useState } from "react"; 
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,13 +14,14 @@ import "./App.css";
 // Common Components
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // Auth & User
 import Signup from "./Components/Signup";
 import Login from "./Components/Login";
 import ForgotPassword from "./Components/ForgotPassword";
 import ResetPassword from "./Components/ResetPassword";
-
+import WishlistPage from "./Components/Wishlistpage";
 // Pages
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
@@ -36,8 +41,16 @@ import WhatsTrending from "./pages/blog/WhatsTrending";
 import FitcheckFridays from "./pages/blog/FitcheckFridays";
 import SnippetXCelebs from "./pages/blog/SnippetXCelebs";
 
+
 // Optional Landing Page
 import LandingPage from "./Components/Landingpage";
+
+import WomenCollection from "./Components/Womencollection";
+const AppContent = () => {
+  const location = useLocation();
+   
+
+
 
 //Cart
 import CartPage from "./Components/CartPage"; // or wherever your CartPage.js is located
@@ -47,6 +60,7 @@ import CartDrawer from "./Components/CartDrawer"; // ✅ Add this
 const AppContent = () => {
   const location = useLocation();
 const [isDrawerOpen, setDrawerOpen] = useState(false);
+
   const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login"];
   const hideFooterRoutes = [
     "/forgot-password",
@@ -54,7 +68,7 @@ const [isDrawerOpen, setDrawerOpen] = useState(false);
     "/login",
     "/about-us/about-snippet"
   ];
-
+  // const UID = localStorage.getItem("UID") ; // Replace with actual UID logic
   return (
     <div
       className={
@@ -63,6 +77,8 @@ const [isDrawerOpen, setDrawerOpen] = useState(false);
           : "layout-wrapper"
       }
     >
+      <ToastContainer position="top-center" autoClose={2000} />
+   
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <div className="page-content">
@@ -81,11 +97,13 @@ const [isDrawerOpen, setDrawerOpen] = useState(false);
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+         <Route path="/wishlist" element={<WishlistPage />} />
+
 
           {/* Product & Category */}
           <Route path="/category/:category" element={<CategoryPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-
+          <Route path="/womencollection" element={<WomenCollection />} />
           {/* About Us */}
           <Route path="/about-us/about-snippet" element={<AboutSnippet />} />
           <Route path="/about-us/our-craft" element={<OurCraft />} />
@@ -122,3 +140,7 @@ const App = () => {
 };
 
 export default App;
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// Inside App return

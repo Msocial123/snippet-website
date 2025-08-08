@@ -1,12 +1,40 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
+
+
+
+
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const app = express();
+const db = require("./db");
+
+
 
 const {
   signup,
   googleSignup,
   facebookSignup
-} = require('./Controller/Signupcontroller');
+} = require("./Controller/Signupcontroller");
+const authController = require("./Controller/authController");
+const productController = require("./Controller/productController");
+const landingPageRoutes = require("./Controller/Landingpagecontroller");
+
+
+// Routers
+const productRoutes = require("./Routes/productRoutes");
+const wishlistRoutes = require("./Routes/wishlist"); // ✅ FIXED
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
+
+
+// API Routes
+app.post("/api/signup", signup);
+app.post("/api/google-signup", googleSignup);
+app.post("/api/facebook-signup", facebookSignup);
 
 const landingPageRoutes = require('./Controller/Landingpagecontroller');
 const authController = require('./Controller/authController');
@@ -16,10 +44,7 @@ const variantRoutes = require("./routes/variantRoutes");
 const variantController = require('./Controller/variantController');
 const productRoutes = require("./routes/productRoutes");
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
 
 // Static Files
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
@@ -40,15 +65,29 @@ app.post('/api/facebook-signup', facebookSignup);
 app.use('/api/products', landingPageRoutes); // includes /landing & /reviews
 
 // ✅ Auth Routes
+
 app.post("/login", authController.login);
 app.post("/forgot-password", authController.forgotPassword);
 app.post("/reset-password", authController.resetPassword);
 
+
+app.use("/api/products", landingPageRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/wishlist", wishlistRoutes); // ✅ correct now
+
+// Product APIs
+
 // ✅ Product Routes
+
 app.get("/api/products", productController.getAllProducts);
 app.get("/api/products/category/:category", productController.getProductsByCategory);
 app.get("/api/products/:id", productController.getProductById);
 app.get("/api/reviews/:id", productController.getProductReviews);
+
+app.get("/api/products/women", productController.getWomenProducts);
+
+// Start Server
+
 
 // ✅ Cart Routes
 app.use("/api/cart", cartRoutes);
@@ -64,6 +103,7 @@ app.get("/api/variants", variantController.getVariantsByProductId);
 // If you want to get a variant by color and size
 app.get("/api/variants/by-attributes", variantController.getVariantByAttributes);
 // ✅ Start Server
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log("✅ Registering product routes at /api/products");

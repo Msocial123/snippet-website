@@ -1,8 +1,14 @@
-/* .footer {
+
+
+
+.footer {
+
+
   background-color: #000;
   color: white;
   padding: 40px 20px;
   font-family: Arial, sans-serif;
+  margin-top: auto;
 }
 
 .footer-container {
@@ -10,8 +16,10 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   max-width: 1200px;
-  margin-inline: 490px;
+  margin: 0 au;  /* ✅ Fixes weird centering issue */
 }
+
+
 
 .footer-section {
   flex: 1 1 180px;
