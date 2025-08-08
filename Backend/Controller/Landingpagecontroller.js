@@ -138,7 +138,19 @@
 // Backend/controller.js
 const express = require("express");
 const router = express.Router();
+
 const db = require("../db");
+
+const mysql = require('mysql2/promise');
+
+// ✅ DB connection
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: 'swethar@2003',
+  database: 'snitch_store',
+});
+
 
 // ✅ Helper to get first image
 const extractFirstImage = (imageData) => {

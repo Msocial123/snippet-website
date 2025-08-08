@@ -1,5 +1,8 @@
 
+
 import React from "react";
+import React, { useState } from "react"; 
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -41,10 +44,22 @@ import SnippetXCelebs from "./pages/blog/SnippetXCelebs";
 
 // Optional Landing Page
 import LandingPage from "./Components/Landingpage";
+
 import WomenCollection from "./Components/Womencollection";
 const AppContent = () => {
   const location = useLocation();
    
+
+
+
+//Cart
+import CartPage from "./Components/CartPage"; // or wherever your CartPage.js is located
+
+import CartDrawer from "./Components/CartDrawer"; // ✅ Add this
+
+const AppContent = () => {
+  const location = useLocation();
+const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login"];
   const hideFooterRoutes = [
@@ -102,11 +117,17 @@ const AppContent = () => {
           <Route path="/blog/whats-trending" element={<WhatsTrending />} />
           <Route path="/blog/fitcheck-fridays" element={<FitcheckFridays />} />
           <Route path="/blog/snippet-celebs" element={<SnippetXCelebs />} />
+        
+        <Route path="/cart" element={<CartPage />} />
+
         </Routes>
       </div>
 
+<CartDrawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
+
       {!hideFooterRoutes.includes(location.pathname) && <Footer />}
     </div>
+    
   );
 };
 

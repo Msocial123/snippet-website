@@ -10,8 +10,11 @@ const ResetPassword = () => {
    const [showPassword, setShowPassword] = useState(false); // 👈 NEW STATE
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    setToken(urlParams.get("token") || "");
+     const urlParams = new URLSearchParams(window.location.search);
+  const urlToken = urlParams.get("token");
+  console.log("URL token:", urlToken);  // ✅ Log here
+  setToken(urlToken || "");
+  
   }, []);
 
   const handleReset = async () => {
@@ -20,7 +23,7 @@ const ResetPassword = () => {
     return;
   }
 
-  // Password validation: 1 number, 1 special char, 1 uppercase letter, min 6 chars
+  // Password validation: 1 number, 1 special char, 1 uppercase letter, min 8 chars
   const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
 
   if (!passwordRegex.test(newPassword)) {
@@ -60,6 +63,8 @@ const ResetPassword = () => {
 
       <button id="reset" onClick={handleReset}>Reset Password</button>
       <p>{message}</p>
+      
+
     </div>
     </div>
   );

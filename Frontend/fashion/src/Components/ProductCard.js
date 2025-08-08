@@ -244,6 +244,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const ProductCard = ({ product }) => {
+
   const [isWishlisted, setIsWishlisted] = useState(false);
   const UID = JSON.parse(localStorage.getItem("user"))?.UID;
 
@@ -258,6 +259,15 @@ const ProductCard = ({ product }) => {
       return "fallback.png";
     }
   })();
+
+//   const imageName = Array.isArray(product.Images)
+//     ? product.Images[0]
+//     : typeof product.Images === "string" && product.Images.includes(",")
+//     ? product.Images.split(",")[0].trim()
+//     : product.Images || "shirt1.jpg";
+
+//   const image = `/images/${imageName}`;
+
 
   const rating = product.Rating || "4.2";
   const reviewCount = product.ReviewCount || "659";
@@ -291,6 +301,7 @@ const ProductCard = ({ product }) => {
   return (
     <Link to={`/product/${product.PID}`} className="product-link">
       <div className="product-card">
+
         <div
           className={`wishlist-icon ${isWishlisted ? "wishlisted" : ""}`}
           onClick={handleAddToWishlist}
@@ -303,6 +314,7 @@ const ProductCard = ({ product }) => {
           alt={product.Name}
           className="product-img"
           onError={(e) => (e.target.src = "/images/fallback.png")}
+
         />
 
         <div className="product-info">

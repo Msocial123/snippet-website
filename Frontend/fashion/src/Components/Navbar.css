@@ -269,3 +269,141 @@
   height: 100px; /* already increased */
   margin-bottom: 20px; /* <-- Add this */
 }
+
+.cart-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.cart-icon {
+  font-size: 28px;
+  color: #000;
+  cursor: pointer;
+}
+
+.cart-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -0.6px;
+  right: -0.9px;
+  background-color: red;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 8px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Search Form Styles */
+.search-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 15px;
+}
+
+.search-form input {
+  padding: 8px 40px 8px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 250px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-form input:focus {
+  border-color: #ff3e6c;
+}
+
+.search-icon-button {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.search-icon-button:hover {
+  color: #ff3e6c;
+}
+
+/* Make the search input responsive */
+@media (max-width: 768px) {
+  .search-form input {
+    width: 180px;
+  }
+}
+
+/* Search Form Styles */
+.search-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 15px;
+  flex-grow: 1;  /* Allow search to grow and take available space */
+  max-width: 600px; /* Set maximum width */
+}
+
+.search-input {
+  padding: 10px 45px 10px 15px; /* Adjusted padding */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%; /* Take full width of parent */
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+  text-align: left; /* Ensure text starts from left */
+}
+
+.search-input:focus {
+  border-color: #ff3e6c;
+}
+
+.search-icon-button {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.search-icon-button:hover {
+  color: #ff3e6c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .search-form {
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-form {
+    max-width: 300px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-form {
+    max-width: 200px;
+  }
+  .search-input {
+    padding: 8px 35px 8px 10px;
+    font-size: 13px;
+  }
+}

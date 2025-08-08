@@ -142,7 +142,9 @@ ORDER BY p.CreatedAt DESC`;
 exports.getProductsByCategory = async (req, res) => {
   const { category } = req.params;
   const query = `
+
     SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, p.ReviewSummary, pd.Images
+
     FROM products p
     LEFT JOIN product_details pd ON p.PID = pd.PID
     WHERE LOWER(REPLACE(p.Category, ' ', '')) = LOWER(REPLACE(?, ' ', ''))

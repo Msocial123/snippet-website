@@ -301,6 +301,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -308,6 +309,9 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+    const navigate = useNavigate();
+  
+  
   const login = async (e) => {
     e.preventDefault();
     try {
@@ -372,7 +376,11 @@ function Login() {
               <a href="/forgot-password">Forgot password?</a>
               <div className="signup">
                 <span>New User?</span>
-                <button onClick={() => navigate("/signup")}>Sign up</button>
+
+//                 <button onClick={() => navigate("/signup")}>Sign up</button>
+
+                <button onClick={() => navigate("/Signup")}>Sign up</button>
+
               </div>
             </div>
           </div>
