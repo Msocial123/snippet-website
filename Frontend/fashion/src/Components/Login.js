@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false); // 👈 NEW STATE
 
+    const navigate = useNavigate();
+  
+  
   const login = async (e) => {
     e.preventDefault();
     try {
@@ -62,7 +66,7 @@ function Login() {
               <a href="/forgot-password">Forgot password?</a>
               <div className="signup">
                 <span>New User?</span>
-                <button>Sign up</button>
+                <button onClick={() => navigate("/Signup")}>Sign up</button>
               </div>
             </div>
           </div>

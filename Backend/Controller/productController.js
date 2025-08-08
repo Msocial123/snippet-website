@@ -143,7 +143,7 @@ exports.getProductsByCategory = async (req, res) => {
   const { category } = req.params;
 
   const query = `
-    SELECT p.PID, p.Name, p.Price, p.Category, p.Brand, p.ReviewSummary, pd.Images 
+    SELECT p.PID, p.Name, p.Price, p.Category, p.Brand,p.ReviewSummary,  pd.Images 
     FROM products p
     LEFT JOIN product_details pd ON p.PID = pd.PID
     WHERE LOWER(REPLACE(p.Category, ' ', '')) = LOWER(REPLACE(?, ' ', ''))
@@ -215,3 +215,4 @@ exports.getProductReviews = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
