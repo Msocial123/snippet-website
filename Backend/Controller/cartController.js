@@ -1,102 +1,371 @@
 // backend/controllers/cartController.js
-const db = require("../db");
+// const db = require("../db");
 
-// backend/controllers/cartController.js
+// // backend/controllers/cartController.js
+// // exports.addToCart = async (req, res) => {
+// //   const { uid, pid, variantId, quantity, ImageURL } = req.body;
+
+// //   try {
+// //     // 1. duplicate check
+// //     const [existing] = await db.query(
+// //       "SELECT * FROM cart WHERE UID = ? AND PID = ? AND VariantID = ?",
+// //       [uid, pid, variantId]
+// //     );
+// //     if (existing.length) return res.status(409).json({ message: "Item already in cart" });
+
+// // let finalImage = (ImageURL || '').trim();
+// // if (!finalImage || finalImage.toLowerCase() === 'default.jpg') {
+// //   const [variant] = await db.query(
+// //     "SELECT VariantImage FROM product_variants WHERE VariantID = ?",
+// //     [variantId]
+// //   );
+// //   finalImage = variant?.[0]?.VariantImage?.trim() || 'default.jpg';
+// // }
+// // console.log("🛒 Adding to cart:", {
+// //   sentImage: ImageURL,
+// //   finalImage,
+// // });
+
+
+
+// // // 2. insert or bump quantity
+// // await db.query(
+// //   `INSERT INTO cart (UID, PID, VariantID, Quantity, ImageURL)
+// //    VALUES (?, ?, ?, ?, ?)
+// //    ON DUPLICATE KEY UPDATE Quantity = Quantity + VALUES(Quantity),
+// //    ImageURL  = VALUES(ImageURL)`,
+// //   [uid, pid, variantId, quantity, finalImage]
+// // );
+// //     res.json({ message: "Added to cart successfully" });
+// //   } catch (err) {
+// //     console.error(err);
+// //     res.status(500).json({ error: "Internal Server Error" });
+// //   }
+// // };
+
+
 // exports.addToCart = async (req, res) => {
-//   const { uid, pid, variantId, quantity, ImageURL } = req.body;
+//   const { uid, pid, variantId, quantity = 1, ImageURL } = req.body;
 
 //   try {
-//     // 1. duplicate check
+//     // 1. Check if item already exists in cart
 //     const [existing] = await db.query(
 //       "SELECT * FROM cart WHERE UID = ? AND PID = ? AND VariantID = ?",
 //       [uid, pid, variantId]
 //     );
-//     if (existing.length) return res.status(409).json({ message: "Item already in cart" });
 
-// let finalImage = (ImageURL || '').trim();
-// if (!finalImage || finalImage.toLowerCase() === 'default.jpg') {
-//   const [variant] = await db.query(
-//     "SELECT VariantImage FROM product_variants WHERE VariantID = ?",
-//     [variantId]
-//   );
-//   finalImage = variant?.[0]?.VariantImage?.trim() || 'default.jpg';
-// }
-// console.log("🛒 Adding to cart:", {
-//   sentImage: ImageURL,
-//   finalImage,
-// });
+//     // If item exists, update quantity instead of returning error
+//     if (existing.length > 0) {
+//       const newQuantity = existing[0].Quantity + quantity;
+//       await db.query(
+//         "UPDATE cart SET Quantity = ? WHERE UID = ? AND PID = ? AND VariantID = ?",
+//         [newQuantity, uid, pid, variantId]
+//       );
+//       return res.json({ 
+//         message: "Quantity increased in cart",
+//         action: "updated",
+//         newQuantity 
+//       });
+//     }
 
+//     // 2. Handle image selection for new items
+//     let finalImage = (ImageURL || '').trim();
+//     if (!finalImage || finalImage.toLowerCase() === 'default.jpg') {
+//       const [variant] = await db.query(
+//         "SELECT VariantImage FROM product_variants WHERE VariantID = ?",
+//         [variantId]
+//       );
+//       finalImage = variant?.[0]?.VariantImage?.trim() || 'default.jpg';
+//     }
 
+//     console.log("🛒 Adding to cart:", {
+//       sentImage: ImageURL,
+//       finalImage,
+//     });
 
-// // 2. insert or bump quantity
-// await db.query(
-//   `INSERT INTO cart (UID, PID, VariantID, Quantity, ImageURL)
-//    VALUES (?, ?, ?, ?, ?)
-//    ON DUPLICATE KEY UPDATE Quantity = Quantity + VALUES(Quantity),
-//    ImageURL  = VALUES(ImageURL)`,
-//   [uid, pid, variantId, quantity, finalImage]
-// );
-//     res.json({ message: "Added to cart successfully" });
+//     // 3. Insert new item
+//     await db.query(
+//       `INSERT INTO cart (UID, PID, VariantID, Quantity, ImageURL)
+//        VALUES (?, ?, ?, ?, ?)`,
+//       [uid, pid, variantId, quantity, finalImage]
+//     );
+
+//     res.json({ 
+//       message: "Added to cart successfully",
+//       action: "added"
+//     });
 //   } catch (err) {
 //     console.error(err);
 //     res.status(500).json({ error: "Internal Server Error" });
 //   }
 // };
 
+// // ✅ Update quantity
+// exports.updateCartQuantity = async (req, res) => {
+//   const { uid, variantId, quantity } = req.body;
 
+//   try {
+//     await db.query(
+//       "UPDATE cart SET Quantity = ? WHERE UID = ? AND VariantID = ?",
+//       [quantity, uid, variantId]
+//     );
+//     res.json({ message: "Quantity updated" });
+//   } catch (err) {
+//     console.error("Error updating quantity:", err);
+//     res.status(500).json({ message: "Failed to update quantity" });
+//   }
+// };
+
+// // ✅ Delete item from cart
+// exports.deleteCartItem = async (req, res) => {
+//   const { uid, variantId } = req.params;
+
+//   try {
+//     await db.query("DELETE FROM cart WHERE UID = ? AND VariantID = ?", [uid, variantId]);
+//     res.json({ message: "Item removed from cart" });
+//   } catch (err) {
+//     console.error("Error deleting item:", err);
+//     res.status(500).json({ message: "Failed to delete item" });
+//   }
+// };
+
+
+
+// //get cart items
+// exports.getCartItems = async (req, res) => {
+//   const { uid } = req.params;
+
+//   try {
+//     const [rows] = await db.query(`
+//       SELECT
+//         cart.CartID,
+//         cart.PID,
+//         cart.VariantID,
+//         cart.Quantity,
+//         cart.ImageURL as cartImage,
+//         products.Name,
+//         products.Price,
+//         products.Images as productImages,
+//         product_variants.Color,
+//         product_variants.Size,
+//         product_variants.VariantImage
+//       FROM cart
+//       JOIN products ON cart.PID = products.PID
+//       JOIN product_variants ON cart.VariantID = product_variants.VariantID
+//       WHERE cart.UID = ?
+//     `, [uid]);
+
+//     const cartItems = rows.map(item => {
+//       // Priority: 1. VariantImage 2. cartImage 3. First product image 4. default.jpg
+//       let image = item.VariantImage?.trim();
+      
+//       if (!image || image === 'default.jpg') {
+//         image = item.cartImage?.trim();
+//       }
+      
+//       if (!image || image === 'default.jpg') {
+//         // Get first product image if available
+//         const productImages = item.productImages 
+//           ? (Array.isArray(item.productImages) 
+//               ? item.productImages 
+//               : item.productImages.split(',').map(img => img.trim()))
+//           : [];
+//         image = productImages[0] || 'default.jpg';
+//       }
+
+//       console.log("🧾 Final image selected:", image);
+
+//       return {
+//         cartId: item.CartID,
+//         pid: item.PID,
+//         variantId: item.VariantID,
+//         quantity: item.Quantity,
+//         name: item.Name,
+//         price: item.Price,
+//         color: item.Color,
+//         size: item.Size,
+//         image: image,
+//       };
+//     });
+
+//     res.json(cartItems);
+//   } catch (err) {
+//     console.error("Error fetching cart items:", err);
+//     res.status(500).json({ message: "Failed to load cart items" });
+//   }
+// };
+
+// // ✅ Clear all items from cart
+// exports.clearCart = async (req, res) => {
+//   const { uid } = req.params;
+
+//   try {
+//     await db.query("DELETE FROM cart WHERE UID = ?", [uid]);
+//     res.json({ message: "Cart cleared" });
+//   } catch (err) {
+//     console.error("Error clearing cart:", err);
+//     res.status(500).json({ message: "Failed to clear cart" });
+//   }
+// };
+// backend/controllers/cartController.js
+const db = require("../db");
+
+// Add to Cart
 exports.addToCart = async (req, res) => {
   const { uid, pid, variantId, quantity = 1, ImageURL } = req.body;
 
   try {
-    // 1. Check if item already exists in cart
+    // 1. Check if item already exists
     const [existing] = await db.query(
       "SELECT * FROM cart WHERE UID = ? AND PID = ? AND VariantID = ?",
       [uid, pid, variantId]
     );
 
-    // If item exists, update quantity instead of returning error
     if (existing.length > 0) {
       const newQuantity = existing[0].Quantity + quantity;
       await db.query(
         "UPDATE cart SET Quantity = ? WHERE UID = ? AND PID = ? AND VariantID = ?",
         [newQuantity, uid, pid, variantId]
       );
-      return res.json({ 
+      return res.json({
         message: "Quantity increased in cart",
         action: "updated",
-        newQuantity 
+        newQuantity
       });
     }
 
-    // 2. Handle image selection for new items
-    let finalImage = (ImageURL || '').trim();
-    if (!finalImage || finalImage.toLowerCase() === 'default.jpg') {
+    // 2. Decide final image
+    let finalImage = (ImageURL || "").trim();
+
+    // If frontend image is invalid or default
+    if (!finalImage || finalImage.toLowerCase() === "default.jpg") {
+      // Try variant image first
       const [variant] = await db.query(
         "SELECT VariantImage FROM product_variants WHERE VariantID = ?",
         [variantId]
       );
-      finalImage = variant?.[0]?.VariantImage?.trim() || 'default.jpg';
+
+      if (variant?.[0]?.VariantImage && variant[0].VariantImage.trim().toLowerCase() !== "default.jpg") {
+        finalImage = variant[0].VariantImage.trim();
+      } else {
+        // Try first product image from products.Images
+        const [product] = await db.query(
+          "SELECT Images FROM products WHERE PID = ?",
+          [pid]
+        );
+
+        if (product?.[0]?.Images) {
+          try {
+            // If stored as JSON array
+            const parsed = JSON.parse(product[0].Images);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              finalImage = parsed[0].trim();
+            }
+          } catch {
+            // Fallback to comma-separated string
+            const imgArr = product[0].Images.split(",").map(img => img.trim());
+            if (imgArr.length > 0) {
+              finalImage = imgArr[0];
+            }
+          }
+        }
+      }
     }
 
-    console.log("🛒 Adding to cart:", {
-      sentImage: ImageURL,
-      finalImage,
-    });
+    // Final fallback
+    if (!finalImage) {
+      finalImage = "default.jpg";
+    }
 
-    // 3. Insert new item
+    console.log("🛒 Adding to cart with image:", finalImage);
+
+    // 3. Insert into cart
     await db.query(
       `INSERT INTO cart (UID, PID, VariantID, Quantity, ImageURL)
        VALUES (?, ?, ?, ?, ?)`,
       [uid, pid, variantId, quantity, finalImage]
     );
 
-    res.json({ 
+    res.json({
       message: "Added to cart successfully",
       action: "added"
     });
   } catch (err) {
-    console.error(err);
+    console.error("❌ addToCart Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Get Cart Items
+exports.getCartItems = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    const [rows] = await db.query(`
+      SELECT
+        cart.CartID,
+        cart.PID,
+        cart.VariantID,
+        cart.Quantity,
+        cart.ImageURL as cartImage,
+        products.Name,
+        products.Price,
+        products.Images as productImages,
+        product_variants.Color,
+        product_variants.Size,
+        product_variants.VariantImage
+      FROM cart
+      JOIN products ON cart.PID = products.PID
+      JOIN product_variants ON cart.VariantID = product_variants.VariantID
+      WHERE cart.UID = ?
+    `, [uid]);
+
+    const cartItems = rows.map(item => {
+      // Priority: VariantImage → cartImage → first product image → default.jpg
+      let image = item.VariantImage?.trim();
+
+      if (!image || image.toLowerCase() === 'default.jpg') {
+        if (item.cartImage && item.cartImage.trim().toLowerCase() !== 'default.jpg') {
+          image = item.cartImage.trim();
+        }
+      }
+
+      if (!image || image.toLowerCase() === 'default.jpg') {
+        let productImages = [];
+        if (item.productImages) {
+          try {
+            const parsed = JSON.parse(item.productImages);
+            if (Array.isArray(parsed)) {
+              productImages = parsed.map(img => img.trim());
+            } else if (typeof parsed === 'string') {
+              productImages = [parsed.trim()];
+            }
+          } catch {
+            productImages = item.productImages.split(',').map(img => img.trim());
+          }
+        }
+        image = productImages[0] || 'default.jpg';
+      }
+
+      console.log("🧾 Final image selected:", image);
+
+      return {
+        cartId: item.CartID,
+        pid: item.PID,
+        variantId: item.VariantID,
+        quantity: item.Quantity,
+        name: item.Name,
+        price: item.Price,
+        color: item.Color,
+        size: item.Size,
+        image
+      };
+    });
+
+    res.json(cartItems);
+  } catch (err) {
+    console.error("Error fetching cart items:", err);
+    res.status(500).json({ message: "Failed to load cart items" });
   }
 };
 
@@ -130,70 +399,6 @@ exports.deleteCartItem = async (req, res) => {
 };
 
 
-
-//get cart items
-exports.getCartItems = async (req, res) => {
-  const { uid } = req.params;
-
-  try {
-    const [rows] = await db.query(`
-      SELECT
-        cart.CartID,
-        cart.PID,
-        cart.VariantID,
-        cart.Quantity,
-        cart.ImageURL as cartImage,
-        products.Name,
-        products.Price,
-        products.Images as productImages,
-        product_variants.Color,
-        product_variants.Size,
-        product_variants.VariantImage
-      FROM cart
-      JOIN products ON cart.PID = products.PID
-      JOIN product_variants ON cart.VariantID = product_variants.VariantID
-      WHERE cart.UID = ?
-    `, [uid]);
-
-    const cartItems = rows.map(item => {
-      // Priority: 1. VariantImage 2. cartImage 3. First product image 4. default.jpg
-      let image = item.VariantImage?.trim();
-      
-      if (!image || image === 'default.jpg') {
-        image = item.cartImage?.trim();
-      }
-      
-      if (!image || image === 'default.jpg') {
-        // Get first product image if available
-        const productImages = item.productImages 
-          ? (Array.isArray(item.productImages) 
-              ? item.productImages 
-              : item.productImages.split(',').map(img => img.trim()))
-          : [];
-        image = productImages[0] || 'default.jpg';
-      }
-
-      console.log("🧾 Final image selected:", image);
-
-      return {
-        cartId: item.CartID,
-        pid: item.PID,
-        variantId: item.VariantID,
-        quantity: item.Quantity,
-        name: item.Name,
-        price: item.Price,
-        color: item.Color,
-        size: item.Size,
-        image: image,
-      };
-    });
-
-    res.json(cartItems);
-  } catch (err) {
-    console.error("Error fetching cart items:", err);
-    res.status(500).json({ message: "Failed to load cart items" });
-  }
-};
 
 // ✅ Clear all items from cart
 exports.clearCart = async (req, res) => {

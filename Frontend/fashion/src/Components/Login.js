@@ -301,7 +301,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -309,7 +309,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-    const navigate = useNavigate();
   
   
   const login = async (e) => {
