@@ -39,8 +39,8 @@ app.post("/api/facebook-signup", facebookSignup);
 // const landingPageRoutes = require('./Controller/Landingpagecontroller');
 // const authController = require('./Controller/authController');
 const productController = require('./Controller/productController');
-const cartRoutes = require("./routes/cartRoutes");
-const variantRoutes = require("./routes/variantRoutes");
+const cartRoutes = require("./Routes/cartRoutes");
+const variantRoutes = require("./Routes/variantRoutes");
 const variantController = require('./Controller/variantController');
 const productRoutes = require("./Routes/productRoutes");
 
