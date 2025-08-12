@@ -1,6 +1,3 @@
-
-
-Remove main container constraints
 .product-page {
   width: 100%;
   margin: 0;
@@ -345,8 +342,8 @@ Product Images
     padding: 0.7rem 1rem;
   }
 
-  text-align: center;
-  transition: background-color 0.2s;
+  /* text-align{center;
+  transition: background-color 0.2s; */
 }
 
 .add-to-cart-btn:hover {
