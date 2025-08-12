@@ -16,12 +16,12 @@ const {
   facebookSignup
 } = require("./Controller/Signupcontroller");
 const authController = require("./Controller/authController");
-const productController = require("./Controller/productController");
+// const productController = require("./Controller/productController");
 const landingPageRoutes = require("./Controller/Landingpagecontroller");
 
 
 // Routers
-const productRoutes = require("./Routes/productRoutes");
+// const productRoutes = require("./Routes/productRoutes");
 const wishlistRoutes = require("./Routes/wishlist"); // ✅ FIXED
 
 // Middleware
@@ -36,15 +36,15 @@ app.post("/api/signup", signup);
 app.post("/api/google-signup", googleSignup);
 app.post("/api/facebook-signup", facebookSignup);
 
-const landingPageRoutes = require('./Controller/Landingpagecontroller');
-const authController = require('./Controller/authController');
+// const landingPageRoutes = require('./Controller/Landingpagecontroller');
+// const authController = require('./Controller/authController');
 const productController = require('./Controller/productController');
 const cartRoutes = require("./routes/cartRoutes");
 const variantRoutes = require("./routes/variantRoutes");
 const variantController = require('./Controller/variantController');
-const productRoutes = require("./routes/productRoutes");
+const productRoutes = require("./Routes/productRoutes");
 
-
+app.get("/api/products/women", productController.getWomenProducts);
 
 // Static Files
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
@@ -84,7 +84,7 @@ app.get("/api/products/category/:category", productController.getProductsByCateg
 app.get("/api/products/:id", productController.getProductById);
 app.get("/api/reviews/:id", productController.getProductReviews);
 
-app.get("/api/products/women", productController.getWomenProducts);
+// app.get("/api/products/women", productController.getWomenProducts);
 
 // Start Server
 
@@ -109,3 +109,5 @@ app.listen(PORT, () => {
   console.log("✅ Registering product routes at /api/products");
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+
+
