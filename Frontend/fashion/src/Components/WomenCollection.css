@@ -1,14 +1,20 @@
+
+
 /* Root Wrapper */
+
 .women-collection-root {
   padding: 2rem ;
   background-color: #fdfdfd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
   min-height: 100vh;
+
 }
 
-/* Hero Banner */
+/* Hero Banner (background-image approach) */
 .hero-banner {
   position: relative;
+
   width: 60%;
   height: 500px;
   overflow: hidden;
@@ -22,27 +28,40 @@
   height: 100%;
   object-fit: cover;
   display: block;
+
 }
 
-.hero-text {
+/* dark overlay to make text readable */
+.hero-banner .hero-overlay {
   position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translateY(-50%);
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
+  z-index: 1;
+}
+
+/* text sits above overlay */
+.hero-text {
+  position: relative;
+  z-index: 2;
   color: #fff;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  padding-left: 5%;
+  max-width: 600px;
 }
 
 .hero-text h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
 .hero-text p {
   font-size: 1.2rem;
+
   margin-top: 0.5rem;
+
 }
+
+
 
 /* Section Title */
 .section-title {
@@ -64,6 +83,7 @@
 }
 /* 
 /* Product Grid */
+
 /* .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -102,6 +122,7 @@
 
 
 /* Product Card */
+
 .product-card {
   background-color: #fff;
   border-radius: 1rem;
@@ -110,11 +131,14 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
   width: 100%;
   /* max-width: 350px; */
   min-height: 690px;
    max-width: none;
+
 }
+
 
 .product-card:hover {
   transform: translateY(-5px);
