@@ -101,7 +101,7 @@
 
 .price {
   font-weight: bold;
-  color: #2a55e5;
+  color: black;
   margin: 0.5rem 0 !important;
 }
 
@@ -155,7 +155,7 @@
 
 .checkout-btn {
   width: 100%;
-  background: #2a55e5;
+  background: black;
   color: white;
   border: none;
   padding: 1rem;
