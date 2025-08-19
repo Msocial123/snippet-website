@@ -12,7 +12,8 @@
 
 /* Navbar Container */
 .navbar {
-  background-color: #e0d6d6;
+  background-color:black;
+  /* background-color: #e0d6d6; */
   color: black;
   display: flex;
   justify-content: space-between;
@@ -312,10 +313,11 @@
   padding: 8px 40px 8px 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  width: 250px;
+  width: 540px;
   font-size: 14px;
   outline: none;
   transition: border-color 0.3s;
+  height: 40px; 
 }
 
 .search-form input:focus {
@@ -333,9 +335,9 @@
   transition: color 0.3s;
 }
 
-.search-icon-button:hover {
+/* .search-icon-button:hover {
   color: #ff3e6c;
-}
+} */
 
 /* Make the search input responsive */
 @media (max-width: 768px) {
@@ -365,9 +367,9 @@
   text-align: left; /* Ensure text starts from left */
 }
 
-.search-input:focus {
+/* .search-input:focus {
   border-color: #ff3e6c;
-}
+} */
 
 .search-icon-button {
   position: absolute;
@@ -406,4 +408,33 @@
     padding: 8px 35px 8px 10px;
     font-size: 13px;
   }
+}
+
+/* Add to Navbar.css */
+.search-container {
+  position: relative;
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 15px;
+  z-index: 1001; /* Must be higher than navbar */
+}
+
+.search-form {
+  position: relative !important;
+  background: white !important;
+  height: 40px !important;
+  margin: 0 !important;
+}
+
+.suggestions-dropdown {
+  position: absolute !important;
+  top: calc(100% + 5px) !important; /* Positions below input */
+  left: 0 !important;
+  width: 100% !important;
+  background: white !important;
+  border: 1px solid #ddd !important;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+  z-index: 1002 !important; /* Higher than search container */
+  max-height: 400px;
+  overflow-y: auto;
 }

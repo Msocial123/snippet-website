@@ -19,10 +19,14 @@ const authController = require("./Controller/authController");
 // const productController = require("./Controller/productController");
 const landingPageRoutes = require("./Controller/Landingpagecontroller");
 
+// Add with other route imports
+const searchRoutes = require('./Routes/searchRoutes');
 
 // Routers
 // const productRoutes = require("./Routes/productRoutes");
 const wishlistRoutes = require("./Routes/wishlist"); // ✅ FIXED
+
+const orderRoutes = require("./Routes/orderRoutes");
 
 // Middleware
 app.use(cors());
@@ -70,6 +74,7 @@ app.post("/login", authController.login);
 app.post("/forgot-password", authController.forgotPassword);
 app.post("/reset-password", authController.resetPassword);
 
+app.use('/api/search', searchRoutes);
 
 app.use("/api/products", landingPageRoutes);
 app.use("/api/products", productRoutes);
@@ -95,6 +100,8 @@ app.use("/api/cart", cartRoutes);
 // ✅ Variant Routes
 app.use("/api/variants", variantRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+
 // Optionally, expose one specific controller function directly:
 // If you want to get all variants for a product by pid
 app.get("/api/variants", variantController.getVariantsByProductId);
