@@ -1,0 +1,128 @@
+/* Container */
+.product-manager {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Heading */
+.product-manager h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Form Styling */
+.product-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.product-form input,
+.product-form textarea,
+.product-form button {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+/* Textarea */
+.product-form textarea {
+  grid-column: 1 / -1;
+  resize: none;
+  min-height: 80px;
+}
+
+/* Input focus */
+.product-form input:focus,
+.product-form textarea:focus {
+  border-color: #0077ff;
+  box-shadow: 0 0 4px rgba(0, 119, 255, 0.3);
+}
+
+/* Submit button */
+.product-form button {
+  grid-column: 1 / -1;
+  background: #0077ff;
+  color: white;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.product-form button:hover {
+  background: #005fcc;
+}
+
+/* Product List */
+.product-list {
+  border-top: 2px solid #eee;
+  padding-top: 1.5rem;
+}
+
+.product-list h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Table Styling */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+}
+
+.product-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #444;
+}
+
+/* Action buttons */
+.action-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.edit-btn {
+  background: #ffc107;
+  color: #222;
+  margin-right: 8px;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+}
