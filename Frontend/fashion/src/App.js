@@ -170,7 +170,7 @@ import WomenCollection from "./Components/Womencollection";
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetail from "./pages/ProductDetail";
-
+import ProductManager from "./Admin-Components/ProductManager";
 // About Us
 import AboutSnippet from "./pages/AboutSnippet";
 import OurCraft from "./pages/OurCraft";
@@ -217,6 +217,8 @@ const AppContent = () => {
 
       <div className="page-content">
         <Routes>
+          {/* Admin Product Manager */}
+           <Route path="/admin/products" element={<ProductManager />} />
           {/* Landing & Home */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />

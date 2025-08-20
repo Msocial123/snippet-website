@@ -38,6 +38,7 @@ app.post("/api/facebook-signup", facebookSignup);
 
 // const landingPageRoutes = require('./Controller/Landingpagecontroller');
 // const authController = require('./Controller/authController');
+// const productmanagerRoutes = require("./Routes/ProductmanagerRoutes");
 const productController = require('./Controller/productController');
 const cartRoutes = require("./Routes/cartRoutes");
 const variantRoutes = require("./Routes/variantRoutes");
@@ -63,7 +64,7 @@ app.post('/api/facebook-signup', facebookSignup);
 
 // ✅ Landing Page Product Routes
 app.use('/api/products', landingPageRoutes); // includes /landing & /reviews
-
+// app.use("/api/manageproducts", productmanagerRoutes); // Product Manager Routes
 // ✅ Auth Routes
 
 app.post("/login", authController.login);

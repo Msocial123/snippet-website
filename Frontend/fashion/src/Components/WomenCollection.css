@@ -1,69 +1,124 @@
-
-
 /* Root Wrapper */
-
 .women-collection-root {
-  padding: 2rem ;
+  padding: 2rem;
   background-color: #fdfdfd;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
   min-height: 100vh;
-
 }
 
-/* Hero Banner (background-image approach) */
+/* ================= HERO SECTION ================= */
+.hero-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Left Banner */
 .hero-banner {
   position: relative;
-
-  width: 60%;
-  height: 500px;
-  overflow: hidden;
+  flex: 2;
   border-radius: 1rem;
-  margin: 0 auto 3rem auto;
+  overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+
+  width: 100%;
+  max-width: 1300px;
+  /* height: 100%;
+  max-height: 2000px; */
+   min-height: 1100px; /* guarantees height */
+  height: 100vh;   
+  background: hsl(0, 16%, 92%);
+  
+  /* Centering */
+  margin: 40px auto;   /* pushes it to the middle horizontally */
+  display: flex;
+  align-items: center; /* vertical centering for content inside */
+  justify-content: center; /* horizontal centering for content inside */
 }
+
 
 .hero-banner img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
 
 }
 
-/* dark overlay to make text readable */
-.hero-banner .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.45));
-  z-index: 1;
-}
-
-/* text sits above overlay */
 .hero-text {
-  position: relative;
-  z-index: 2;
-  color: #fff;
-  padding-left: 5%;
-  max-width: 600px;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #f4f3f3;
+  text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7);
+  max-width: 70%;
+  font-size: 4rem;
 }
 
 .hero-text h1 {
   font-size: 3rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  /* font-weight: bold; */
+  margin: 0 0 0.5rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .hero-text p {
-  font-size: 1.2rem;
-
-  margin-top: 0.5rem;
+  font-size: 2rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
 }
 
+/* Right Offer Section */
+/* .offer-section {
+  flex: 1;
+  background: #f2e7e7;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
+.offer-section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: #222;
+  text-align: center;
+  font-family: cursive;
+  font-weight: bold;
+  font-size:4rem;
+}
 
-/* Section Title */
+.offer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.offer-section li {
+  font-size: 2rem;
+  margin: 10px 0;
+  color: #444;
+  position: relative;
+  padding-left: 24px;
+  font-family: cursive;
+  font-size: large;
+  font-weight: bold;
+
+}
+
+.offer-section li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #e74c3c;
+  font-weight: bold;
+  font-family: cursive;
+  font-size: large;
+} */
+
+/* ================= SECTION TITLE ================= */
 .section-title {
   text-align: center;
   font-size: 2rem;
@@ -74,54 +129,49 @@
   letter-spacing: 1px;
 }
 
-/* No Products */
-.no-products-message {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #999;
-  margin-top: 3rem;
+/* ================= FILTER BUTTONS ================= */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 2rem 0;
+  
 }
-/* 
-/* Product Grid */
 
-/* .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 11rem;
-  padding: 0 1rem;
-  justify-items: center;
-} */ 
+.filter-buttons button {
+  padding: 0.5rem 1.25rem;
+  font-size: 2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  background: #ece1e1;
+  color: #222;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #333;
+}
 
-/* .product-grid {
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-  column-gap: 3rem; 
-  row-gap: 4rem; 
-  padding: 24px;
-  justify-items: center; 
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-   justify-items: end;
-   gap: 2rem; */
-/* } */
+.filter-buttons button:hover {
+  background: #222;
+  color: #fff;
+}
 
+.filter-buttons .active-filter {
+  background: #000;
+  color: #fff;
+}
+
+/* ================= PRODUCT GRID ================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem; /* unified gap for row and column */
+  gap: 2rem;
   padding: 24px;
-  justify-items: center; /* center-align cards within each grid cell */
-  box-sizing: border-box;
-  width: 100%;
+  justify-items: center;
   max-width: 1440px;
   margin: 0 auto;
 }
-
-
-
-/* Product Card */
 
 .product-card {
   background-color: #fff;
@@ -131,14 +181,9 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-
   width: 100%;
-  /* max-width: 350px; */
   min-height: 690px;
-   max-width: none;
-
 }
-
 
 .product-card:hover {
   transform: translateY(-5px);
@@ -150,16 +195,15 @@
   height: 300px;
   object-fit: cover;
   background-color: #f5f5f5;
-   /* height: 420px; */
-   display: block;
+  display: block;
 }
-/* Product Info */
+
 .product-info {
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-   flex-grow: 1;
+  flex-grow: 1;
 }
 
 .product-brand {
@@ -189,43 +233,18 @@
   color: #2e8b57;
 }
 
-/* Filter Buttons */
-.filter-buttons {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin: 2rem 0;
-  padding: 0 1rem;
-}
-
-.filter-buttons button {
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 999px;
-  background: #f5f5f5;
-  color: #222;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filter-buttons button:hover {
-  background: #222;
-  color: #fff;
-}
-
-.filter-buttons .active-filter {
-  background: #000;
-  color: #fff;
-}
-
-/* Responsive Adjustments */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 1024px) {
+  .hero-section {
+    flex-direction: column;
+  }
+
   .hero-banner {
-    width: 80%;
     height: 400px;
+  }
+
+  .offer-section {
+    text-align: center;
   }
 }
 
@@ -233,24 +252,23 @@
   .women-collection-root {
     padding: 1.5rem;
   }
-  
+
   .hero-banner {
-    width: 90%;
     height: 350px;
   }
-  
+
   .hero-text h1 {
     font-size: 2rem;
   }
-  
+
   .section-title {
     font-size: 1.8rem;
   }
-  
+
   .product-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
-  
+
   .product-img {
     height: 250px;
   }
@@ -260,23 +278,23 @@
   .hero-banner {
     height: 300px;
   }
-  
+
   .hero-text h1 {
     font-size: 1.6rem;
   }
-  
+
   .hero-text p {
     font-size: 1rem;
   }
-  
+
   .section-title {
     font-size: 1.5rem;
   }
-  
+
   .product-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .filter-buttons button {
     padding: 0.4rem 1rem;
     font-size: 0.9rem;

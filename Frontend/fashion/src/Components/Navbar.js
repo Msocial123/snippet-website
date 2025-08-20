@@ -305,6 +305,9 @@ const Navbar = () => {
             <i className="fas fa-shopping-cart" style={{ marginLeft: "15px" }}></i>
             {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
           </Link>
+          <Link to="/admin/products" className="hover:text-gray-300">
+            Admin
+          </Link>
         </div>
       </header>
 

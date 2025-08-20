@@ -1,211 +1,177 @@
-/* Reset + Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Signup.css */
 
+/* Background */
+/* Signup.css */
 
-
-/* Heading */
-.signup-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color:hsl(0, 4%, 11%);
-  font-size: 26px;
-  font-weight: 600;
-}
-
-/* Form */
-.signup-form {
+/* Background */
+.signup-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+
+  /* Background Image with Gradient Overlay */
+  background:
+url("C:/Users/Anand/Desktop/snippet-website/Frontend/fashion/public/images/download.jpg") no-repeat center center;
+background-size: 60% 90%;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+/* Title */
+.signup-container h2 {
+  font-size: 3rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color:  #b9a6b9; /* deep blue */
+}
+
+/* Form Box */
+.signup-form {
+  background: rgba(222, 222, 222, 0.594);
+  backdrop-filter: blur(16px);
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  width: 130%;
+  max-width: 600px;
+  height: 900px;   
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Inputs */
 .signup-form input {
-  padding: 12px 14px;
-  margin-bottom: 15px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  transition: border 0.2s ease-in-out;
+  padding: 22px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  outline: none;
+  transition: 0.25s;
 }
 
 .signup-form input:focus {
-  border-color: #007bff;
-  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
 }
 
 /* Submit Button */
 .signup-form button[type="submit"] {
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
+  border-radius: 12px;
+  padding: 16px;
   cursor: pointer;
-  transition: background 0.2s ease-in-out;
+  transition: 0.3s;
 }
 
 .signup-form button[type="submit"]:hover {
-  background-color: #0056b3;
+  background: #1d4ed8;
+  transform: translateY(-2px);
 }
 
 /* Social Buttons */
 .social-buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 14px;
+  margin-top: 15px;
 }
 
 .social-buttons button {
-  padding: 10px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  transition: background 0.2s ease-in-out;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .social-buttons button:first-child {
-  background-color: #db4437;
+  background: #db4437;
   color: white;
 }
 
 .social-buttons button:first-child:hover {
-  background-color: #c23321;
+  background: #c1351d;
+  transform: translateY(-2px);
 }
 
 .social-buttons button:last-child {
-  background-color: #4267B2;
+  background: #1877f2;
   color: white;
 }
 
 .social-buttons button:last-child:hover {
-  background-color: #375293;
+  background: #145dbf;
+  transform: translateY(-2px);
 }
 
-/* Notification Message */
+.social-buttons button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Popup Messages */
 .popup-message {
-  position: absolute;
-  top: -60px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  padding: 10px;
-  border-radius: 6px;
+  position: fixed;
+  top: 25px;
+  background: #f87171; /* default red */
+  color: white;
+  padding: 14px 22px;
+  border-radius: 10px;
   font-weight: 600;
-  animation: slideDown 0.4s ease-in-out;
+  font-size: 1rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .popup-message.success {
-  background-color: #e0f9e0;
-  color: #2ecc71;
+  background: #10b981; /* green */
 }
 
 .popup-message.error {
-  background-color: #ffe0e0;
-  color: #e74c3c;
+  background: #ef4444; /* red */
 }
 
 /* Animations */
-@keyframes slideDown {
-  from {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 @keyframes fadeIn {
   from {
-    transform: scale(0.95);
     opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 /* Responsive */
-@media (max-width: 500px) {
-  .signup-container {
+@media (max-width: 600px) {
+  .signup-form {
     padding: 30px 20px;
-    max-width: 90%;
+    border-radius: 16px;
   }
 
-  .signup-form button,
-  .social-buttons button {
-    font-size: 14px;
-    padding: 10px;
+  .signup-container h2 {
+    font-size: 2rem;
+  }
+
+  .signup-form input,
+  .signup-form button {
+    font-size: 1rem;
+    padding: 14px;
   }
 }
-/* Base Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4; /* plain background for the body */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* Header */
-header {
-  background-color: #232f3e;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  width: 100%;
-}
-
-/* Footer */
-footer {
-  background-color: #232f3e;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  margin-top: auto;
-  width: 100%;
-}
-
-/* Center the form */
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-}
-
-/* Signup container with background image */
-.signup-container {
-  /* background: url('C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\photo1.PNG') no-repeat center center; */
-  background-size: cover;
-  padding: 40px 30px;
-  border-radius: 12px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  position: relative;
-  background-color: rgba(255, 255, 255, 0.95); /* glass effect over image */
-}
-
-/* Remaining styles for signup form and buttons remain the same... */
