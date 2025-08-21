@@ -1,34 +1,30 @@
-.App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.signup-wrapper {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-body {
-  padding-top: 80px; /* Matches your fixed header height */
-}
-
-/* App.css */
-
-html, body {
+/* Ensure full height */
+html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-.page-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-.content {
+/* Main layout wrapper */
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* takes full screen */
+}
+
+/* Content pushes footer down */
+.page-content {
   flex: 1;
-  padding: 20px;
+}
+
+/* Footer always sticks to bottom */
+.footer {
+  background-color: #000;
+  color: white;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  margin-top: auto; /* <- magic line */
 }

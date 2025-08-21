@@ -269,3 +269,20 @@
     border-radius: 0 0 1.2rem 1.2rem;
   }
 }
+
+
+/* Whole header stays fixed */
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Push down rest of the page so content is not hidden */
+main, .page-content, body {
+  margin-top: 150px; /* adjust based on header height */
+}

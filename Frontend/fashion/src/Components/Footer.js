@@ -7,8 +7,8 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-section">
           <h4>About Shop</h4>
-          <p>Lorem Is Dolor Sit Amet, Consectetur Adipisicing Elit. Read More</p>
-          <p>E. Hello@Uxper.Co</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+          <p>E. hello@uxper.co</p>
           <p>T. (91) 345 454 54 22</p>
         </div>
 
@@ -38,7 +38,7 @@ const Footer = () => {
             <li>Duties & Taxes</li>
             <li>Shipping Info</li>
             <li>Privacy Policy</li>
-            <li>Terms Conditions</li>
+            <li>Terms & Conditions</li>
           </ul>
         </div>
 

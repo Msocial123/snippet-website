@@ -333,7 +333,7 @@ exports.resetPassword = async (req, res) => {
       return res.status(400).json({ message: "Password must be at least 8 characters long" });
 
     const [results] = await db.query(
-      "SELECT * FROM password_resets WHERE token = ? AND expires_at > UTC_TIMESTAMP()",
+      "SELECT * FROM password_resets WHERE token = ? AND expires_at > now()",
       [token]
     );
 
