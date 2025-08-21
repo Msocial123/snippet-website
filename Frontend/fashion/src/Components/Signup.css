@@ -13,8 +13,8 @@
 
   /* Background Image with Gradient Overlay */
   background:
-url("C:/Users/Anand/Desktop/snippet-website/Frontend/fashion/public/images/download.jpg") no-repeat center center;
-background-size: 60% 90%;
+url("C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg") no-repeat center center;
+background-size: 60% 100%;
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -36,8 +36,8 @@ background-size: 60% 90%;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   width: 130%;
-  max-width: 600px;
-  height: 900px;   
+  max-width: 800px;
+  height: 1200px;   
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -49,7 +49,7 @@ background-size: 60% 90%;
   padding: 22px 18px;
   border: 1px solid #d1d5db;
   border-radius: 12px;
-  font-size: 1.05rem;
+  font-size: 2rem;
   outline: none;
   transition: 0.25s;
 }
@@ -64,7 +64,7 @@ background-size: 60% 90%;
   background: #2563eb;
   color: white;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 2.5rem;
   border: none;
   border-radius: 12px;
   padding: 16px;
@@ -89,7 +89,7 @@ background-size: 60% 90%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 500;
   padding: 14px;
   border: none;
@@ -124,18 +124,21 @@ background-size: 60% 90%;
 }
 
 /* Popup Messages */
+/* Popup Messages */
 .popup-message {
   position: fixed;
-  top: 25px;
-  background: #f87171; /* default red */
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
   color: white;
-  padding: 14px 22px;
-  border-radius: 10px;
+  padding: 14px 26px;
+  border-radius: 6px;
   font-weight: 600;
   font-size: 1rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-out;
+  z-index: 2000;
+  animation: slideDown 0.4s ease-out, fadeOut 4s ease-in forwards;
 }
 
 .popup-message.success {
@@ -146,17 +149,24 @@ background-size: 60% 90%;
   background: #ef4444; /* red */
 }
 
-/* Animations */
-@keyframes fadeIn {
+/* Slide animation like Flipkart */
+@keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translate(-50%, -40px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
   }
 }
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
+}
+
 
 /* Responsive */
 @media (max-width: 600px) {

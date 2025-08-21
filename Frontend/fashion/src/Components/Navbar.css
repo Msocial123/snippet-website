@@ -1,41 +1,47 @@
-/* src/components/Navbar.css */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
+/* ===== Fixed header wrapper (keeps whole header static) ===== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white; /* solid background while scrolling */
+  z-index: 1100;     /* above page content */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 
-/* Brand Title */
+/* Spacer so page content doesn't hide under fixed header */
+.header-spacer {
+  height: 180px; /* adjust if you change brand-title/nav heights */
+}
+
+/* ===== Brand Title ===== */
 .brand-title {
   background-color: white;
   font-size: 60px;
   font-weight: bold;
-  padding: 0 20px;
+  padding: 10px 20px;
+  text-align: center;
+  line-height: 1.1;
 }
 
-/* Navbar Container */
+/* ===== Navbar Container ===== */
 .navbar {
-  background-color:black;
-  /* background-color: #e0d6d6; */
+  background-color: #b9a6a6;
   color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 0 40px;
   font-family: 'Segoe UI', sans-serif;
-  height: 200px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: large;
+  height: 100px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* keep dropdowns visible */
 }
 
-/* Logo */
-.logo {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: black;
-  text-decoration: none;
-}
-
-/* Navbar Center Links */
+/* ===== Navbar Center Links ===== */
 .navbar-center {
   display: flex;
   gap: 40px;
@@ -43,23 +49,33 @@
 }
 
 .navbar-center a,
-.navbar-right a {
+.navbar-right a,
+.home-button,
+.gender-btn {
   color: black;
   text-decoration: none;
   font-size: 1.6rem;
   font-weight: 600;
-  padding: 8px 16px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  border: 2px solid black;
+  background-color: rgb(233, 229, 229);
   transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 .navbar-center a:hover,
-.navbar-right a:hover {
+.navbar-right a:hover,
+.home-button:hover,
+.gender-btn:hover {
+  cursor: pointer;
+  border-color: black;
   background-color: black;
-  color: white;
-  border-radius: 6px;
+  color: rgb(223, 218, 218);
+  transform: scale(1.05);
 }
 
-/* Dropdown */
+/* ===== Dropdown ===== */
 .dropdown {
   position: relative;
   font-weight: bold;
@@ -86,7 +102,7 @@
   min-width: 180px;
   flex-direction: column;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 1001;
+  z-index: 1200; /* on top of fixed header */
 }
 
 .dropdown-content a {
@@ -104,150 +120,20 @@
   display: flex;
 }
 
-/* Right Side */
+/* ===== Sides ===== */
 .navbar-right {
   display: flex;
   gap: 25px;
   align-items: center;
 }
 
-/* Search Form */
-.search-form {
-  background: #fff;
-  border-radius: 20px;
-  padding: 6px 15px;
-  display: flex;
-  align-items: center;
-  width: 700px;
-  height: 50px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.search-form i {
-  color: #888;
-  margin-right: 8px;
-}
-
-.search-form input {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 15px;
-  width: 100%;
-}
-
-/* Home Button */
-.home-button {
-  color: black;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.home-button:hover {
-  background-color: black;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 5px;
-}
-
-/* Left Side Container */
 .navbar-left {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-/* Gender Buttons */
-.gender-btn {
-  background-color: transparent;
-  color: #333;
-  border: 2px solid #333;
-  padding: 8px 20px;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.gender-btn:hover {
-  background-color: #333;
-  color: white;
-  transform: scale(1.05);
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
-    height: auto;
-  }
-
-  .navbar-center,
-  .navbar-right {
-    flex-direction: column;
-    width: 100%;
-    gap: 15px;
-    margin-top: 10px;
-  }
-
-  .search-form {
-    width: 100%;
-  }
-}
-
-
-/* Navbar Base */
-.navbar {
-  background-color: #b9a6a6;
-  color: black;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: large;
-  height: 110px; /* Increased height */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Common Style for All Links (Home, Men, Women, etc.) */
-.navbar-center a,
-.navbar-right a,
-.home-button,
-.gender-btn {
-  color: black;
-  text-decoration: none;
-  font-size: 1.6rem;
-  font-weight: 600;
-  padding: 14px 24px; /* Adjusted for taller navbar */
-  border-radius: 8px;
-  border: 2px solid transparent;
-  border: 2px solid black;
-  background-color: rgb(233, 229, 229);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-}
-
-.navbar-center a:hover,
-.navbar-right a:hover,
-.home-button:hover,
-.gender-btn:hover {
-  cursor: pointer;
-  border-color: black;
-  background-color: black;
-  color: rgb(223, 218, 218);
-  transform: scale(1.05);
-}
-
-/* Gender Buttons Specific Adjustments (same style as links now) */
+/* ===== Gender Buttons ===== */
 .gender-btn {
   font-size: 1.6rem;
   font-weight: 600;
@@ -258,183 +144,54 @@
   border-radius: 8px;
 }
 
-/* Logo Size Increase (Optional for better proportion) */
-.logo {
-  font-size: 3rem;
-}
-
-/* Responsive Consideration (no changes needed unless height overflow on small screens) */
-
-.navbar {
-  
-  height: 100px; /* already increased */
-  margin-bottom: 20px; /* <-- Add this */
-}
-
-.cart-icon-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-right: 20px;
-}
-
-.cart-icon {
-  font-size: 28px;
-  color: #000;
-  cursor: pointer;
-}
-
-.cart-icon-container {
-  position: relative;
-  display: inline-block;
-}
-
+/* ===== Cart badge ===== */
 .cart-count {
   position: absolute;
-  top: -0.6px;
-  right: -0.9px;
+  top: -6px;
+  right: -10px;
   background-color: red;
   color: white;
   font-size: 14px;
   font-weight: bold;
-  padding: 5px 8px;
+  padding: 4px 7px;
   border-radius: 50%;
-  z-index: 1;
 }
 
-/* Search Form Styles */
-.search-form {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-right: 15px;
-}
-
-.search-form input {
-  padding: 8px 40px 8px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 540px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-  height: 40px; 
-}
-
-.search-form input:focus {
-  border-color: #ff3e6c;
-}
-
-.search-icon-button {
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-  padding: 5px;
-  transition: color 0.3s;
-}
-
-/* .search-icon-button:hover {
-  color: #ff3e6c;
-} */
-
-/* Make the search input responsive */
-@media (max-width: 768px) {
-  .search-form input {
-    width: 180px;
-  }
-}
-
-/* Search Form Styles */
-.search-form {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin-right: 15px;
-  flex-grow: 1;  /* Allow search to grow and take available space */
-  max-width: 600px; /* Set maximum width */
-}
-
-.search-input {
-  padding: 10px 45px 10px 15px; /* Adjusted padding */
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  width: 100%; /* Take full width of parent */
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-  text-align: left; /* Ensure text starts from left */
-}
-
-/* .search-input:focus {
-  border-color: #ff3e6c;
-} */
-
-.search-icon-button {
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-  padding: 5px;
-  transition: color 0.3s;
-}
-
-.search-icon-button:hover {
-  color: #ff3e6c;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .search-form {
-    max-width: 400px;
-  }
-}
-
-@media (max-width: 768px) {
-  .search-form {
-    max-width: 300px;
-    margin-right: 10px;
-  }
-}
-
-@media (max-width: 576px) {
-  .search-form {
-    max-width: 200px;
-  }
-  .search-input {
-    padding: 8px 35px 8px 10px;
-    font-size: 13px;
-  }
-}
-
-/* Add to Navbar.css */
-.search-container {
+/* ===== Search wrapper (for SearchBar suggestions stacking) ===== */
+.search-wrapper {
   position: relative;
   flex-grow: 1;
-  max-width: 600px;
-  margin: 0 15px;
-  z-index: 1001; /* Must be higher than navbar */
+  max-width: 400px;
+  z-index: 1300; /* ensure SearchBar dropdown appears above everything */
 }
 
-.search-form {
-  position: relative !important;
-  background: white !important;
-  height: 40px !important;
-  margin: 0 !important;
-}
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .brand-title {
+    font-size: 40px;
+  }
 
-.suggestions-dropdown {
-  position: absolute !important;
-  top: calc(100% + 5px) !important; /* Positions below input */
-  left: 0 !important;
-  width: 100% !important;
-  background: white !important;
-  border: 1px solid #ddd !important;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
-  z-index: 1002 !important; /* Higher than search container */
-  max-height: 400px;
-  overflow-y: auto;
+  .header-spacer {
+    height: 150px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  .navbar-center,
+  .navbar-right {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
 }
