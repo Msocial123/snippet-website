@@ -43,7 +43,7 @@ function Login() {
         <div className="login-image">
           <div className="login-box">
             <h2>Login</h2>
-            <p>Welcome Happy to See U!!!!</p>
+            <p>Welcome Happy to See YOU!!!!</p>
             <form onSubmit={login}>
               <input
                 type="email"
@@ -78,9 +78,9 @@ function Login() {
               <div className="signup">
                 <span>New User?</span>
 
-//                 <button onClick={() => navigate("/signup")}>Sign up</button>
+         <button onClick={() => navigate("/signup")}>Sign up</button>
 
-                
+            
 
               </div>
             </div>

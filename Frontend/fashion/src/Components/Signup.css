@@ -13,8 +13,9 @@
 
   /* Background Image with Gradient Overlay */
   background:
-url("C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg") no-repeat center center;
-background-size: 60% 100%;
+
+url("C:\Users\91984\Desktop\snippet-website\Frontend\fashion\public\images\download.jpg") no-repeat center center;
+background-size: 60% 90%;
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

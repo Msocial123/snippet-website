@@ -31,8 +31,8 @@ html, body {
   background-image: url('/public/photo1.PNG'); /* Put image in public folder */
   background-size: cover;
   background-position: center;
-  width: 900px;
-  height: 900px;
+  width: 1000px;
+  height: 1000px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -46,19 +46,20 @@ html, body {
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 300px;
+  max-width: 600px;
   text-align: center;
+  height: 570px;
 }
 
 /* Headings */
 .login-box h2 {
   margin-bottom: 10px;
-  font-size: 2.3rem;
+  font-size: 3rem;
 }
 
 .login-box p {
   margin-bottom: 20px;
-  font-size: 1.2rem;
+  font-size: 1.7rem;
   color: #444;
 }
 
@@ -69,7 +70,7 @@ html, body {
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
 }
 
 /* Login Button */
@@ -82,7 +83,7 @@ html, body {
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
 }
 
 .login-box button:hover {
@@ -93,7 +94,7 @@ html, body {
 .login-links {
   margin-top: 15px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 1.5rem;
   color: #333;
 }
 
@@ -109,12 +110,12 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.7rem;
 }
 
 .signup button {
   /* padding: 6px 10px; */
-  font-size: 1rem;
+  font-size: 1.4rem;
   background: #eee;
   border: 1px solid #aaa;
   border-radius: 5px;
@@ -146,11 +147,11 @@ h1 {
 .password-wrapper {
   display:flex;
   flex-direction: column;
-
+font-size: 1.1rem;
 }
 
 .show-password input[type="checkbox"]{
- margin: 0; 
-  width: 16px;
-  height: 16px;
+ margin: 0.4; 
+  width: 18px;
+  height: 17px;
 }

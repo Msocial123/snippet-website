@@ -24,10 +24,10 @@ const ResetPassword = () => {
   }
 
   // Password validation: 1 number, 1 special char, 1 uppercase letter, min 8 chars
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,}$/;
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
 
   if (!passwordRegex.test(newPassword)) {
-    setMessage("Password must be at least 6 characters, include 1 uppercase letter, 1 number, and 1 special character.");
+    setMessage("Password must be at least 8 characters, include 1 uppercase letter, 1 number, and 1 special character.");
     return;
   }
 
