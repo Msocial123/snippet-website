@@ -3,7 +3,7 @@
   background: #f6f7fb;
   font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
   min-height: 100vh;
-  padding: 0 2rem 2rem 2rem;
+  padding: 100px 2rem 2rem 2rem;  /* top padding = gap for fixed header */
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
