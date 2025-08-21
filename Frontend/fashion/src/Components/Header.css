@@ -283,6 +283,7 @@
 }
 
 /* Push down rest of the page so content is not hidden */
-main, .page-content, body {
-  margin-top: 150px; /* adjust based on header height */
+main, .page-content {
+  margin-bottom: 1000px;   /* Increased from 150px to 200px */
+  /* padding-top: 100px;   Adds extra breathing space */
 }
