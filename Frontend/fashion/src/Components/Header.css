@@ -3,10 +3,18 @@
 /* Header Container */
 .heading {
   background: linear-gradient(90deg, #e91e63 0%, #fff 100%);
-  padding: 2rem 0;
+  padding: 2rem 1rem;
   color: #fff;
-  text-align: center;
+  text-align: left;
   box-shadow: 0 4px 20px rgba(233, 30, 99, 0.1);
+  width: 100%;         /* ensure full width */
+  margin: 0; 
+/* keep natural size, don’t stretch */
+
+display: flex;              /* use flexbox */
+  justify-content: flex-start; /* align content to the left */
+  align-items: center;        /* vertical alignment */
+  text-align: left;
 }
 
 .site-title {
@@ -17,6 +25,9 @@
   background: none;
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+   margin-left: 0; /* ensure no margin */
+  text-align: left;   /* override any center alignment */
+  justify-content: flex-start; /* if flex is applied */
 }
 
 /* Navbar */
@@ -277,9 +288,13 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 2001;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  isolation: isolate;
+  padding-left: 0;  /* ensure no padding on left */
+  padding-right: 0; /* ensure no padding on right */
+ display: block;
 }
 
 /* Push down rest of the page so content is not hidden */
