@@ -247,9 +247,9 @@ const Navbar = () => {
               {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
             </Link>
 
-            <Link to="/admin/products" className="admin-link">
+            {/* <Link to="/admin/products" className="admin-link">
               Admin
-            </Link>
+            </Link> */}
           </div>
         </header>
       </div>

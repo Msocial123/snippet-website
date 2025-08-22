@@ -22,8 +22,9 @@
   font-size: 60px;
   font-weight: bold;
   padding: 10px 20px;
-  text-align: center;
+  text-align: left;
   line-height: 1.1;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 /* ===== Navbar Container ===== */
@@ -144,11 +145,16 @@
   border-radius: 8px;
 }
 
+.cart-link {
+  position: relative;
+  display: inline-block;
+}
+
 /* ===== Cart badge ===== */
 .cart-count {
   position: absolute;
-  top: -6px;
-  right: -10px;
+  top: -8px;
+  right: -1px;
   background-color: red;
   color: white;
   font-size: 14px;

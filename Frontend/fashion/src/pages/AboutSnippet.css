@@ -1,31 +1,165 @@
-.about-wrapper {
-  padding: 3rem 1rem;
-  background-color: #fefefe;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+/* Reset default margins and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.about-container {
-  max-width: 800px;
-  text-align: left;
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.about-heading {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #222;
-}
-
-.about-description {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 1rem;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  color: #1a1a1a;
   line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Base About Us Banner */
+.aboutus-banner {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Overlay for readability */
+.aboutus-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Banner content */
+.aboutus-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding: 0 2rem;
+}
+
+.aboutus-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+.aboutus-text {
+  font-size: 1.25rem;
+  font-weight: 400;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* Content section */
+.aboutus-content {
+  padding: 5rem 2rem;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.aboutus-content h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+.aboutus-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  color: #333;
+  line-height: 1.7;
+}
+
+/* Features grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.feature {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.feature p {
+  font-size: 1rem;
+  margin-bottom: 0;
+  color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .aboutus-banner {
+    height: 70vh;
+  }
+  .aboutus-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutus-banner {
+    height: 60vh;
+  }
+  .aboutus-title {
+    font-size: 2.2rem;
+  }
+  .aboutus-text {
+    font-size: 1.1rem;
+  }
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .aboutus-banner {
+    height: 50vh;
+  }
+  .aboutus-title {
+    font-size: 1.8rem;
+  }
+  .aboutus-content {
+    padding: 3rem 1.5rem;
+  }
+  .aboutus-content h2 {
+    font-size: 1.8rem;
+  }
 }
