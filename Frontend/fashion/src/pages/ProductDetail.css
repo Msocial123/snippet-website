@@ -1,7 +1,7 @@
 .product-page {
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 2rem;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   background-color: #fff;
 }
@@ -289,11 +289,11 @@ Product Images
 
 .review strong {
   color: #e91e63;
-  font-size: 1.1rem;
+  font-size: 1.7rem;
 }
 
 .review p {
-  margin: 0.2rem 0;
+  margin: 1.5rem 0;
   color: #444;
 }
 
@@ -382,14 +382,14 @@ Product Images
 }
 
 .description-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #333;
 }
 
 .description-content {
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.8;
   color: #555;
   margin-bottom: 20px;
@@ -397,6 +397,7 @@ Product Images
 
 .benefits-list {
   margin-top: 20px;
+  font-size: 20px;
 }
 
 .benefit-item {
