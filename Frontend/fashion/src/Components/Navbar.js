@@ -234,6 +234,7 @@ const Navbar = () => {
               <SearchBar onSubmit={handleSearch} />
             </div>
 
+
             <Link to="/wishlist" className="wishlist-link" aria-label="Wishlist">
               <FaHeart style={{ color: "red", fontSize: "20px" }} />
             </Link>
