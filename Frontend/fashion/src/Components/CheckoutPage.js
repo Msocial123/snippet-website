@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import "./CheckoutPage.css";
 import axios from "axios";
+import OrderDetailsPage from "./OrderDetailsPage";
+import { useNavigate } from "react-router-dom";
 
 
 const CheckoutPage = () => {
@@ -10,14 +12,8 @@ const CheckoutPage = () => {
 
   // State for form
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
     phone: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
+    address: ""
   });
 
   const [coupon, setCoupon] = useState("");
@@ -26,6 +22,8 @@ const CheckoutPage = () => {
   const [onlineOption, setOnlineOption] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+const [couponId, setCouponId] = useState(null); 
 
   // Subtotals
   const subtotal = cartItems.reduce(
@@ -36,93 +34,149 @@ const CheckoutPage = () => {
   const tax = subtotal * 0.1; // 10% tax
   const total = subtotal + shipping + tax - discount;
 
-  // Handle coupon validation
-  const applyCoupon = () => {
-    if (coupon === "SAVE10") {
-      setDiscount(subtotal * 0.1);
-      alert("Coupon applied: 10% off!");
-    } else if (coupon === "FREESHIP") {
-      setDiscount(shipping);
-      alert("Coupon applied: Free Shipping!");
-    } else {
-      alert("Invalid coupon code!");
-      setDiscount(0);
-    }
-  };
+  
 
-  // Handle order placement
-  // const handlePlaceOrder = () => {
-  //   if (
-  //     !formData.firstName ||
-  //     !formData.phone ||
-  //     !formData.address ||
-  //     !paymentMethod
-  //   ) {
-  //     alert("⚠️ Please fill all required fields & select payment.");
-  //     return;
-  //   }
-
-  //   const newOrderId = "ORD-" + Math.floor(Math.random() * 1000000);
-  //   setOrderId(newOrderId);
-  //   setOrderPlaced(true);
-  // };
-
-  // if (orderPlaced) {
-  //   return (
-  //     <div className="order-success">
-  //       <h2>✅ Order Confirmed!</h2>
-  //       <p>
-  //         Your order ID is <b>{orderId}</b>
-  //       </p>
-  //       <p>A receipt has been sent to your email.</p>
-  //     </div>
-  //   );
-  // }
-
-// inside CheckoutPage.jsx
-
-const handlePlaceOrder = async () => {
-  if (
-    !formData.firstName ||
-    !formData.phone ||
-    !formData.address ||
-    !paymentMethod
-  ) {
-    alert("⚠️ Please fill all required fields & select payment.");
+  // 🔹 CHANGED: Handle coupon validation via backend
+const applyCoupon = async () => {
+  if (!coupon) {
+    alert("Enter a coupon code!");
     return;
   }
 
   try {
-    const orderPayload = {
-      user_id: 1, // 👈 replace with logged-in user id if available
-      total_amount: subtotal + shipping + tax,
-      payment_method: paymentMethod,
-      shipping_address: `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zip}`,
-      coupon_code: coupon || null,
-      discount,
-      final_amount: total,
-      status: "Pending",
-      items: cartItems.map((item) => ({
-        product_id: item.productId || item.variantId, // 👈 make sure this matches DB schema
-        quantity: item.quantity,
-        price: item.price,
-      })),
-    };
+    const res = await axios.post("http://localhost:5000/api/coupons/validate", {
+      code: coupon,
+      total: subtotal
+    });
 
-    const res = await axios.post("http://localhost:5000/api/orders", orderPayload);
-
-    if (res.data && res.data.order_id) {
-      setOrderId(res.data.order_id);
-      setOrderPlaced(true);
+    if (res.data.valid) {
+      setDiscount(res.data.discountAmount);
+       setCouponId(res.data.couponId);
+      alert(res.data.message);
     } else {
-      alert("❌ Order failed to save!");
+      setDiscount(0);
+      alert("Invalid coupon code!");
     }
   } catch (err) {
-    console.error("Order placement error:", err);
-    alert("⚠️ Could not place order. Please try again.");
+    console.error("Coupon error:", err.response?.data || err.message);
+    setDiscount(0);
+    alert("Error applying coupon");
   }
 };
 
+const navigate = useNavigate();
+
+  // Handle order placement - Updated to match cart controller pattern
+  const handlePlaceOrder = async () => {
+    if (
+      !formData.phone ||
+      !formData.address ||
+      !paymentMethod
+    ) {
+      alert("⚠️ Please fill all required fields & select payment.");
+      return;
+    }
+
+    // Debug: Check what's in localStorage
+    console.log("🔍 All localStorage items:");
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      console.log(`${key}: ${localStorage.getItem(key)}`);
+    }
+
+    // Always get the current user's UID (prioritize user object over stored uid)
+    let uid;
+    try {
+      const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+      if (currentUser.UID) {
+        uid = currentUser.UID;
+        // Update stored UID to match current user
+        localStorage.setItem("uid", uid.toString());
+        console.log("Using current user UID:", uid);
+      } else {
+        // Fallback to stored UID if no user object
+        uid = localStorage.getItem("uid") || localStorage.getItem("userId");
+        console.log("Using fallback UID:", uid);
+      }
+    } catch (e) {
+      console.error("Failed to parse user object:", e);
+      uid = localStorage.getItem("uid") || localStorage.getItem("userId");
+    }
+    
+    console.log("Final UID for order:", uid);
+    
+    console.log("🔍 Final UID found:", uid);
+    
+    if (!uid) {
+      alert("⚠️ Please log in to place an order. No UID found in storage.");
+      console.error("Available localStorage keys:", Object.keys(localStorage));
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+
+      const orderPayload = {
+  uid: parseInt(uid),
+  TotalPrice: total,
+  PaymentMethod: paymentMethod,
+  ShippingAddress: `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zip}`,
+  CouponCode: coupon || null, // 🔹 CHANGED
+  couponId: couponId || null,         // 🔹 NEW
+  discountAmount: discount || 0,  
+  items: cartItems.map((item) => ({
+    productId: item.pid || item.productId,
+    variantId: item.variantId,
+    quantity: item.quantity,
+    price: item.price,
+  })),
+};
+
+
+      console.log("🛒 Placing order with payload:", orderPayload);
+
+      const res = await axios.post(
+        "http://localhost:5000/api/orders",
+        orderPayload
+      );
+
+      if (res.data && res.data.orderId) {
+        setOrderId(res.data.orderNumber || res.data.orderId);
+        setOrderPlaced(true);
+        
+        // TODO: Add cart clearing after fixing the DELETE route
+        console.log("✅ Order placed successfully!", res.data);
+        navigate(`/order/${res.data.orderId}`);
+      } else {
+        alert("❌ Order failed to save!");
+      }
+    } catch (err) {
+      console.error("Order placement error:", err.response?.data || err.message);
+      alert("⚠️ Could not place order. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Show success page after order is placed
+  if (orderPlaced) {
+    return (
+      <div className="order-success">
+        <h2>✅ Order Confirmed!</h2>
+        <p>
+          Your order ID is <b>{orderId}</b>
+        </p>
+        <p>A receipt has been sent to your email.</p>
+        <button 
+          onClick={() => window.location.href = '/'}
+          className="continue-shopping-btn"
+        >
+          Continue Shopping
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="checkout-wrapper">
@@ -146,11 +200,10 @@ const handlePlaceOrder = async () => {
                 />
                 <div className="checkout-item-details">
                   <h4>{item.name}</h4>
-                  <p>
-                    Size: {item.size}, Color: {item.color}
-                  </p>
+                  <p>Size: {item.size}</p>
+                  <p>Color: {item.color}</p>
                   <div className="quantity-control">
-                    <button  onClick={() => decreaseQuantity(item.variantId)}>
+                    <button onClick={() => decreaseQuantity(item.variantId)}>
                       -
                     </button>
                     <span>{item.quantity}</span>
@@ -162,8 +215,7 @@ const handlePlaceOrder = async () => {
                   <button
                     className="remove-btn"
                     onClick={() => removeFromCart(item.variantId)}
-                  >
-                    ❌ Remove
+                  >Remove Item
                   </button>
                 </div>
               </div>
@@ -281,8 +333,12 @@ const handlePlaceOrder = async () => {
           </div>
 
           <h2>Total: ₹{total.toFixed(2)}</h2>
-          <button className="place-order-btn" onClick={handlePlaceOrder}>
-            Place Order
+          <button 
+            className="place-order-btn" 
+            onClick={handlePlaceOrder}
+            disabled={isLoading}
+          >
+            {isLoading ? "Placing Order..." : "Place Order"}
           </button>
 
           <p className="secure-text">🔒 Your payment is secure and encrypted</p>

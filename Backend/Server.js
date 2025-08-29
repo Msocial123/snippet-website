@@ -7,7 +7,7 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const db = require("./db");
-
+// const ordersRouter = require("./Routes/orderRoutes");
 
 
 const {
@@ -28,6 +28,7 @@ const wishlistRoutes = require("./Routes/wishlist"); // ✅ FIXED
 
 const orderRoutes = require("./Routes/orderRoutes");
 
+const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -109,6 +110,8 @@ app.get("/api/variants", variantController.getVariantsByProductId);
 // If you want to get a variant by color and size
 app.get("/api/variants/by-attributes", variantController.getVariantByAttributes);
 // ✅ Start Server
+
+app.use("/api/coupons", couponRoutes); // ✅ Base path
 
 const PORT = 5000;
 app.listen(PORT, () => {
