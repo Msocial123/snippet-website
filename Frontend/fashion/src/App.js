@@ -13,7 +13,7 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import AdminDashboard from "./Admin-Components/AdminDashboard";
 // Pages & Features
 import CartPage from "./Components/CartPage";
 import CartDrawer from "./Components/CartDrawer";
@@ -23,11 +23,12 @@ import ForgotPassword from "./Components/ForgotPassword";
 import ResetPassword from "./Components/ResetPassword";
 import WishlistPage from "./Components/Wishlistpage";
 import WomenCollection from "./Components/Womencollection";
-
+import AdminProducts from "./Admin-Components/AdminProducts"; 
+import AdminUsers from "./Admin-Components/AdminUsers"; 
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetail from "./pages/ProductDetail";
-import ProductManager from "./Admin-Components/ProductManager";
+
 // About Us
 import AboutSnippet from "./pages/AboutSnippet";
 import OurCraft from "./pages/OurCraft";
@@ -79,8 +80,9 @@ const AppContent = () => {
 
       <div className="page-content">
         <Routes>
-          {/* Admin Product Manager */}
-           <Route path="/admin/products" element={<ProductManager />} />
+          {/* Admin */}
+           <Route path="/admin" element={<AdminDashboard />} />
+           <Route path="/admin/users" element={<AdminUsers />} />
           {/* Landing & Home */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />
@@ -105,7 +107,7 @@ const AppContent = () => {
           <Route path="/about-us/our-craft" element={<OurCraft />} />
           <Route path="/about-us/sustainability" element={<Sustainability />} />
           <Route path="/about-us/press-media" element={<PressMedia />} />
-
+<Route path="/admin/products" element={<AdminProducts />} />
           {/* Blog */}
           <Route path="/blog/drop-diaries" element={<DropDiaries />} />
           <Route path="/blog/style-playbook" element={<StylePlaybook />} />
