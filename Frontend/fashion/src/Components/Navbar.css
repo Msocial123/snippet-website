@@ -167,9 +167,12 @@
 .search-wrapper {
   position: relative;
   flex-grow: 1;
-  max-width: 400px;
-  z-index: 1300; /* ensure SearchBar dropdown appears above everything */
+  min-width: 300px;
+  max-width: 800px;  /* you can increase this */
+  width: 100%;
+  z-index: 1300;
 }
+
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {

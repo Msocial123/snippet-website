@@ -125,9 +125,14 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 const db = require("./db");
+
 const router = express.Router();
 // Controllers
 const adminProducts = require("./Controller/adminProductsController.js");
+
+// const ordersRouter = require("./Routes/orderRoutes");
+
+
 const {
   signup,
   googleSignup,
@@ -143,6 +148,24 @@ const userRoutes = require("./Routes/userRoutes");
 const searchRoutes = require("./Routes/searchRoutes");
 const wishlistRoutes = require("./Routes/wishlist");
 const orderRoutes = require("./Routes/orderRoutes");
+
+
+const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
+
+
+// API Routes
+app.post("/api/signup", signup);
+app.post("/api/google-signup", googleSignup);
+app.post("/api/facebook-signup", facebookSignup);
+
+
+const productController = require('./Controller/productController');
+
 const cartRoutes = require("./Routes/cartRoutes");
 const variantRoutes = require("./Routes/variantRoutes");
 const productRoutes = require("./Routes/productRoutes");
@@ -190,7 +213,11 @@ app.get("/api/products/women", productController.getWomenProducts);
 app.get("/api/variants", variantController.getVariantsByProductId);
 app.get("/api/variants/by-attributes", variantController.getVariantByAttributes);
 
+
 // Start Server
+
+app.use("/api/coupons", couponRoutes); // ✅ Base path
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log("✅ Registering product routes at /api/products");

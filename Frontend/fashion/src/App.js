@@ -49,6 +49,8 @@ import LandingPage from "./Components/Landingpage";
 //Checkout page
 import CheckoutPage from "./Components/CheckoutPage";
 
+import OrderDetailsPage from "./Components/OrderDetailsPage";
+
 // ==============================
 // App Content Component
 // ==============================
@@ -117,6 +119,8 @@ const AppContent = () => {
         <Route path="/search" element={<SearchResults />} />
 
         <Route path="/checkout" element={<CheckoutPage />} />
+
+       <Route path="/order/:orderId" element={<OrderDetailsPage />} />
 
         </Routes>
       </div>
