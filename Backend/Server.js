@@ -151,6 +151,8 @@ const orderRoutes = require("./Routes/orderRoutes");
 
 
 const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
+
+const paymentRoutes = require("./Routes/paymentRoutes");
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -164,7 +166,7 @@ app.post("/api/google-signup", googleSignup);
 app.post("/api/facebook-signup", facebookSignup);
 
 
-const productController = require('./Controller/productController');
+// const productController = require('./Controller/productController');
 
 const cartRoutes = require("./Routes/cartRoutes");
 const variantRoutes = require("./Routes/variantRoutes");
@@ -217,6 +219,8 @@ app.get("/api/variants/by-attributes", variantController.getVariantByAttributes)
 // Start Server
 
 app.use("/api/coupons", couponRoutes); // ✅ Base path
+
+app.use("/api/payments", paymentRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {

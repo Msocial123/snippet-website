@@ -36,6 +36,11 @@
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;
+  background-color: black;
+}
+
+.close-btn :hover{
+  background-color: black;
 }
 
 .drawer-content {
@@ -91,7 +96,7 @@
 }
 
 .item-details h4:hover {
-  color: #2a55e5;
+  color: black;
 }
 
 .item-details p {
@@ -126,6 +131,7 @@
   background: white;
   border-radius: 4px;
   cursor: pointer;
+  color: black;
 }
 
 .remove-btn {
