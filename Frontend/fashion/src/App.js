@@ -60,12 +60,13 @@ const AppContent = () => {
   const location = useLocation();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login"];
+  const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login", "/signup","/admin","/admin/products","/admin/users"];
   const hideFooterRoutes = [
     "/forgot-password",
     "/reset-password",
     "/login",
     "/about-us/about-snippet",
+     "/signup","/admin","/admin/products","/admin/users"
   ];
 
   return (
