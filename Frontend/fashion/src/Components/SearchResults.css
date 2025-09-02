@@ -1,5 +1,6 @@
 .search-results-page {
-  padding: 20px;
+  padding-top: 90px;
+  padding-left: 160px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -33,11 +34,11 @@
 
 .category-tag {
   padding: 5px 10px;
-  background: #f1f1f1;
+  background: black;
   border: 1px solid #ddd;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .category-tag:hover {

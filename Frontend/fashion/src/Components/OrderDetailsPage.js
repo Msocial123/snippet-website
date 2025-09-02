@@ -116,14 +116,16 @@
 
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OrderDetailsPage.css";
+// import PaymentButton from "./PaymentButton";
 
 const OrderDetailsPage = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Fetch order details
   useEffect(() => {
@@ -160,10 +162,92 @@ const OrderDetailsPage = () => {
     }
   };
 
+  // const handlePayment = (selectedMethod) => {
+  //   if (order.PaymentMethod === "COD" && selectedMethod !== "COD") {
+  //     const confirmChange = window.confirm(
+  //       `You originally selected COD. Do you want to change payment method to ${selectedMethod}?`
+  //     );
+
+  //     if (!confirmChange) {
+  //       return; // ❌ Stop if user cancels
+  //     }
+  //   }
+
+  //   // ✅ Proceed with saving payment
+  //   savePayment(selectedMethod);
+  // };
+
+  const handlePayment = (selectedMethod) => {
+  if (order.PaymentMethod === "COD" && selectedMethod !== "COD") {
+    const confirmChange = window.confirm(
+      `You originally selected COD. Do you want to change payment method to ${selectedMethod}?`
+    );
+    if (!confirmChange) return; // stop if user cancels
+  }
+
+  // Save payment in backend
+  axios.put(`http://localhost:5000/api/payments/${order.OrderID}`, {
+    paymentMethod: selectedMethod,
+    paymentStatus: "Pending", // mark as pending until actual payment is done
+    transactionId: "TXN" + Date.now(),
+  })
+  .then((res) => {
+    // update local state
+    setOrder({ ...order, PaymentMethod: selectedMethod, PaymentStatus: "Pending" });
+
+    // ✅ Redirect to PaymentPage.js
+    navigate(`/payment/${order.OrderID}`);
+  })
+  .catch((err) => {
+    console.error(err);
+    alert("Payment initiation failed!");
+  });
+};
+
+
+  // const savePayment = (method) => {
+  //   axios.post("http://localhost:5000/api/payments", {
+  //     orderId: order.OrderID,
+  //     paymentMethod: method,
+  //     paymentStatus: "Completed",
+  //   })
+  //   .then((res) => {
+  //     alert("Payment successful!");
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //     alert("Payment failed!");
+  //   });
+  // };
+
+  const savePayment = (method) => {
+  axios.put(`http://localhost:5000/api/payments/${order.OrderID}`, {
+    paymentMethod: method,
+    paymentStatus: "Completed",
+    transactionId: "TXN" + Date.now(), // generate fake txn ID for now
+  })
+  .then((res) => {
+    alert("Payment successful!");
+    setOrder({ ...order, PaymentMethod: method, PaymentStatus: "Completed" }); // update state
+  })
+  .catch((err) => {
+    console.error(err);
+    alert("Payment failed!");
+  });
+};
+
+  // const goToPayment = () => {
+  //   navigate(`/payment/${order.OrderID}`);
+  // };
+
   // Validation helpers
   const isValidEmail = (email) => email && email.includes("@");
   const isValidPhone = (phone) => /^\d{10}$/.test(phone);
   const isValidAddress = (address) => address && address.length > 10;
+
+   const goToPayment = () => {
+    navigate(`/payment/${order.OrderID}`);
+  };
 
   if (loading) return <p>Loading order details...</p>;
   if (!order) return <p>Order not found</p>;
@@ -270,6 +354,20 @@ const OrderDetailsPage = () => {
           <p className="final-total">
             Final Total: <b>₹{order.TotalPrice}</b>
           </p>
+        </div>
+      )}
+      {/* <div style={{ marginTop: "20px" }}>
+        <button onClick={goToPayment} className="pay-btn">
+          Proceed to Payment
+        </button>
+      </div> */}
+      {order.PaymentStatus !== "Completed" && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Select Payment Method</h3>
+          <button onClick={() => handlePayment("COD")} className="pay-btn">Continue Payment</button>
+          {/* <button onClick={() => handlePayment("UPI")} className="pay-btn">Pay with UPI</button>
+          <button onClick={() => handlePayment("NetBanking")} className="pay-btn">Net Banking</button>
+          <button onClick={() => handlePayment("Card")} className="pay-btn">Credit/Debit Card</button> */}
         </div>
       )}
     </div>

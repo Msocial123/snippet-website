@@ -149,8 +149,8 @@
 
 /* Quantity buttons */
 .quantity-control button {
-  width: 28px;
-  height: 28px;
+  width: 29px;
+  height: 29px;
   font-size: 16px;
   border: 1px solid #ddd;
   background: #fff;
@@ -185,4 +185,18 @@
 
 .delete-btn:hover {
   background-color: #cc0000;
+}
+
+#decrease{
+  color: black;
+  font-size: 14px;
+  text-align: center;
+  justify-content: center;
+}
+
+#increase{
+  color: black;
+  font-size: 14px;
+  text-align: center;
+  justify-content: center;
 }

@@ -51,6 +51,8 @@ import CheckoutPage from "./Components/CheckoutPage";
 
 import OrderDetailsPage from "./Components/OrderDetailsPage";
 
+import PaymentPage from "./Components/PaymentPage";
+
 // ==============================
 // App Content Component
 // ==============================
@@ -122,6 +124,9 @@ const AppContent = () => {
         <Route path="/checkout" element={<CheckoutPage />} />
 
        <Route path="/order/:orderId" element={<OrderDetailsPage />} />
+
+       <Route path="/payment/:orderId" element={<PaymentPage />} />
+
 
         </Routes>
       </div>

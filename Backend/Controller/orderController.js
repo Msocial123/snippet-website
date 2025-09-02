@@ -260,8 +260,104 @@
 const db = require("../db");
 
 // Create Order
+// exports.createOrder = async (req, res) => {
+//   const { uid, TotalPrice, PaymentMethod, ShippingAddress, CouponCode, items } = req.body;
+
+//   if (!uid || !TotalPrice || !PaymentMethod || !ShippingAddress || !items || items.length === 0) {
+//     return res.status(400).json({ error: "Missing required fields" });
+//   }
+
+//   const connection = await db.getConnection();
+//   try {
+//     await connection.beginTransaction();
+
+//     let couponId = null;
+//     let discountAmount = 0;
+
+//     // Handle coupon properly
+//     if (CouponCode) {
+//       const [couponRows] = await connection.query(
+//         `SELECT * FROM coupons 
+//          WHERE Code = ? 
+//          AND ExpiryDate >= CURDATE() 
+//          AND UsageLimit > TimesUsed`,
+//         [CouponCode]
+//       );
+
+//       if (couponRows.length > 0) {
+//         const coupon = couponRows[0];
+//         couponId = coupon.CouponID;
+
+//         // Special handling for FREESHIP
+//         if (coupon.Code === "FREESHIP") {
+//           discountAmount = 49; // match your shipping fee
+//         } else {
+//           discountAmount = (TotalPrice * coupon.DiscountPercent) / 100;
+//         }
+
+//         // Update usage
+//         await connection.query(
+//           "UPDATE coupons SET TimesUsed = TimesUsed + 1 WHERE CouponID = ?",
+//           [couponId]
+//         );
+//       }
+//     }
+
+//     // Save discountAmount + CouponID
+//     const [orderResult] = await connection.query(
+//       `INSERT INTO orders (UID, OrderDate, TotalPrice, Status, PaymentMethod, ShippingAddress, CouponID, DiscountAmount)
+//        VALUES (?, NOW(), ?, 'Pending', ?, ?, ?, ?)`,
+//       [uid, TotalPrice, PaymentMethod, ShippingAddress, couponId, discountAmount]
+//     );
+
+//     const orderId = orderResult.insertId;
+
+//     // Insert into coupon_usages if coupon applied
+//     if (couponId) {
+//       await connection.query(
+//         `INSERT INTO coupon_usages (CouponID, UID, OrderID, AppliedAt) 
+//          VALUES (?, ?, ?, NOW())`,
+//         [couponId, uid, orderId]
+//       );
+//     }
+
+//     // Insert order items
+//     for (const item of items) {
+//       await connection.query(
+//         `INSERT INTO order_items (OrderID, PID, VariantID, Quantity, Price)
+//          VALUES (?, ?, ?, ?, ?)`,
+//         [orderId, item.productId, item.variantId || null, item.quantity, item.price]
+//       );
+//     }
+
+//     // Insert payment record
+//     await connection.query(
+//       `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt)
+//        VALUES (?, ?, 'Pending', '', NOW())`,
+//       [orderId, PaymentMethod]
+//     );
+
+//     await connection.commit();
+
+//     res.status(201).json({
+//       message: "Order created successfully",
+//       orderId,
+//       orderNumber: `ORD-${orderId}`,
+//       appliedCoupon: CouponCode || null,
+//       discountAmount
+//     });
+//   } catch (err) {
+//     await connection.rollback();
+//     console.error("Error creating order:", err);
+//     res.status(500).json({ error: "Failed to create order" });
+//   } finally {
+//     connection.release();
+//   }
+// };
+
+// Create Order
 exports.createOrder = async (req, res) => {
-  const { uid, TotalPrice, PaymentMethod, ShippingAddress, CouponCode, items } = req.body;
+  const { uid, TotalPrice, PaymentMethod, ShippingAddress, CouponCode, items, phone } = req.body;
 
   if (!uid || !TotalPrice || !PaymentMethod || !ShippingAddress || !items || items.length === 0) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -271,10 +367,16 @@ exports.createOrder = async (req, res) => {
   try {
     await connection.beginTransaction();
 
+    // 🔹 Step 1: Update phone + address in users table
+    await connection.query(
+      `UPDATE users SET Contact = ?, Address = ? WHERE UID = ?`,
+      [phone, ShippingAddress, uid]
+    );
+
     let couponId = null;
     let discountAmount = 0;
 
-    // Handle coupon properly
+    // Coupon logic same as before...
     if (CouponCode) {
       const [couponRows] = await connection.query(
         `SELECT * FROM coupons 
@@ -288,14 +390,12 @@ exports.createOrder = async (req, res) => {
         const coupon = couponRows[0];
         couponId = coupon.CouponID;
 
-        // Special handling for FREESHIP
         if (coupon.Code === "FREESHIP") {
-          discountAmount = 49; // match your shipping fee
+          discountAmount = 49;
         } else {
           discountAmount = (TotalPrice * coupon.DiscountPercent) / 100;
         }
 
-        // Update usage
         await connection.query(
           "UPDATE coupons SET TimesUsed = TimesUsed + 1 WHERE CouponID = ?",
           [couponId]
@@ -303,7 +403,7 @@ exports.createOrder = async (req, res) => {
       }
     }
 
-    // Save discountAmount + CouponID
+    // 🔹 Step 2: Save order
     const [orderResult] = await connection.query(
       `INSERT INTO orders (UID, OrderDate, TotalPrice, Status, PaymentMethod, ShippingAddress, CouponID, DiscountAmount)
        VALUES (?, NOW(), ?, 'Pending', ?, ?, ?, ?)`,
@@ -312,7 +412,6 @@ exports.createOrder = async (req, res) => {
 
     const orderId = orderResult.insertId;
 
-    // Insert into coupon_usages if coupon applied
     if (couponId) {
       await connection.query(
         `INSERT INTO coupon_usages (CouponID, UID, OrderID, AppliedAt) 
@@ -321,7 +420,6 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    // Insert order items
     for (const item of items) {
       await connection.query(
         `INSERT INTO order_items (OrderID, PID, VariantID, Quantity, Price)
@@ -330,12 +428,11 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    // Insert payment record
-    await connection.query(
-      `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt)
-       VALUES (?, ?, 'Pending', '', NOW())`,
-      [orderId, PaymentMethod]
-    );
+    // await connection.query(
+    //   `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt)
+    //    VALUES (?, ?, 'Pending', '', NOW())`,
+    //   [orderId, PaymentMethod]
+    // );
 
     await connection.commit();
 
@@ -344,7 +441,8 @@ exports.createOrder = async (req, res) => {
       orderId,
       orderNumber: `ORD-${orderId}`,
       appliedCoupon: CouponCode || null,
-      discountAmount
+      discountAmount,
+      totalAmount: TotalPrice - discountAmount   // 🔹 send final amount
     });
   } catch (err) {
     await connection.rollback();
@@ -370,6 +468,7 @@ exports.getAllOrders = async (req, res) => {
         c.Code as CouponCode,
         c.DiscountPercent,
         o.DiscountAmount,
+        (o.TotalPrice - o.DiscountAmount) AS FinalAmount, 
         u.FirstName,
         u.LastName,
         u.Email,
@@ -406,40 +505,49 @@ exports.getOrderById = async (req, res) => {
   try {
     const [orderDetails] = await db.query(
       `SELECT 
-        o.*,
-        ANY_VALUE(c.Code) as CouponCode,     
-        ANY_VALUE(c.DiscountPercent) as DiscountPercent,
-        ANY_VALUE(o.DiscountAmount) as DiscountAmount,
-        ANY_VALUE(p.PaymentStatus) as PaymentStatus,
-        ANY_VALUE(p.TransactionID) as TransactionID,
-        ANY_VALUE(u.FirstName) as FirstName,
-        ANY_VALUE(u.LastName) as LastName,
-        ANY_VALUE(u.Email) as Email,
-        ANY_VALUE(u.Contact) as Contact,
-        ANY_VALUE(u.Address) as Address,
-        JSON_ARRAYAGG(
-          JSON_OBJECT(
-            'item_id', oi.OrderItemID,  
-            'product_id', oi.PID,
-            'variant_id', oi.VariantID,      
-            'quantity', oi.Quantity,
-            'price', oi.Price,
-            'product_name', pr.Name,
-            'color', pv.Color,
-            'size', pv.Size,
-            'image', COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]')))
-          )
-        ) as items
-      FROM orders o
-      LEFT JOIN order_items oi ON o.OrderID = oi.OrderID
-      LEFT JOIN coupons c ON o.CouponID = c.CouponID
-      LEFT JOIN payments p ON o.OrderID = p.OrderID
-      LEFT JOIN users u ON o.UID = u.UID
-      LEFT JOIN products pr ON oi.PID = pr.PID
-      LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
-      LEFT JOIN product_details pd ON pr.PID = pd.PID
-      WHERE o.OrderID = ?
-      GROUP BY o.OrderID;`,
+  o.*,
+  ANY_VALUE(c.Code) as CouponCode,     
+  ANY_VALUE(c.DiscountPercent) as DiscountPercent,
+  ANY_VALUE(o.DiscountAmount) as DiscountAmount,
+  (o.TotalPrice - o.DiscountAmount) AS FinalAmount,
+  ANY_VALUE(p.PaymentStatus) as PaymentStatus,
+  ANY_VALUE(p.TransactionID) as TransactionID,
+  ANY_VALUE(u.FirstName) as FirstName,
+  ANY_VALUE(u.LastName) as LastName,
+  ANY_VALUE(u.Email) as Email,
+  ANY_VALUE(u.Contact) as Contact,
+  ANY_VALUE(u.Address) as Address,
+  JSON_ARRAYAGG(
+    JSON_OBJECT(
+      'item_id', oi.OrderItemID,  
+      'product_id', oi.PID,
+      'variant_id', oi.VariantID,      
+      'quantity', oi.Quantity,
+      'price', oi.Price,
+      'product_name', pr.Name,
+      'color', pv.Color,
+      'size', pv.Size,
+      'image', COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]')))
+    )
+  ) as items
+FROM orders o
+LEFT JOIN (
+   SELECT DISTINCT OrderItemID, OrderID, PID, VariantID, Quantity, Price
+   FROM order_items
+) oi ON o.OrderID = oi.OrderID
+LEFT JOIN coupons c ON o.CouponID = c.CouponID
+LEFT JOIN (
+   SELECT OrderID, MAX(PaymentStatus) as PaymentStatus, MAX(TransactionID) as TransactionID
+   FROM payments
+   GROUP BY OrderID
+) p ON o.OrderID = p.OrderID
+LEFT JOIN users u ON o.UID = u.UID
+LEFT JOIN products pr ON oi.PID = pr.PID
+LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
+LEFT JOIN product_details pd ON pr.PID = pd.PID
+WHERE o.OrderID = ?
+GROUP BY o.OrderID;
+`,
       [orderId]
     );
 
@@ -517,5 +625,41 @@ exports.deleteOrderItem = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Update payment method & confirm payment
+exports.updatePayment = async (req, res) => {
+  const { orderId } = req.params;
+  const { paymentMethod, paymentStatus, transactionId } = req.body;
+
+  if (!orderId || !paymentMethod) {
+    return res.status(400).json({ error: "Order ID and payment method required" });
+  }
+
+  try {
+    // 🔹 Update order table
+    await db.query(
+      ` UPDATE orders SET Status = 'Paid', PaymentMethod = ? WHERE OrderID = ?`,
+      [paymentMethod, orderId]
+    );
+
+    // 🔹 Update payments table
+    await db.query(
+      `UPDATE payments 
+       SET PaymentMethod = ?, PaymentStatus = ?, TransactionID = ?, PaidAt = NOW()
+       WHERE OrderID = ?`,
+      [paymentMethod, paymentStatus || "Pending", transactionId || "", orderId]
+    );
+
+    res.status(200).json({
+      message: "Payment updated successfully",
+      orderId,
+      paymentMethod,
+      paymentStatus: paymentStatus || "Pending",
+    });
+  } catch (err) {
+    console.error("Error updating payment:", err);
+    res.status(500).json({ error: "Failed to update payment" });
   }
 };

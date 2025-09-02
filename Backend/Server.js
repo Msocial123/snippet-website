@@ -151,6 +151,8 @@ const orderRoutes = require("./Routes/orderRoutes");
 
 
 const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
+
+const paymentRoutes = require("./Routes/paymentRoutes");
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -221,11 +223,14 @@ app.get("/api/variants/by-attributes", variantController.getVariantByAttributes)
 
 app.use("/api/coupons", couponRoutes); // ✅ Base path
 
+app.use("/api/payments", paymentRoutes);
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // mount admin wishlist/cart routes
 const wishlistCartRoutes = require("./Routes/adminWishlistCart");
 app.use("/api/admin/wishlist-cart", wishlistCartRoutes);
+
 
 const PORT = 5000;
 app.listen(PORT, () => {
