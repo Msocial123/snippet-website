@@ -154,8 +154,10 @@ const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // API Routes
@@ -164,7 +166,7 @@ app.post("/api/google-signup", googleSignup);
 app.post("/api/facebook-signup", facebookSignup);
 
 
-const productController = require('./Controller/productController');
+// const productController = require('./Controller/productController');
 
 const cartRoutes = require("./Routes/cartRoutes");
 const variantRoutes = require("./Routes/variantRoutes");
@@ -174,6 +176,7 @@ const productRoutes = require("./Routes/productRoutes");
 app.use(cors());
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/public', express.static('public'));
 
 // Logger
@@ -217,6 +220,12 @@ app.get("/api/variants/by-attributes", variantController.getVariantByAttributes)
 // Start Server
 
 app.use("/api/coupons", couponRoutes); // ✅ Base path
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// mount admin wishlist/cart routes
+const wishlistCartRoutes = require("./Routes/adminWishlistCart");
+app.use("/api/admin/wishlist-cart", wishlistCartRoutes);
 
 const PORT = 5000;
 app.listen(PORT, () => {

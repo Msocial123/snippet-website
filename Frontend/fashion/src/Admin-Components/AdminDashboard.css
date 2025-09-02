@@ -1,20 +1,22 @@
 /* Container */
 .dashboard-container {
   display: flex;
-  height: 100vh;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fafb;
+  height: 100vh; /* Always full screen */
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
-  background: linear-gradient(180deg, #1e293b, #0f172a);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
+  width: 450px; /* Increased width */
+  background-color: #2c3e50;
+  color: white;
   padding: 20px 0;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  height: 100vh;
+  position: fixed; /* Sidebar stays fixed */
+  top: 0;
+  left: 0;
 }
 
 .sidebar-menu {
@@ -24,18 +26,21 @@
 }
 
 .sidebar-menu li {
-  padding: 14px 25px;
+  padding: 15px 25px;
   cursor: pointer;
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 25px; /* Increased font size */
   font-weight: 500;
   color: #d1d5db;
-  transition: background 0.3s, color 0.3s;
   border-radius: 8px;
   margin: 4px 12px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .sidebar-menu li:hover {
-  background: #334155;
+  background-color: #34495e;
   color: #fff;
 }
 
@@ -45,15 +50,22 @@
   font-weight: 600;
 }
 
+.sidebar-menu .icon {
+  margin-right: 12px;
+  font-size: 50px; /* Bigger icons */
+}
+
 /* Main Content */
 .main-content {
   flex: 1;
+  margin-left: 450px; /* Offset for fixed sidebar */
   padding: 30px;
-  overflow-y: auto;
+  min-height: 100vh;
+  background: #f8f9fa;
 }
 
 .main-content h2 {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #111827;
@@ -61,12 +73,12 @@
 
 /* Button */
 button {
-  padding: 10px 18px;
+  padding: 12px 22px;
   background-color: #1d4ed8;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 500;
   cursor: pointer;
   margin-bottom: 20px;
@@ -85,12 +97,13 @@ table {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  font-size: 22px;
 }
 
 th, td {
-  padding: 14px 18px;
+  padding: 16px 20px;
   text-align: left;
-  font-size: 15px;
+  font-size: 22px;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -110,15 +123,17 @@ tr:hover td {
 
 /* Edit Button */
 .edit-btn {
-  padding: 6px 14px;
+  padding: 8px 16px;
   background-color: #e5e7eb;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s;
+  font-size: 22px;
+  transition: 0.2s;
 }
 
 .edit-btn:hover {
   background-color: #d1d5db;
 }
+
+
