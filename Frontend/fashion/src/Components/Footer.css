@@ -61,3 +61,21 @@
     width: 100%;
   }
 }
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-wrapper {
+  min-height: 100vh; /* ensures full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1; /* pushes footer down */
+}

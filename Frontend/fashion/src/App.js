@@ -71,11 +71,14 @@ const AppContent = () => {
 
   return (
     <div
-      className={
-        hideNavbarRoutes.includes(location.pathname)
-          ? "auth-page"
-          : "layout-wrapper"
-      }
+      // className={
+      //   hideNavbarRoutes.includes(location.pathname)
+      //     ? "auth-page"
+      //     : "layout-wrapper"
+      // }
+       className={`layout-wrapper ${
+        hideNavbarRoutes.includes(location.pathname) ? "auth-page" : ""
+      }`}
     >
       <ToastContainer position="top-center" autoClose={2000} />
 

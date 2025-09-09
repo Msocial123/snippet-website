@@ -52,7 +52,7 @@ exports.getWishlist = async (req, res) => {
 
   try {
     const [wishlist] = await db.query(
-      `SELECT w.WishlistID, w.UID, w.PID, p.Name, p.Price, pd.Images
+      `SELECT w.WishlistID, w.UID, w.PID, p.Name, p.Price, p.Brand, pd.Images
        FROM wishlist w
        JOIN products p ON w.PID = p.PID
        LEFT JOIN product_details pd ON p.PID = pd.PID

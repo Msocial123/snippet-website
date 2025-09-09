@@ -372,6 +372,7 @@ const LandingPage = () => {
 
       {/* Products */}
       <section className="products-section">
+        <div className="content-container">
         <h2 className="section-title">Best Selling Product</h2>
 
         {/* Filters */}
@@ -401,6 +402,7 @@ const LandingPage = () => {
             <ProductCard key={product.PID} product={product} />
           ))}
         </div>
+        
 
         {/* Load More */}
         {visibleCount < products.length && (
@@ -411,8 +413,9 @@ const LandingPage = () => {
             Load More
           </button>
         )}
-      </section>
-
+        </div>
+     
+</section>
       {/* Features */}
       <section className="features">
         <div className="features-list">

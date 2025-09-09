@@ -149,14 +149,16 @@
 
 /* Quantity buttons */
 .quantity-control button {
-  width: 29px;
-  height: 29px;
-  font-size: 16px;
+  width: 36px;
+  height: 36px;
   border: 1px solid #ddd;
-  background: #fff;
+  background: none;
+  font-size: 18px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.2s;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .quantity-control button:hover {
