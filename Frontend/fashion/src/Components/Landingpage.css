@@ -1,12 +1,16 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important; /* prevent sideways scroll */
+}
+
 /* Root Container */
 .landing-root {
-  background: #f6f7fb;
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-  min-height: 100vh;
-  padding: 100px 2rem 2rem 2rem;  /* top padding = gap for fixed header */
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+background: #fff;
+width: 100%;
+max-width: 100%;
+margin: 0;
+padding: 0;
 }
 
 /* Hero Banner */
@@ -33,7 +37,6 @@
   position: absolute;
   top: 50%;
   left: 8%;
-  transform: translateY(-50%);
   color: #262424;
   background: #ede8e8db;
   padding: 2rem 3rem;
@@ -349,44 +352,47 @@
 }
 /* Section Title */
 .section-title {
-   font-size: 4rem !important;
-  font-weight: 700;
-  margin-top: 5rem; /* ⬅ Add this */
-  margin-bottom: 1.5rem;
-  color: #1f2937;
-  font-family: 'Courier New', Courier, monospace;
+ font-size: 3rem !important;
+  font-weight: 800 !important;
+  color: #222 !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 3rem !important;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1) !important;
 }
 /* Product Filters */
 .product-filters {
-  display: flex;
-  justify-content: center; /* centered looks more balanced */
-  gap: 1.2rem;
-  margin: 2rem auto;
-  flex-wrap: wrap;
-  padding: 1rem;
+   display: flex !important;
+  justify-content: center !important;
+  gap: 15px !important;
+  margin: 0 auto 3rem auto !important;
+  flex-wrap: wrap !important;
+  max-width: 1200px !important;
+  padding: 0 20px !important;
 }
 
 .product-filters .btn {
-  background: #ffffffcc; /* semi-transparent white for soft look */
-  color: #22223b;
-  border: 2px solid #22223b;
-  padding: 0.6rem 1.5rem;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 2rem;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
+background: #ffffffcc !important;
+  color: #22223b !important;
+  border: 2px solid #22223b !important;
+  padding: 0.6rem 1.5rem !important;
+  border-radius: 30px !important;
+  cursor: pointer !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease !important;
+  backdrop-filter: blur(4px) !important;
 }
 
 .product-filters .btn:hover,
 .product-filters .btn.active {
-  background: #22223b;
-  color: #ffffff;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
+  background: #22223b !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-2px) !important;
 }
 
 .product-filters .btn:focus {
@@ -409,24 +415,23 @@
   padding: 30px 10px;
 } */
 /* Individual product card */
-.product-grid {
+/* .product-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* exactly 4 items per row */
-  gap: 30px;
+  /* gap: 30px;
   padding: 30px 10px;
-  justify-items: center;
-}
+  justify-items: center; */
+/* } */ */
 
 .product-card {
-  width: 480px; /* or 300px, increase as needed */
+width: 100% !important; /* Change from fixed width to 100% */
+  max-width: 300px; /* Set max-width instead of fixed width */
   background: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 300px;
   padding: 16px;
   box-sizing: border-box;
-   width: 500%;
-  max-width: 430px; /* ⬅ limits the width of the card */
+  transition: transform 0.3s ease;/* ⬅ limits the width of the card */
 }
 .product-card:hover {
   transform: translateY(-5px);
@@ -441,9 +446,10 @@
   justify-content: center;
 }
 .product-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+ width: 100% !important;
+  height: 100%!important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
 }
 
 /* Product Info */
@@ -699,3 +705,132 @@ section h2::after {
     font-size: 1rem;
   }
 }
+
+
+/* FINAL OVERRIDE FOR PRODUCT GRID ON LANDING PAGE */
+.product-grid {
+   width: 100%;
+  max-width: 100%;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 30px;
+margin: 0;
+padding: 0;
+background: transparent; /* let white parent show */
+box-sizing: border-box;
+justify-items: stretch;
+align-items: stretch;
+justify-content: start;
+}
+
+
+/* Make product cards fill more space */
+.product-card {
+width: 100%;           /* take full grid cell */
+  max-width: none;       /* remove cap */
+  min-height: 480px;     /* make them tall enough */
+  border-radius: 16px;
+  background:white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* Product images big & full inside the card */
+.product-img-wrap {
+width: 100%;
+  height: 400px;       /* adjust to match Home.css */
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 14px !important;
+}
+
+.products-section {  
+  width: 100%;           /* Full viewport width */
+  margin: 0 !important;
+  padding: 50px 0;           /* Keep vertical padding */
+  background: #fff;          /* White background box */
+}
+
+.product-section {
+  width: 100%;
+}
+/* 
+@media (max-width: 1800px) {
+  .product-grid {
+    grid-template-columns: repeat(4, minmax(280px, 1fr)) !important;
+    max-width: 1600px !important;
+  }
+}
+
+@media (max-width: 1500px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(300px, 1fr)) !important;
+    max-width: 1400px !important;
+  }
+} */
+
+@media (max-width: 1100px) {
+  .product-grid {
+   grid-template-columns: repeat(2, 1fr) !important;
+        max-width: 100vw !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* FINAL FIX – full width product grid */
+body .layout-wrapper .page-content .home-full-width .products-container .product-grid,
+.product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important; /* always 4 per row on large screens */
+  gap: 30px !important;
+
+  width: 100vw !important;       /* full viewport width */
+  max-width: 100vw !important;   /* stop limiting */
+  margin: 0 !important;          /* no auto margins */
+  padding: 0  !important;         /* no left/right padding */
+  box-sizing: border-box !important;
+align-items: stretch !important;
+  justify-items: stretch !important; /* cards stretch evenly */
+}
+
+/* Product cards stretch within grid */
+.product-item .product-card,
+.product-card {
+  width: 100% !important;
+  max-width: none !important;   /* remove hard cap */
+  min-height: 600px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12) !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Bigger images inside cards */
+.product-card .product-img-wrap {
+  width: 100% !important;
+  height: 600px !important;
+}
+
+.product-card .product-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+

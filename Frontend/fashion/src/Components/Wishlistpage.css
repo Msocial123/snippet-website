@@ -12,21 +12,24 @@
   text-align: center;
   margin-bottom: 20px;
   color: #333;
+  font-size: 1.8rem;
 }
 
 .no-wishlist-message {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #777;
   margin-top: 40px;
 }
 
 /* Grid layout */
 .wishlist-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 20px;
+   display: grid;
+  grid-template-columns: repeat(4, 380px);  /* Larger, fixed-width columns */
+  gap: 32px;                                /* Bigger gap for open, roomy look */
+  padding: 32px 0;                          /* Vertical padding only, let grid be truly centered */
+  justify-content: center;                  /* Grid centered horizontally */
+  box-sizing: border-box;
 }
 
 /* Card styling */
@@ -38,10 +41,24 @@
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease;
+  width: 380px;         /* Increased width */
+  height: 610px;        /* Increased height */
+  display: flex;
+  flex-direction: column;
 }
 
 .wishlist-item-wrapper:hover {
   transform: scale(1.02);
+}
+
+/* Product image styling */
+.wishlist-item-wrapper .product-img {
+  width: 100%;
+  height: 300px;        /* Bigger, more visual impact */
+  object-fit: cover;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  display: block;
 }
 
 /* Wishlist icon styling */
@@ -51,7 +68,7 @@
   right: 12px;
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  font-size: 1.7rem;
+  font-size: 2rem;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
   color: #aaa;
@@ -75,10 +92,24 @@
   text-align: center;
 }
 
-/* Responsive layout */
+@media screen and (max-width: 1200px) {
+  .wishlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .wishlist-item-wrapper {
+    width: 90vw;
+    max-width: 400px;
+  }
+}
 @media screen and (max-width: 600px) {
   .wishlist-grid {
     grid-template-columns: 1fr;
     padding: 10px;
+  }
+  .wishlist-item-wrapper {
+    width: 98vw;
+    max-width: 420px;
+    margin: 0 auto;
   }
 }

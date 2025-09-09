@@ -210,11 +210,12 @@ const PaymentPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+      console.log("Order Details in Payment Page:", response.data); 
       setOrderDetails(response.data);
       setPaymentData(prev => ({
         ...prev,
-        amount: response.data.totalAmount || 0,
-        paymentMethod: response.data.paymentMethod || "Card"
+        amount: (response.data.TotalPrice || 0) - (response.data.DiscountAmount || 0),
+  paymentMethod: response.data.PaymentMethod || "Card"
       }));
     } catch (err) {
       setError("Failed to fetch order details");
@@ -233,12 +234,12 @@ const PaymentPage = () => {
   };
 
   const handlePaymentMethodSelect = (method) => {
-    setPaymentData(prev => ({
-      ...prev,
-      paymentMethod: method,
-      transactionId: generateTransactionId(),
-      paymentId: generatePaymentId()
-    }));
+    // setPaymentData(prev => ({
+    //   ...prev,
+    //   paymentMethod: method,
+    //   transactionId: generateTransactionId(),
+    //   paymentId: generatePaymentId()
+    // }));
     setPaymentStep(2);
     setError("");
   };
@@ -411,10 +412,11 @@ const PaymentPage = () => {
             </div>
             <div className="summary-row total">
               <span>Total Amount:</span>
-              {/* <span className="amount">₹{orderDetails?.totalAmount || paymentData.amount}</span> */}
-              <span className="amount">
-  ₹{orderDetails?.FinalAmount || orderDetails?.totalAmount || paymentData.amount}
-</span>
+        
+<span>
+    ₹{(orderDetails?.TotalPrice || 0) - (orderDetails?.DiscountAmount || 0)}
+  </span>
+
             </div>
           </div>
         </div>
