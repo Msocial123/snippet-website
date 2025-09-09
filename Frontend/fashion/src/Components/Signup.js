@@ -303,6 +303,8 @@ const Signup = () => {
   };
 
   return (
+    <>
+      <header className="login-header">Snippet</header>
     <div className="signup-container">
       {message && (
         <div className={`popup-message ${success ? 'success' : 'error'}`}>
@@ -332,6 +334,7 @@ const Signup = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

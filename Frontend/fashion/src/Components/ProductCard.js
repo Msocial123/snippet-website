@@ -173,12 +173,12 @@ const ProductCard = ({ product, disableWishlist = false }) => {
           </div>
         )}
 
-        <img
-          src={`/images/${image}`}
-          alt={product.Name || "Product"}
-          className="product-img"
-          onError={(e) => (e.target.src = "/images/fallback.png")}
-        />
+     <img
+  src={`http://localhost:5000/uploads/${image}`}
+  alt={product.Name || "Product"}
+  className="product-img"
+  onError={(e) => (e.target.src = "/images/fallback.png")}
+/>
 
         <div className="product-info">
           <p className="brand-name">{product.Brand || "Unknown Brand"}</p>

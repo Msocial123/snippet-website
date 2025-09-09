@@ -1,17 +1,22 @@
+/* ============================
+   Banner Slider Styles
+============================ */
+
 /* Base banner container */
 .container-fluid-slider {
   width: 100%;
   overflow: hidden;
-  margin-top: 80px; /* Adjust based on fixed header */
-  margin-bottom: 40px;
+  margin-top: 10px; /* Adjust if header is fixed */
+  margin-bottom: 20px;
   padding: 0;
 }
 
 /* Image base style */
 .custom-img {
-  height: 300px;
-  object-fit: fill;
+  height: 45vh; /* ⬅️ Reduced from 70vh */
+  object-fit: fill; /* Keep aspect ratio without stretching */
   transition: transform 0.4s ease;
+  width: 100%;
 }
 
 /* Hover zoom effect (optional) */
@@ -19,65 +24,10 @@
   transform: scale(1.02);
 }
 
-/* Medium devices (tablets) */
-@media (max-width: 992px) {
-  .custom-img {
-    height: 600px;
-  }
-}
-
-/* Small devices (large phones) */
-@media (max-width: 768px) {
-  .custom-img {
-    height: 250px;
-  }
-}
-
-/* Extra small devices (phones) */
-@media (max-width: 576px) {
-  .custom-img {
-    height: 180px;
-  }
-
-  .container-fluid-slider {
-    padding-top: 20px;
-  }
-}
-
-/* Very small devices */
-@media (max-width: 400px) {
-  .custom-img {
-    height: 150px;
-  }
-}
-.banner {
-  position: relative;
-  width: 100%;
-  height: 10vh; /* ⬅️ Increased from 60vh or similar to 100vh */
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-align: center;
-}
-/* Ensure the slider container takes full width */
-.container-fluid-slider {
-  padding: 0;
-  margin: 0;
-}
-
-/* Adjusted carousel and image height */
+/* Carousel container */
 .carousel-inner,
-.carousel-item,
-.custom-img {
-  height: 70vh; /* Reduced from 85vh */
-}
-
-/* Ensure image covers the space neatly */
-.custom-img {
-  object-fit: fill;
-  width: 100%;
+.carousel-item {
+  height: 45vh; /* Match reduced image height */
 }
 
 /* Smooth transition */
@@ -101,4 +51,48 @@
 
 .carousel-indicators .active {
   background-color: #fff;
+}
+
+/* ============================
+   Responsive Adjustments
+============================ */
+
+/* Medium devices (tablets) */
+@media (max-width: 992px) {
+  .custom-img,
+  .carousel-inner,
+  .carousel-item {
+    height: 40vh;
+  }
+}
+
+/* Small devices (large phones) */
+@media (max-width: 768px) {
+  .custom-img,
+  .carousel-inner,
+  .carousel-item {
+    height: 35vh;
+  }
+}
+
+/* Extra small devices (phones) */
+@media (max-width: 576px) {
+  .custom-img,
+  .carousel-inner,
+  .carousel-item {
+    height: 28vh;
+  }
+
+  .container-fluid-slider {
+    padding-top: 15px;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+  .custom-img,
+  .carousel-inner,
+  .carousel-item {
+    height: 25vh;
+  }
 }

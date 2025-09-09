@@ -1,178 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import "./AdminProducts.css";
-// function AdminProducts() {
-//   const [products, setProducts] = useState([]);
-//   const [form, setForm] = useState({
-//     name: "",
-//     price: "",
-//     category: "",
-//     brand: "",
-//     description: "",
-//     images: "",
-//     keywords: ""
-//   });
 
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
-
-//   const fetchProducts = async () => {
-//     const res = await axios.get("http://localhost:5000/api/admin/products");
-//     setProducts(res.data);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     await axios.post("http://localhost:5000/api/admin/products", form);
-//     setForm({ name: "", price: "", category: "", brand: "", description: "", images: "", keywords: "" });
-//     fetchProducts();
-//   };
-
-//   const handleDelete = async (pid) => {
-//     await axios.delete(`http://localhost:5000/api/admin/products/${pid}`);
-//     fetchProducts();
-//   };
-
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-xl font-bold mb-4">Product Management</h2>
-
-//       {/* Add Product Form */}
-//       <form onSubmit={handleSubmit} className="mb-6 grid grid-cols-2 gap-4">
-//         {Object.keys(form).map((key) => (
-//           <input
-//             key={key}
-//             placeholder={key}
-//             value={form[key]}
-//             onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-//             className="border p-2 rounded"
-//           />
-//         ))}
-//         <button type="submit" className="col-span-2 bg-blue-600 text-white py-2 rounded">
-//           Add Product
-//         </button>
-//       </form>
-
-//       {/* Product List */}
-//       <table className="w-full border">
-//         <thead>
-//           <tr className="bg-gray-100">
-//             <th>ID</th><th>Name</th><th>Price</th><th>Category</th><th>Brand</th>
-//             <th>Rating</th><th>Variants</th><th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {products.map((p) => (
-//             <tr key={p.PID} className="border-t">
-//               <td>{p.PID}</td>
-//               <td>{p.Name}</td>
-//               <td>₹{p.Price}</td>
-//               <td>{p.Category}</td>
-//               <td>{p.Brand}</td>
-//               <td>{p.AvgRating || "N/A"}</td>
-//               <td>{p.Variants || "No Variants"}</td>
-//               <td>
-//                 <button onClick={() => handleDelete(p.PID)} className="bg-red-500 text-white px-2 py-1 rounded">
-//                   Delete
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-// export default AdminProducts;
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import "./AdminProducts.css";
-
-// function AdminProducts() {
-//   const [products, setProducts] = useState([]);
-//   const [form, setForm] = useState({
-//     name: "",
-//     price: "",
-//     category: "",
-//     brand: "",
-//     description: "",
-//     images: "",
-//     keywords: ""
-//   });
-
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
-
-//   const fetchProducts = async () => {
-//     const res = await axios.get("http://localhost:5000/api/admin/products");
-//     setProducts(res.data);
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     await axios.post("http://localhost:5000/api/admin/products", form);
-//     setForm({ name: "", price: "", category: "", brand: "", description: "", images: "", keywords: "" });
-//     fetchProducts();
-//   };
-
-//   const handleDelete = async (pid) => {
-//     await axios.delete(`http://localhost:5000/api/admin/products/${pid}`);
-//     fetchProducts();
-//   };
-
-//   return (
-//     <div className="admin-container">
-//       <h2 className="admin-title">Product Management</h2>
-
-//       {/* Add Product Form */}
-//       <form onSubmit={handleSubmit} className="admin-form">
-//         {Object.keys(form).map((key) => (
-//           <input
-//             key={key}
-//             placeholder={key}
-//             value={form[key]}
-//             onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-//           />
-//         ))}
-//         <button type="submit">Add Product</button>
-//       </form>
-
-//       {/* Product List */}
-//       <table className="admin-table">
-//         <thead>
-//           <tr>
-//             <th>ID</th><th>Name</th><th>Price</th><th>Category</th><th>Brand</th>
-//             <th>Rating</th><th>Variants</th><th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {products.map((p) => (
-//             <tr key={p.PID}>
-//               <td>{p.PID}</td>
-//               <td>{p.Name}</td>
-//               <td>₹{p.Price}</td>
-//               <td>{p.Category}</td>
-//               <td>{p.Brand}</td>
-//               <td>{p.AvgRating || "N/A"}</td>
-//               <td>{p.Variants || "No Variants"}</td>
-//               <td>
-//                 <button onClick={() => handleDelete(p.PID)} className="delete-btn">
-//                   Delete
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-// export default AdminProducts;
 
 
 import React, { useEffect, useState } from "react";
@@ -301,6 +127,23 @@ function AdminProducts() {
     });
   };
 
+  const handleRestock = async (product) => {
+  const restockValue = prompt("Enter new stock quantity to add for all variants:");
+  if (!restockValue || isNaN(restockValue)) return alert("Invalid stock quantity");
+
+  try {
+    await axios.put(`http://localhost:5000/api/admin/products/${product.PID}/restock`, {
+      stock: Number(restockValue),
+    });
+    await fetchProducts();
+    alert("Stock updated successfully");
+  } catch (err) {
+    console.error("Restock failed", err);
+    alert("Failed to update stock");
+  }
+};
+
+
   return (
     <div className="admin-container">
       <h2 className="admin-title">Product Management</h2>
@@ -368,51 +211,71 @@ function AdminProducts() {
       </form>
 
       {/* Product List */}
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th><th>Name</th><th>Price</th><th>Category</th>
-            <th>Gender</th><th>Brand</th><th>Rating</th>
-            <th>Variants</th><th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(products || []).map((p) => (
-            <tr key={p.PID}>
-              <td>{p.PID}</td>
-              <td>{p.Name}</td>
-              <td>₹{Number(p.Price).toFixed(2)}</td>
-              <td>{p.Category}</td>
-              <td>{p.Gender || "-"}</td>
-              <td>{p.Brand}</td>
-              <td>{p.AvgRating || "N/A"}</td>
-              <td>
-                {Array.isArray(p.Variants) &&
-                  p.Variants.map((v, i) => (
-                    <div key={i}>
-                      {v.Size} - {v.Color} ({v.StockQuantity})
-                      {v.VariantImageURL && (
-                        <img
-                          src={`http://localhost:5000/uploads/${v.VariantImageURL}`}
-                          alt={`${v.Color}-${v.Size}`}
-                          width="60"
-                          style={{ marginLeft: "8px", borderRadius: "4px" }}
-                        />
-                      )}
-                    </div>
-                  ))}
-              </td>
-              <td>
-                <button onClick={() => handleEdit(p)} className="edit-btn">Edit</button>
-                <button onClick={() => handleDelete(p.PID)} className="delete-btn">Delete</button>
-              </td>
-            </tr>
-          ))}
-          {(!products || !products.length) && (
-            <tr><td colSpan="9">No products found.</td></tr>
-          )}
-        </tbody>
-      </table>
+     <table className="admin-table">
+  <thead>
+    <tr>
+      <th>ID</th><th>Name</th><th>Price</th><th>Category</th>
+      <th>Gender</th><th>Brand</th><th>Images</th>
+      <th>Rating</th><th>Variants</th><th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {(products || []).map((p) => (
+      <tr key={p.PID}>
+        <td>{p.PID}</td>
+        <td>{p.Name}</td>
+        <td>₹{Number(p.Price).toFixed(2)}</td>
+        <td>{p.Category}</td>
+        <td>{p.Gender || "-"}</td>
+        <td>{p.Brand}</td>
+
+        {/* ✅ Product-level images */}
+        <td>
+          {Array.isArray(p.Images) &&
+            p.Images.map((img, i) => (
+              <img
+                key={i}
+                src={`http://localhost:5000/uploads/${img}`}
+                alt={`product-${p.PID}-${i}`}
+                width="60"
+                style={{ marginRight: "8px", borderRadius: "4px" }}
+              />
+            ))}
+        </td>
+
+        <td>{p.AvgRating || "N/A"}</td>
+
+        {/* ✅ Variants */}
+        <td>
+          {Array.isArray(p.Variants) &&
+            p.Variants.map((v, i) => (
+              <div key={i}>
+                {v.Size} - {v.Color} ({v.StockQuantity})
+                {v.VariantImage && (
+                  <img
+                    src={`http://localhost:5000/uploads/${v.VariantImage}`}
+                    alt={`${v.Color}-${v.Size}`}
+                    width="60"
+                    style={{ marginLeft: "8px", borderRadius: "4px" }}
+                  />
+                )}
+              </div>
+            ))}
+        </td>
+
+        {/* Actions */}
+        <td>
+          <button onClick={() => handleEdit(p)} className="edit-btn">Edit</button>
+          <button onClick={() => handleDelete(p.PID)} className="delete-btn">Delete</button>
+          <button onClick={() => handleRestock(p)} className="restock-btn">Restock</button>
+        </td>
+      </tr>
+    ))}
+    {(!products || !products.length) && (
+      <tr><td colSpan="10">No products found.</td></tr>
+    )}
+  </tbody>
+</table>
     </div>
   );
 }

@@ -119,19 +119,22 @@
 //   console.log(`🚀 Server running at http://localhost:${PORT}`);
 // });
 
-
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const app = express();
-const db = require("./db");
+const session = require("express-session");
+const bcrypt = require("bcryptjs");
 
-const router = express.Router();
+const app = express();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // Controllers
 const adminProducts = require("./Controller/adminProductsController.js");
-
+const adminOrdersRouter = require("./Routes/adminOrders");
 // const ordersRouter = require("./Routes/orderRoutes");
-
+// router.put("/products/:id/restock", adminProducts.restockProduct);
 
 const {
   signup,
@@ -154,9 +157,16 @@ const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
 
 const paymentRoutes = require("./Routes/paymentRoutes");
 // Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -175,8 +185,8 @@ const variantRoutes = require("./Routes/variantRoutes");
 const productRoutes = require("./Routes/productRoutes");
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+
+
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/public', express.static('public'));
@@ -188,6 +198,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+
 app.use("/api/admin/products", adminProducts);
 app.use("/api/admin/users", userRoutes);
 app.post("/api/signup", signup);
@@ -231,7 +242,107 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const wishlistCartRoutes = require("./Routes/adminWishlistCart");
 app.use("/api/admin/wishlist-cart", wishlistCartRoutes);
 
+const reportsRoutes = require("./Routes/reports");
+app.use("/api/reports", reportsRoutes);
 
+const inventoryRoutes = require("./Routes/inventoryRoutes");
+app.use("/api/inventory", inventoryRoutes);
+
+const adminRoutes = require("./Routes/admin");
+app.use("/api/admin", adminRoutes);
+
+
+// Routes
+app.use("/api/admin/orders", adminOrdersRouter);
+
+app.get("/", (req, res) => {
+  res.send("Snitch Store API running");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ✅ Allow React frontend with credentials
+
+// ✅ Session setup
+app.use(
+  session({
+    secret: "super-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // use true only with https
+  })
+);
+
+// ✅ Hardcoded Admin (with bcrypt hash)
+const ADMIN = {
+  email: "admin@snippet.com",
+  passwordHash: bcrypt.hashSync("Admin@123", 10),
+};
+
+// ✅ Admin Login Route
+app.post("/api/admin/login", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("📩 Incoming login:", email, password);
+
+  if (email !== ADMIN.email) {
+    console.log("❌ Wrong email");
+    return res.status(401).json({ message: "Invalid admin credentials" });
+  }
+
+  const validPass = await bcrypt.compare(password, ADMIN.passwordHash);
+  console.log("🔑 Password valid?", validPass);
+
+  if (!validPass) {
+    console.log("❌ Wrong password");
+    return res.status(401).json({ message: "Invalid admin credentials" });
+  }
+
+  req.session.admin = true;
+  res.json({ message: "Login successful", admin: true });
+});
+
+// ✅ Logout Route
+app.post("/api/admin/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.json({ message: "Logout successful" });
+  });
+});
+
+// ✅ Check Session Route
+app.get("/api/admin/check", (req, res) => {
+  res.json({ loggedIn: !!req.session.admin });
+});
+
+// ✅ Example: static files, routes
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.get("/", (req, res) => {
+  res.send("Snitch Store API running");
+});
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log("✅ Registering product routes at /api/products");

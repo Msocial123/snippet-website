@@ -14,6 +14,7 @@ import Footer from "./Components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./Admin-Components/AdminDashboard";
+import AdminLogin from "./Admin-Components/AdminLogin";
 // Pages & Features
 import CartPage from "./Components/CartPage";
 import CartDrawer from "./Components/CartDrawer";
@@ -86,6 +87,7 @@ const AppContent = () => {
           {/* Admin */}
            <Route path="/admin" element={<AdminDashboard />} />
            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
           {/* Landing & Home */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />
