@@ -1,5 +1,13 @@
 /* Signup.css */
-
+/* Header */
+.login-header {
+  background-color: #b9a6a6;
+  color: black;
+  font-size: 2.9rem;
+  padding: 10px 20px;
+  font-family: 'Georgia', serif;
+  text-align: left;
+}
 /* Background */
 /* Signup.css */
 
@@ -9,13 +17,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 150vh;
 
   /* Background Image with Gradient Overlay */
   background:
 
-url("C:\Users\91984\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg") no-repeat center center;
+url("C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg") no-repeat center center;
 background-size: 60% 90%;
+/* C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg */
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -26,7 +35,7 @@ background-size: 60% 90%;
   font-size: 3rem;
   margin-bottom: 25px;
   font-weight: 700;
-  color:  #b9a6b9; /* deep blue */
+  color:  #795f79; /* deep blue */
 }
 
 /* Form Box */

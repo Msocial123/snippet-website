@@ -1,0 +1,644 @@
+/* File: frontend/src/pages/Admin/OrderManagement.css */
+
+/* Page layout */
+.order-page {
+  padding: 25px;
+  font-family: Arial, sans-serif;
+  font-size: 18px; /* Bigger base font */
+  color: #222; /* Darker text for visibility */
+}
+
+.order-page h1 {
+  margin-bottom: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #111;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
+  font-size: 18px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  padding: 10px 14px;
+  border: 1px solid #999;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.filters button {
+  font-weight: bold;
+  background: #e6e6e6;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  background: #ccc;
+}
+
+.filters .info {
+  margin-left: 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+.filters .error {
+  margin-left: 10px;
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  border: 1px solid #444;
+  padding: 12px;
+  text-align: left;
+}
+
+.table-wrapper th {
+  background: #f0f0f0;
+  font-weight: bold;
+  font-size: 20px;
+  color: #111;
+}
+
+.table-wrapper td {
+  font-size: 18px;
+  color: #222;
+}
+
+.no-data {
+  text-align: center;
+  color: #555;
+  padding: 18px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Status Pills */
+.status-pill {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.status-pending { background: #ffeeba; color: #856404; }
+.status-paid { background: #b8daff; color: #004085; }
+.status-shipped { background: #bee5eb; color: #0c5460; }
+.status-delivered { background: #c3e6cb; color: #155724; }
+.status-cancelled { background: #f5c6cb; color: #721c24; }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  border: 1px solid #999;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.pagination button:hover {
+  background: #ddd;
+}
+
+.pagination button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Modal */
+/* === Modal Overlay (Dark Background) === */
+/* === Modal Overlay (dark background) === */
+/* Main container (modal) */
+/* Modal Overlay */
+/* Dark Overlay Behind Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Higher than table */
+}
+
+/* Modal Box */
+.modal-content {
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.5);
+
+  /* Make text clear */
+  font-size: 18px;
+  color: #222;
+  font-weight: 500;
+  border: 2px solid #2c3e50;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Close Button */
+.modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-header button:hover {
+  color: #000;
+}
+
+/* Order Info Rows */
+/* Overlay background */
+.order-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* dark background */
+  display: flex;
+  justify-content: center;
+  align-items: center;  /* <-- ensures vertical centering */
+  z-index: 1000;
+}
+
+/* Main container */
+.order-details-container {
+  background: #ffffff;
+  width: 70%;
+  max-width: 900px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  z-index: 1100;
+  overflow-y: auto;
+  max-height: 90vh; /* Prevents overflow off screen */
+}
+
+/* Close button */
+.order-details-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #666;
+  font-weight: bold;
+}
+
+.order-details-close:hover {
+  color: #000;
+}
+
+
+/* === Header === */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.modal-header button {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-header button:hover {
+  color: #000;
+}
+
+/* === Section Blocks (Customer, Order, Payment) === */
+.section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background:  #ffF;
+  border: 1px solid #fff;
+  border-radius: 6px;
+}
+
+.section h4 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 6px;
+}
+
+/* === Details Grid === */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.details-grid div {
+  font-size: 16px;
+}
+
+.details-grid strong {
+  display: block;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+/* === Items Table === */
+.items table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+.items th,
+.items td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.items th {
+  background: #2c3e50;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: left;
+}
+
+.items td {
+  color: #222;
+}
+
+/* === Totals Section === */
+.totals {
+  margin-top: 20px;
+  padding: 15px 20px;
+  background: #f1f5ff;
+  border: 2px solid #3366cc;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  color: #003366;
+}
+/* frontend/src/pages/Admin/OrderManagement.css
+   Cleaned & improved: strong contrast, readable fonts, centered modal,
+   visible section cards, professional table/totals styling.
+*/
+
+/* === Theme variables === */
+:root{
+  --bg: #ffffff;
+  --muted-bg: #f5f8fb;
+  --card-bg: #f4f7fb;
+  --accent: #0b3d91; /* deep blue accent */
+  --accent-strong: #163b7a;
+  --text: #111214;
+  --muted-text: #3b4b5b;
+  --danger: #b74141;
+  --box-shadow: 0 12px 40px rgba(0,0,0,0.38);
+}
+
+/* ==== Page base ==== */
+.order-page {
+  padding: 28px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 18px;
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+.order-page h1 {
+  margin-bottom: 22px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent-strong);
+  letter-spacing: 0.2px;
+}
+
+/* ==== Filters ==== */
+.filters {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-bottom:18px;
+  font-size:17px;
+}
+
+.filters input,
+.filters select,
+.filters button {
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid #cfd9ea;
+  font-size:16px;
+  background: #fff;
+  color: var(--text);
+}
+
+.filters button{
+  background: var(--accent);
+  color:#fff;
+  border-color: var(--accent);
+  font-weight:700;
+  cursor:pointer;
+}
+
+.filters button:hover{ opacity:0.95; }
+
+/* ==== Main table ==== */
+.table-wrapper{ overflow-x:auto; margin-top:8px; }
+
+.table-wrapper table{
+  width:100%;
+  border-collapse: collapse;
+  font-size:16px;
+}
+
+.table-wrapper th,
+.table-wrapper td{
+  padding:14px;
+  border-bottom:1px solid #e7eef8;
+  text-align:left;
+  vertical-align:middle;
+}
+
+.table-wrapper th{
+  background:#f1f6ff;
+  color:var(--accent-strong);
+  font-weight:700;
+  font-size:17px;
+  border-bottom:2px solid #dbe7fb;
+}
+
+.table-wrapper td{ color:var(--muted-text); font-size:16px; }
+
+.no-data{ text-align:center; padding:18px; color:#6b7280; font-weight:600; }
+
+/* ==== Status pills ==== */
+.status-pill{
+  padding:6px 12px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:14px;
+  display:inline-block;
+  text-transform:capitalize;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+
+/* colors */
+.status-pending{ background:#fff4cd; color:#8a6d1f; }
+.status-paid{ background:#dbeeff; color:#003a7a; }
+.status-shipped{ background:#dff3f8; color:#0a5f6f; }
+.status-delivered{ background:#e7f6ea; color:#11623b; }
+.status-cancelled{ background:#ffe6e9; color:#8b1f2d; }
+
+/* ==== Pagination ==== */
+.pagination{ display:flex; gap:12px; align-items:center; margin-top:18px; }
+.pagination button{
+  padding:8px 14px; border-radius:8px; border:1px solid #cfd9ea; background:#fff; cursor:pointer; font-weight:700;
+}
+.pagination button:disabled{ opacity:0.5; cursor:not-allowed; }
+
+/* =========================
+   MODAL (centered, visible)
+   ========================= */
+
+/* overlay - ensure topmost and dark so modal pops visually */
+.modal-overlay{
+  position: fixed !important;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3,10,33,0.75); /* dark, high-contrast */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* very high */
+  padding: 20px;
+}
+
+/* modal box */
+.modal-content{
+  width: 92%;
+  max-width: 1100px;
+  max-height: 88vh;
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: var(--box-shadow);
+  border: 3px solid rgba(11,61,145,0.12); /* subtle colored border */
+  overflow-y: auto;
+  color: var(--text);
+  transform: translateY(0);
+  animation: modalPop .18s ease-out;
+}
+
+/* small animation to emphasize open */
+@keyframes modalPop {
+  from { transform: translateY(10px) scale(.995); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* header of modal */
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.modal-header h3{
+  margin:0;
+  font-size:26px;
+  font-weight:800;
+  color:var(--accent-strong);
+  letter-spacing:0.2px;
+}
+
+.modal-header button{
+  border:none;
+  background:transparent;
+  font-size:26px;
+  cursor:pointer;
+  color:#5b6678;
+}
+
+/* ===== Section cards inside modal =====
+   make them visible (not white-on-white) */
+.section{
+  background: var(--card-bg); /* soft card background */
+  border: 1px solid #dce8fb;
+  border-radius:8px;
+  padding:14px;
+  margin-bottom:16px;
+  color:var(--muted-text);
+}
+
+/* section title */
+.section h4{
+  margin:0 0 10px 0;
+  font-size:18px;
+  color:var(--accent-strong);
+  font-weight:800;
+}
+
+/* details grid: 2-3 column responsive */
+.details-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
+}
+
+/* single detail row inside grid */
+.details-grid .detail-row{
+  font-size:16px;
+  color:var(--muted-text);
+}
+.details-grid .detail-row strong{
+  display:block;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:6px;
+  font-size:15px;
+}
+
+/* Items table inside modal (product rows) */
+.items table, .order-items{
+  width:100%;
+  border-collapse: collapse;
+  font-size:16px;
+  margin-top:8px;
+}
+
+.items th, .order-items th{
+  background: var(--accent);
+  color:#fff;
+  padding:12px;
+  font-weight:800;
+  text-align:left;
+  border-bottom:2px solid rgba(255,255,255,0.06);
+}
+
+.items td, .order-items td{
+  padding:12px;
+  border-bottom:1px solid #e6eef9;
+  background: #fff;
+  color:var(--muted-text);
+}
+
+/* stripe rows for clarity (optional) */
+.items tr:nth-child(even) td, .order-items tr:nth-child(even) td{
+  background:#fbfdff;
+}
+
+/* totals box - very visible */
+.totals, .order-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  background: linear-gradient(180deg,#083f8c 0%, #0b3d91 100%);
+  color:#fff;
+  padding:14px 18px;
+  border-radius:8px;
+  margin-top:14px;
+  font-size:18px;
+  font-weight:800;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+/* small utility styles */
+.badge {
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:12px;
+  font-weight:700;
+  background:#eef4ff;
+  color:var(--accent-strong);
+}
+
+/* responsive tweaks */
+@media (max-width:760px){
+  .modal-content{ padding:18px; max-height:92vh; width:96%; }
+  .table-wrapper th, .table-wrapper td { padding:10px; font-size:15px; }
+  .filters input, .filters select, .filters button { font-size:15px; padding:8px 10px; }
+  .modal-header h3 { font-size:20px; }
+  .section h4{ font-size:16px; }
+  .details-grid .detail-row strong{ font-size:14px; }
+  .items th, .items td { font-size:14px; padding:10px; }
+  .totals { font-size:16px; padding:12px; }
+}
+
+/* final focus: ensure modal always above other elements */
+.modal-overlay, .modal-content { z-index: 9999 !important; }

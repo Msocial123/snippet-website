@@ -46,7 +46,7 @@ import './BannerSlider.css';
 
 const BannerSlider = () => {
   const images = [
-    "banner4.png",
+    "banner1.png",
     "banner2.png",
     "banner3.png"
   ];

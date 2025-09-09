@@ -1,272 +1,4 @@
-// // import express from "express";
-// const db = require("../db");// your MySQL connection
-// const express = require("express");
-// const router = express.Router();
 
-
-// /**
-//  * Get all products with details, variants, and average rating
-//  */
-// router.get("/", async (req, res) => {
-//   try {
-//     const [products] = await db.query(`
-//       SELECT 
-//     p.PID, p.Name, p.Price, p.Category, p.Brand, p.ReviewSummary,
-//     ANY_VALUE(pd.Description) AS Description,
-//     ANY_VALUE(pd.Images) AS Images,
-//     ANY_VALUE(pd.Keywords) AS Keywords,
-//     ROUND(AVG(r.Rating),1) AS AvgRating,
-//     GROUP_CONCAT(CONCAT(v.Size, ' - ', v.Color, ' (Stock:', v.StockQuantity, ')')) AS Variants
-//   FROM products p
-//   LEFT JOIN product_details pd ON p.PID = pd.PID
-//   LEFT JOIN product_variants v ON p.PID = v.PID
-//   LEFT JOIN reviews r ON p.PID = r.PID
-//   GROUP BY p.PID
-// `);
-//     res.json(products);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to fetch products" });
-//   }
-// });
-
-// /**
-//  * Add new product
-//  */
-// router.post("/", async (req, res) => {
-//   const { name, price, category, brand, description, images, keywords } = req.body;
-//   try {
-//     const [result] = await db.query(
-//       "INSERT INTO products (Name, Price, Category, Brand) VALUES (?, ?, ?, ?)",
-//       [name, price, category, brand]
-//     );
-
-//     const pid = result.insertId;
-//     await db.query(
-//       "INSERT INTO product_details (PID, Description, Images, Keywords) VALUES (?, ?, ?, ?)",
-//       [pid, description, images, keywords]
-//     );
-
-//     res.json({ message: "Product created", pid });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to add product" });
-//   }
-// });
-
-// /**
-//  * Update product
-//  */
-// router.put("/:pid", async (req, res) => {
-//   const { pid } = req.params;
-//   const { name, price, category, brand, description, images, keywords } = req.body;
-//   try {
-//     await db.query(
-//       "UPDATE products SET Name=?, Price=?, Category=?, Brand=? WHERE PID=?",
-//       [name, price, category, brand, pid]
-//     );
-
-//     await db.query(
-//       "UPDATE product_details SET Description=?, Images=?, Keywords=? WHERE PID=?",
-//       [description, images, keywords, pid]
-//     );
-
-//     res.json({ message: "Product updated" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to update product" });
-//   }
-// });
-
-// /**
-//  * Delete product
-//  */
-// router.delete("/:pid", async (req, res) => {
-//   const { pid } = req.params;
-//   try {
-//     await db.query("DELETE FROM product_variants WHERE PID=?", [pid]);
-//     await db.query("DELETE FROM product_details WHERE PID=?", [pid]);
-//     await db.query("DELETE FROM products WHERE PID=?", [pid]);
-//     res.json({ message: "Product deleted" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to delete product" });
-//   }
-// });
-
-// module.exports = router;
-
-
-
-
-// const db = require("../db");
-// const express = require("express");
-// const router = express.Router();
-// const multer = require("multer");
-// const path = require("path");
-
-// // ---------- Multer Setup ----------
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "uploads/"); // make sure uploads/ exists
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, Date.now() + path.extname(file.originalname));
-//   },
-// });
-// const upload = multer({ storage });
-
-// // ---------- Get all products ----------
-// // ---------- Get single product with variants ----------
-// router.get("/:pid", async (req, res) => {
-//   const { pid } = req.params;
-//   try {
-//     const [[product]] = await db.query(
-//       "SELECT * FROM products WHERE PID=?",
-//       [pid]
-//     );
-//     const [details] = await db.query(
-//       "SELECT * FROM product_details WHERE PID=?",
-//       [pid]
-//     );
-//     const [variants] = await db.query(
-//       "SELECT Size, Color, StockQuantity FROM product_variants WHERE PID=?",
-//       [pid]
-//     );
-
-//     res.json({
-//       ...product,
-//       ...(details[0] || {}),
-//       Variants: variants,
-//     });
-//   } catch (err) {
-//     console.error("Get single product error:", err);
-//     res.status(500).json({ error: "Failed to fetch product" });
-//   }
-// });
-
-// // ---------- Add Product ----------
-// // ---------- Add Product ----------
-// router.post("/", upload.single("images"), async (req, res) => {
-//   try {
-//     const { name, price, category, brand, description, keywords } = req.body;
-//     let variants = [];
-//     if (req.body.variants) {
-//       try {
-//         variants = JSON.parse(req.body.variants);
-//       } catch (e) {
-//         variants = [];
-//       }
-//     }
-
-//     let images = null;
-//     if (req.file) {
-//       images = JSON.stringify([req.file.filename]); // store as ["filename.jpg"]
-//     }
-
-//     // insert into products
-//     const [result] = await db.query(
-//       "INSERT INTO products (Name, Price, Category, Brand) VALUES (?, ?, ?, ?)",
-//       [name, price, category, brand]
-//     );
-//     const pid = result.insertId;
-
-//     // insert into product_details
-//     await db.query(
-//       "INSERT INTO product_details (PID, Description, Images, Keywords) VALUES (?, ?, ?, ?)",
-//       [pid, description, images, keywords]
-//     );
-
-//     // ✅ insert variants
-//     if (variants.length > 0) {
-//       for (const v of variants) {
-//         await db.query(
-//           "INSERT INTO product_variants (PID, Size, Color, StockQuantity) VALUES (?, ?, ?, ?)",
-//           [pid, v.Size, v.Color, v.StockQuantity]
-//         );
-//       }
-//     }
-
-//     res.json({ message: "Product created", pid });
-//   } catch (err) {
-//     console.error("Add product error:", err);
-//     res.status(500).json({ error: "Failed to add product" });
-//   }
-// });
-
-// // ---------- Update Product ----------
-// // ---------- Update Product ----------
-// router.put("/:pid", upload.single("images"), async (req, res) => {
-//   const { pid } = req.params;
-
-//   try {
-//     const { name, price, category, brand, description, keywords } = req.body;
-//     let variants = [];
-//     if (req.body.variants) {
-//       try {
-//         variants = JSON.parse(req.body.variants);
-//       } catch (e) {
-//         variants = [];
-//       }
-//     }
-
-//     let images;
-//     if (req.file) {
-//       images = JSON.stringify([req.file.filename]);
-//     } else {
-//       const [rows] = await db.query(
-//         "SELECT Images FROM product_details WHERE PID=?",
-//         [pid]
-//       );
-//       images = rows.length > 0 ? rows[0].Images : null;
-//     }
-
-//     // update products
-//     await db.query(
-//       "UPDATE products SET Name=?, Price=?, Category=?, Brand=? WHERE PID=?",
-//       [name, price, category, brand, pid]
-//     );
-
-//     // update details
-//     await db.query(
-//       "UPDATE product_details SET Description=?, Images=?, Keywords=? WHERE PID=?",
-//       [description, images, keywords, pid]
-//     );
-
-//     // ✅ replace variants
-//     await db.query("DELETE FROM product_variants WHERE PID=?", [pid]);
-//     if (variants.length > 0) {
-//       for (const v of variants) {
-//         await db.query(
-//           "INSERT INTO product_variants (PID, Size, Color, StockQuantity) VALUES (?, ?, ?, ?)",
-//           [pid, v.Size, v.Color, v.StockQuantity]
-//         );
-//       }
-//     }
-
-//     res.json({ message: "Product updated successfully" });
-//   } catch (err) {
-//     console.error("Update product error:", err);
-//     res.status(500).json({ error: "Failed to update product" });
-//   }
-// });
-
-// // ---------- Delete Product ----------
-// router.delete("/:pid", async (req, res) => {
-//   const { pid } = req.params;
-//   try {
-//     await db.query("DELETE FROM product_variants WHERE PID=?", [pid]);
-//     await db.query("DELETE FROM product_details WHERE PID=?", [pid]);
-//     await db.query("DELETE FROM products WHERE PID=?", [pid]);
-//     res.json({ message: "Product deleted" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to delete product" });
-//   }
-// });
-
-// module.exports = router;
-// routes/adminProducts.js
 const db = require("../db");
 const express = require("express");
 const router = express.Router();
@@ -478,7 +210,7 @@ router.put("/:pid", upload.any(), async (req, res) => {
     const Description = req.body.Description || req.body.description || null;
     const Keywords = req.body.Keywords || req.body.keywords || null;
 
-    // parse variants JSON if provided (this will replace existing variants)
+    // parse variants JSON if provided
     let variants = [];
     if (req.body.variants) {
       try {
@@ -495,7 +227,7 @@ router.put("/:pid", upload.any(), async (req, res) => {
       productImages = files["images"].map((f) => f.filename);
     } else {
       const [rows] = await db.query("SELECT Images FROM product_details WHERE PID=?", [pid]);
-      productImages = rows.length > 0 ? rows[0].Images : null; // may be JSON string or null
+      productImages = rows.length > 0 ? rows[0].Images : null;
     }
 
     // Begin transaction
@@ -503,28 +235,59 @@ router.put("/:pid", upload.any(), async (req, res) => {
     try {
       await conn.beginTransaction();
 
-      // Update product main row
+      // 1️⃣ Check if variants are used in carts
+      const [cartItems] = await conn.query(
+        "SELECT * FROM cart WHERE VariantID IN (SELECT VariantID FROM product_variants WHERE PID=?)",
+        [pid]
+      );
+
+      if (cartItems.length > 0) {
+        await conn.rollback();
+        return res.status(400).json({
+          message: "Cannot update/delete product. Variants exist in user carts.",
+        });
+      }
+
+      // 2️⃣ Update product main row
       await conn.query(
-        "UPDATE products SET Name=?, Price=?, Category=?, Brand=?, Gender=? WHERE PID=?",
+        "UPDATE products SET Name=?, Price=?, Category=?, Brand=?, Gender=?, IsActive=1 WHERE PID=?",
         [Name, Price, Category, Brand, Gender, pid]
       );
 
-      // Update details (images saved as JSON string)
+      // 3️⃣ Update details
       await conn.query(
         "UPDATE product_details SET Description=?, Images=?, Keywords=?, Gender=? WHERE PID=?",
-        [Description, productImages ? (typeof productImages === "string" ? productImages : JSON.stringify(productImages)) : null, Keywords, Gender, pid]
+        [
+          Description,
+          productImages
+            ? typeof productImages === "string"
+              ? productImages
+              : JSON.stringify(productImages)
+            : null,
+          Keywords,
+          Gender,
+          pid,
+        ]
       );
 
-      // Replace variants (simple strategy: delete then reinsert)
+      // 4️⃣ Replace variants (only if no cart conflict)
       await conn.query("DELETE FROM product_variants WHERE PID=?", [pid]);
 
       for (const v of variants) {
         const idx = typeof v._idx !== "undefined" ? v._idx : null;
         let variantImageFilename = null;
-        if (idx !== null && files[`variantImage_${idx}`] && files[`variantImage_${idx}`].length > 0) {
+        if (
+          idx !== null &&
+          files[`variantImage_${idx}`] &&
+          files[`variantImage_${idx}`].length > 0
+        ) {
           variantImageFilename = files[`variantImage_${idx}`][0].filename;
         }
-        const sku = v.SKU || `${pid}-${v.Size || "NA"}-${v.Color || "NA"}-${Math.floor(Math.random() * 10000)}`;
+        const sku =
+          v.SKU ||
+          `${pid}-${v.Size || "NA"}-${v.Color || "NA"}-${Math.floor(
+            Math.random() * 10000
+          )}`;
         await conn.query(
           "INSERT INTO product_variants (PID, Size, Color, SKU, StockQuantity, VariantImage) VALUES (?, ?, ?, ?, ?, ?)",
           [pid, v.Size, v.Color, sku, v.StockQuantity || 0, variantImageFilename]
@@ -545,6 +308,41 @@ router.put("/:pid", upload.any(), async (req, res) => {
     res.status(500).json({ error: "Failed to update product" });
   }
 });
+
+
+// PUT /api/admin/products/:id/restock
+
+// Restock a product
+router.put("/:pid/restock", async (req, res) => {
+  const { pid } = req.params;
+  const { stock } = req.body;
+
+  if (!stock || isNaN(stock)) {
+    return res.status(400).json({ error: "Invalid stock value" });
+  }
+
+  try {
+    // 1. Update stock
+    await db.query(
+      "UPDATE product_variants SET StockQuantity = StockQuantity + ? WHERE PID = ?",
+      [Number(stock), pid]
+    );
+
+    // 2. Log restock entry
+    await db.query(
+      "INSERT INTO restocks (VariantID, StockAdded, RestockDate) VALUES ((SELECT VariantID FROM product_variants WHERE PID = ? LIMIT 1), ?, NOW())",
+      [pid, Number(stock)]
+    );
+
+    res.json({ message: "Stock updated and restock logged successfully" });
+  } catch (err) {
+    console.error("Restock product error:", err);
+    res.status(500).json({ error: "Failed to update stock" });
+  }
+});
+
+
+
 
 // ---------- Delete Product ----------
 router.delete("/:pid", async (req, res) => {
