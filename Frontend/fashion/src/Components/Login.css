@@ -1,34 +1,46 @@
-/* Prevent scroll */
-html, body {
-  height: 100%;
+/* Login.css - Separate file only for login page */
+
+/* Container for the entire login page */
+.login-page-container {
   margin: 0;
   padding: 0;
-  /* overflow: hidden; ✅ Prevent vertical and horizontal scrolling */
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: auto;
 }
 
-/* Header */
-.login-header {
+/* Header specific to login page */
+.login-page-container .login-header {
+  margin: 0;
+  padding: 10px 19px;
   background-color: #b9a6a6;
   color: black;
   font-size: 2.9rem;
-  padding: 10px 20px;
   font-family: 'Georgia', serif;
   text-align: left;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-/* Wrapper to center image and box */
-.login-wrapper {
+/* Wrapper to center image and box - scoped to login page */
+.login-page-container .login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-   height: 100vh; /* Full viewport height */
+  height: 100vh;
   background-color: #fff;
-  margin-top: -10px;
+  padding-top: 190px; /* Account for header */
 }
 
-/* Background image */
-.login-image {
-  background-image: url('/public/photo1.PNG'); /* Put image in public folder */
+/* Background image - scoped to login page */
+.login-page-container .login-image {
+  background-image: url('/public/photo1.PNG');
   background-size: cover;
   background-position: center;
   width: 1000px;
@@ -39,8 +51,8 @@ html, body {
   align-items: center;
 }
 
-/* Login Box (glass effect) */
-.login-box {
+/* Login Box (glass effect) - scoped to login page */
+.login-page-container .login-box {
   background: rgba(255, 255, 255, 0.95);
   padding: 30px;
   border-radius: 12px;
@@ -51,30 +63,33 @@ html, body {
   height: 570px;
 }
 
-/* Headings */
-.login-box h2 {
+/* Headings - scoped to login page */
+.login-page-container .login-box h2 {
   margin-bottom: 10px;
   font-size: 3rem;
+  margin-top: 0;
 }
 
-.login-box p {
+.login-page-container .login-box p {
   margin-bottom: 20px;
   font-size: 1.7rem;
   color: #444;
+  margin-top: 0;
 }
 
-/* Input Fields */
-.login-box input {
+/* Input Fields - scoped to login page */
+.login-page-container .login-box input {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1.7rem;
+  box-sizing: border-box;
 }
 
-/* Login Button */
-.login-box button {
+/* Login Button - scoped to login page */
+.login-page-container .login-box button {
   width: 100%;
   padding: 10px;
   background: black;
@@ -86,35 +101,34 @@ html, body {
   font-size: 1.8rem;
 }
 
-.login-box button:hover {
+.login-page-container .login-box button:hover {
   background-color: #333;
 }
 
-/* Links */
-.login-links {
+/* Links - scoped to login page */
+.login-page-container .login-links {
   margin-top: 15px;
   text-align: center;
   font-size: 1.5rem;
   color: #333;
 }
 
-.login-links a {
+.login-page-container .login-links a {
   display: block;
   color: #333;
   text-decoration: underline;
   margin-bottom: 10px;
 }
 
-/* Signup button */
-.signup {
+/* Signup button - scoped to login page */
+.login-page-container .signup {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.7rem;
 }
 
-.signup button {
-  /* padding: 6px 10px; */
+.login-page-container .signup button {
   font-size: 1.4rem;
   background: #eee;
   border: 1px solid #aaa;
@@ -125,33 +139,18 @@ html, body {
   margin-left: 20px;
 }
 
-.signup button:hover {
+.login-page-container .signup button:hover {
   background: #ccc;
 }
 
-h1 {
-  margin: 0;
-  padding: 10px 20px;
-  background-color: #b9a6a6;
-  font-size: 3rem;
-  font-family: 'Amarante', sans-serif;
-  line-height: 1.2;
-}
-
-.login-page {
-  margin-top: 0;
-  padding-top: 0;
-  /* keep rest of your styles */
-}
-
-.password-wrapper {
-  display:flex;
+.login-page-container .password-wrapper {
+  display: flex;
   flex-direction: column;
-font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
-.show-password input[type="checkbox"]{
- margin: 0.4; 
+.login-page-container .show-password input[type="checkbox"] {
+  margin: 0.4px; 
   width: 18px;
   height: 17px;
 }

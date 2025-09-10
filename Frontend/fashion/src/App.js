@@ -54,6 +54,7 @@ import OrderDetailsPage from "./Components/OrderDetailsPage";
 
 import PaymentPage from "./Components/PaymentPage";
 
+import OrdersPage from "./Components/OrdersPage";
 // ==============================
 // App Content Component
 // ==============================
@@ -132,6 +133,7 @@ const AppContent = () => {
 
        <Route path="/payment/:orderId" element={<PaymentPage />} />
 
+<Route path="/orders" element={<OrdersPage />} />
 
         </Routes>
       </div>
