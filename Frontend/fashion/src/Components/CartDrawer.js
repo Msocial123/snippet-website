@@ -69,18 +69,19 @@ const handlePlaceOrder = () => {
                   className="product-image-container"
                   onClick={() => navigateToProduct(productId)}
                 >
-                  <img
-                    src={item.image 
-                      ? `/images/${item.image.replace(/^\/?images\//, '')}`
-                      : "/images/default-product.jpg"
-                    }
-                    alt={item.name}
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "/images/default-product.jpg";
-                    }}
-                    className="cart-item-image"
-                  />
+                 <img
+  src={
+    item.image
+      ? `http://localhost:5000/uploads/${item.image.replace(/^uploads[\\/]/, "")}`
+      : "/images/default-product.jpg"
+  }
+  alt={item.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "/images/default-product.jpg";
+  }}
+  className="cart-item-image"
+/>
                 </div>
                 
                 <div className="item-details">
