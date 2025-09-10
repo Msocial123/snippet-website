@@ -1,27 +1,30 @@
 /* PaymentPage.css */
 
-/* Container Styles */
+/* Container */
 .payment-container {
   min-height: 100vh;
-  background: white;
+  background: #fff;
   padding-top: 6rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* Header Styles */
+/* Header */
 .payment-header {
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  color: #000;
+  padding: 0 1rem;
 }
 
 .back-btn {
   background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: black;
+  color: #000;
   padding: 0.75rem 1rem;
   border-radius: 12px;
   margin-right: 1rem;
@@ -37,22 +40,20 @@
 }
 
 .payment-header h1 {
-  color: white;
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Main Payment Card */
+/* Main Card */
 .payment-card {
-  background: white;
+  background: #fff;
   border-radius: 24px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto 2rem;
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
 }
 
 /* Order Summary */
@@ -69,10 +70,6 @@
   margin-bottom: 1rem;
 }
 
-/* .summary-details {
-  space-y: 0.75rem;
-} */
-
 .summary-row {
   display: flex;
   justify-content: space-between;
@@ -87,6 +84,7 @@
   margin-top: 1rem;
 }
 
+/* Order & Amount Styling */
 .order-id {
   font-weight: 600;
   color: #3730a3;
@@ -135,14 +133,14 @@
 .method-icon {
   font-size: 2rem;
   margin-right: 1rem;
+  background: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .method-info h4 {
@@ -158,9 +156,11 @@
   margin: 0;
 }
 
-/* Payment Details Form */
+/* Payment Details */
 .payment-details {
   animation: slideIn 0.3s ease-out;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 @keyframes slideIn {
@@ -174,10 +174,14 @@
   }
 }
 
+/* Step Header */
 .step-header {
   display: flex;
   align-items: center;
   margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .back-step-btn {
@@ -203,9 +207,12 @@
   margin: 0;
 }
 
-/* Form Styles */
+/* Form */
 .form-container {
   margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .form-group {
@@ -280,7 +287,7 @@
   border: 1px solid #e2e8f0;
 }
 
-/* Error Styles */
+/* Error */
 .error-message {
   background: #fef2f2;
   border: 1px solid #fecaca;
@@ -304,11 +311,11 @@
 
 /* Payment Summary */
 .payment-summary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
   border-radius: 16px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  color: white;
+  color: black;
 }
 
 .payment-summary h3 {
@@ -342,5 +349,89 @@
 /* Action Buttons */
 .action-buttons {
   display: flex;
-  gap: 1rem
+  gap: 1rem;
+}
+
+/* Loading and Processing States */
+.loading-spinner,
+.processing-spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #6366f1;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success & Processing Cards */
+.success-card,
+.processing-card {
+  max-width: 600px;
+  margin: 3rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.3);
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 5rem;
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+.processing-steps {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.step {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.completed {
+  color: #22c55e;
+}
+
+.processing {
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+}
+
+.step-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #6366f1;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  animation: spin 1s linear infinite;
+}
+
+/* Security Notice */
+.security-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #374151;
+  margin: 0 auto 3rem;
+  max-width: 600px;
+}
+
+.security-icon {
+  font-size: 1.5rem;
+  color: #2563eb;
+  font-weight: bold;
 }

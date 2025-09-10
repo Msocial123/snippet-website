@@ -178,7 +178,7 @@ const OrderDetailsPage = () => {
       </div>
 
       {/* Order Summary */}
-      <div className="order-summary">
+      <div className="order-summary1">
         <h3>Order Summary</h3>
         <p>Order ID: <b>ORD-{order.OrderID}</b></p>
         <p>Status: <b>{order.Status}</b></p>

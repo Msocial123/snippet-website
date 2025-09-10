@@ -1,4 +1,9 @@
 const db = require("../db");
+
+
+
+// Create Order
+
 exports.createOrder = async (req, res) => {
   const { uid, TotalPrice, PaymentMethod, ShippingAddress, CouponCode, items, phone } = req.body;
 

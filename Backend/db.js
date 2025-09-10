@@ -18,7 +18,7 @@ const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
 
-  password: 'swethar@2003', // ✅ Set your DB password here
+  password: 'Jncpg@2024', // ✅ Set your DB password here
   database: 'snitch_store', // ✅ Replace with your DB name
   waitForConnections: true,
   connectionLimit: 10,

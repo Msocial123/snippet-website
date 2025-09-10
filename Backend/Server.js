@@ -156,6 +156,7 @@ const orderRoutes = require("./Routes/orderRoutes");
 const couponRoutes = require("./Routes/couponRoutes"); // ✅ Import
 
 const paymentRoutes = require("./Routes/paymentRoutes");
+const ordersRoute = require("./Routes/ordersPageRoutes");
 // Middleware
 // app.use(cors());
 app.use(
@@ -254,6 +255,10 @@ app.use("/api/admin", adminRoutes);
 
 // Routes
 app.use("/api/admin/orders", adminOrdersRouter);
+
+app.use('/uploads', express.static('uploads'));
+
+app.use("/api/orders", ordersRoute);
 
 app.get("/", (req, res) => {
   res.send("Snitch Store API running");

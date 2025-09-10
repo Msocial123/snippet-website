@@ -1,6 +1,4 @@
 
-
-
 import React, { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import "./CheckoutPage.css";
@@ -87,7 +85,7 @@ const getImagePath = (image) => {
       const orderPayload = {
         uid: parseInt(uid),
         TotalPrice: total,
-        PaymentMethod: "Pending", // 🔹 Default placeholder, will update from OrderDetailsPage
+        PaymentMethod: "COD", // 🔹 Default placeholder, will update from OrderDetailsPage
         ShippingAddress: formData.address,
         CouponCode: coupon || null,
         couponId: couponId || null,
