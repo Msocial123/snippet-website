@@ -1,3 +1,4 @@
+
 // import React, { useContext, useEffect, useState } from "react";
 // import { CartContext } from "../Components/CartContext";
 // import axios from "axios";
@@ -36,9 +37,14 @@
 //         <h2>Your Shopping Cart</h2>
 //         <button className="cart-close-button" onClick={() => navigate(-1)}>X</button>
 
-//         {cartItems.length === 0 ? (
+//         {/* {cartItems.length === 0 ? (
 //           <p>Your cart is empty.</p>
-//         ) : (
+//         ) : ( */}
+//           {!uid ? (
+//     <p>Please log in to view your cart</p>
+//   ) : cartItems.length === 0 ? (
+//     <p>Your cart is empty.</p>
+//   ) : (
 //           <>
 //             <ul className="cart-list">
 //               {cartItems.map((item, index) => (
@@ -107,7 +113,6 @@
 // export default CartPage;
 
 
-
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../Components/CartContext";
 import axios from "axios";
@@ -133,7 +138,7 @@ const CartPage = () => {
   }, [cartItems]);
 
   const handlePlaceOrder = async () => {
-    // ... existing order placement logic ...
+    // 🔹 Implement order placement API call here
   };
 
   const navigateToProduct = (pid) => {
@@ -144,41 +149,42 @@ const CartPage = () => {
     <div className="cart-container">
       <div className="cart-left">
         <h2>Your Shopping Cart</h2>
-        <button className="cart-close-button" onClick={() => navigate(-1)}>X</button>
+        <button className="cart-close-button" onClick={() => navigate(-1)}>
+          X
+        </button>
 
-        {/* {cartItems.length === 0 ? (
+        {!uid ? (
+          <p>Please log in to view your cart</p>
+        ) : cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
-        ) : ( */}
-          {!uid ? (
-    <p>Please log in to view your cart</p>
-  ) : cartItems.length === 0 ? (
-    <p>Your cart is empty.</p>
-  ) : (
+        ) : (
           <>
             <ul className="cart-list">
               {cartItems.map((item, index) => (
                 <li key={index} className="cart-item">
-                  <div 
+                  <div
                     className="cart-item-clickable"
                     onClick={() => navigateToProduct(item.pid)}
                   >
-                    <img
-                      src={`/images/${item.image}`}
-                      alt={item.name}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/images/default.jpg";
-                      }}
-                      style={{ 
-                        width: 80, 
-                        height: 80, 
-                        objectFit: "cover", 
+                   <img
+  // ✅ load image from uploads folder
+  src={`http://localhost:5000/uploads/${item.image}`}
+  alt={item.name}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "http://localhost:5000/uploads/default.jpg"; // fallback
+  }}
+
+                      style={{
+                        width: 80,
+                        height: 80,
+                        objectFit: "cover",
                         borderRadius: 4,
-                        cursor: 'pointer' 
+                        cursor: "pointer",
                       }}
                     />
                     <div className="cart-item-details">
-                      <h3 style={{ cursor: 'pointer' }}>{item.name}</h3>
+                      <h3 style={{ cursor: "pointer" }}>{item.name}</h3>
                       <p>Color: {item.color}</p>
                       <p>Size: {item.size}</p>
                       <p className="cart-price">₹{item.price}</p>
@@ -207,12 +213,16 @@ const CartPage = () => {
       </div>
 
       <div className="cart-right">
-        {/* ... existing cart summary code ... */}
+        {/* 🔹 Add cart summary and checkout button here */}
       </div>
 
       {selectedImage && (
         <div className="image-preview-popup">
-          {/* ... existing preview code ... */}
+          <img
+            src={`http://localhost:5000/uploads/${selectedImage}`}
+            alt="Preview"
+          />
+          <button onClick={() => setSelectedImage(null)}>Close</button>
         </div>
       )}
     </div>
