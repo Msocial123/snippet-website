@@ -1,7 +1,9 @@
 const db = require("../db");
 
 
+
 // Create Order
+
 exports.createOrder = async (req, res) => {
   const { uid, TotalPrice, PaymentMethod, ShippingAddress, CouponCode, items, phone } = req.body;
 
@@ -66,13 +68,33 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    for (const item of items) {
-      await connection.query(
-        `INSERT INTO order_items (OrderID, PID, VariantID, Quantity, Price)
-         VALUES (?, ?, ?, ?, ?)`,
-        [orderId, item.productId, item.variantId || null, item.quantity, item.price]
-      );
-    }
+  for (const item of items) {
+  // 1. Save order item
+  await connection.query(
+    `INSERT INTO order_items (OrderID, PID, VariantID, Quantity, Price)
+     VALUES (?, ?, ?, ?, ?)`,
+    [orderId, item.productId, item.variantId || null, item.quantity, item.price]
+  );
+
+  // 2. Reduce stock in product_variants
+  if (item.variantId) {
+    await connection.query(
+      `UPDATE product_variants 
+       SET Stock = Stock - ? 
+       WHERE VariantID = ? AND Stock >= ?`,
+      [item.quantity, item.variantId, item.quantity]
+    );
+  } else {
+    // If no variant, reduce stock in products table
+    await connection.query(
+      `UPDATE products 
+       SET Stock = Stock - ? 
+       WHERE PID = ? AND Stock >= ?`,
+      [item.quantity, item.productId, item.quantity]
+    );
+  }
+}
+
 
     // await connection.query(
     //   `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt)
@@ -173,7 +195,8 @@ exports.getOrderById = async (req, res) => {
       'product_name', pr.Name,
       'color', pv.Color,
       'size', pv.Size,
-      'image', COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]')))
+      'image', CONCAT('uploads/', REPLACE(COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]'))), 'uploads/', ''))
+
     )
   ) as items
 FROM orders o

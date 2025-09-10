@@ -1,118 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import axios from "axios";
-// import "./OrderDetailsPage.css";
 
-// const OrderDetailsPage = () => {
-//   const { orderId } = useParams();
-//   const [order, setOrder] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   // Fetch order details
-//   useEffect(() => {
-//     const fetchOrder = async () => {
-//       try {
-//         const res = await axios.get(`http://localhost:5000/api/orders/order/${orderId}`);
-//         setOrder(res.data);
-//       } catch (err) {
-//         console.error("Error fetching order details:", err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchOrder();
-//   }, [orderId]);
-
-//   // Delete item from order
-//   const handleDelete = async (itemId) => {
-//     try {
-//       const res = await axios.delete(`http://localhost:5000/api/orders/item/${itemId}`);
-
-//       // Update the order state with new totals
-//       const updatedOrder = {
-//         ...order,
-//         items: order.items.filter(item => item.item_id !== itemId),
-//         TotalPrice: res.data.newTotal,
-//         DiscountAmount: res.data.discountAmount
-//       };
-
-//       setOrder(updatedOrder);
-//     } catch (err) {
-//       console.error("Error deleting product:", err);
-//     }
-//   };
-
-//   // Validation helpers
-//   const isValidEmail = (email) => email && email.includes("@");
-//   const isValidPhone = (phone) => /^\d{10}$/.test(phone);
-//   const isValidZip = (zip) => /^\d{5,6}$/.test(zip);
-
-//   if (loading) return <p>Loading order details...</p>;
-//   if (!order) return <p>Order not found</p>;
-
-//   return (
-//     <div className="order-details-wrapper">
-//       <h1 className="success-message">Order Details</h1>
-
-//       {/* User Information */}
-//       {/* <div className="user-info">
-//         <h3>User Information</h3>
-//         <p>Name: <b>{order.user?.name || "N/A"}</b></p>
-//         <p>Email: <b style={{color: isValidEmail(order.user?.email) ? "black" : "red"}}>
-//           {order.user?.email || "N/A"}
-//         </b></p>
-//         <p>Phone: <b style={{color: isValidPhone(order.user?.phone) ? "black" : "red"}}>
-//           {order.user?.phone || "N/A"}
-//         </b></p>
-//         <p>ZIP: <b style={{color: isValidZip(order.user?.zip) ? "black" : "red"}}>
-//           {order.user?.zip || "N/A"}
-//         </b></p>
-//       </div> */}
-
-//       {/* Order Summary */}
-//       <div className="order-summary">
-//         <h3>Order Summary</h3>
-//         <p>Status: <b>{order.Status}</b></p>
-//         <p>Total: <b>₹{order.TotalPrice}</b></p>
-//         <p>Payment: <b>{order.PaymentMethod}</b> ({order.PaymentStatus})</p>
-//         <p>Shipping Address: {order.ShippingAddress}</p>
-//         {order.CouponCode && (
-//           <p>Coupon: {order.CouponCode} (Discount: ₹{order.DiscountAmount})</p>
-//         )}
-//       </div>
-
-//       {/* Order Items */}
-//       <h3>Items:</h3>
-//       <div className="order-items">
-//         {order.items.map((item, idx) => (
-//           <div key={idx} className="order-item">
-//             <img
-//               src={item.image ? `/images/${item.image.replace(/^\/?images\//, "")}` : "/images/default-product.jpg"}
-//               alt={item.product_name}
-//             />
-//             <div className="order-item-details">
-//               <h4>{item.product_name}</h4>
-//               <p>Size: {item.size || "N/A"}</p>
-//               <p>Color: {item.color || "N/A"}</p>
-//               <p>Quantity: {item.quantity}</p>
-//               <p>Price: ₹{item.price}</p>
-
-//               <button
-//                 onClick={() => handleDelete(item.item_id)}
-//                 className="delete-btn"
-//               >
-//                 Delete
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderDetailsPage;
 
 
 import React, { useEffect, useState } from "react";
@@ -120,6 +6,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OrderDetailsPage.css";
 // import PaymentButton from "./PaymentButton";
+export const getImagePath = (image) => {
+  if (!image) return "http://localhost:5000/uploads/default-product.jpg";
+  const cleanName = image.replace(/^\/?uploads\//, ""); 
+  return `http://localhost:5000/uploads/${cleanName}`;
+};
+
 
 const OrderDetailsPage = () => {
   const { orderId } = useParams();
@@ -252,6 +144,7 @@ const OrderDetailsPage = () => {
   if (loading) return <p>Loading order details...</p>;
   if (!order) return <p>Order not found</p>;
 
+
   return (
     <div className="order-details-wrapper">
       <h1 className="success-message">Order Details</h1>
@@ -307,13 +200,16 @@ const OrderDetailsPage = () => {
         {order.items && order.items.length > 0 ? (
           order.items.map((item, idx) => (
             <div key={idx} className="order-item">
-              <img
-                src={item.image ? `/images/${item.image.replace(/^\/?images\//, "")}` : "/images/default-product.jpg"}
-                alt={item.product_name}
-                onError={(e) => {
-                  e.target.src = "/images/default-product.jpg";
-                }}
-              />
+        <img
+  src={getImagePath(item.image)}
+  alt={item.product_name || "Product"}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "http://localhost:5000/uploads/default-product.jpg";
+  }}
+  style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 4 }}
+/>
+
               <div className="order-item-details">
                 <h4>{item.product_name || "Product Name N/A"}</h4>
                 <p>Size: <b>{item.size || "N/A"}</b></p>

@@ -371,9 +371,7 @@ const ProductDetail = () => {
             : [];
           const cleanImages = imgArray.filter(Boolean);
           setMainImage(
-            `http://localhost:5000/uploads/${
-              cleanImages[0] || "default.jpg"
-            }`
+            `http://localhost:5000/uploads/${cleanImages[0] || "default.jpg"}`
           );
         }
 
@@ -394,9 +392,7 @@ const ProductDetail = () => {
 
     const fetchVariants = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/variants?pid=${id}`
-        );
+        const res = await fetch(`http://localhost:5000/api/variants?pid=${id}`);
         const data = await res.json();
 
         if (Array.isArray(data)) {
@@ -410,7 +406,6 @@ const ProductDetail = () => {
           });
           setAvailableColors([...colorSet]);
 
-          // Default to first color
           if (colorSet.size > 0) {
             const firstColor = [...colorSet][0];
             handleColorSelection(firstColor, data);
@@ -438,15 +433,13 @@ const ProductDetail = () => {
     // eslint-disable-next-line
   }, [id]);
 
-  // 🔹 Handle color selection
   const handleColorSelection = (color, variants = variantImages) => {
     if (!color) return;
     setSelectedColor(color);
 
     const colorVariants = variants.filter(
       (v) =>
-        v.Color &&
-        v.Color.trim().toLowerCase() === color.trim().toLowerCase()
+        v.Color && v.Color.trim().toLowerCase() === color.trim().toLowerCase()
     );
 
     if (colorVariants.length > 0) {
@@ -461,7 +454,9 @@ const ProductDetail = () => {
       const sizesForColor = [
         ...new Set(
           colorVariants
-            .map((v) => (v.Size && typeof v.Size === "string" ? v.Size.trim() : ""))
+            .map((v) =>
+              v.Size && typeof v.Size === "string" ? v.Size.trim() : ""
+            )
             .filter(Boolean)
         ),
       ];
@@ -470,7 +465,6 @@ const ProductDetail = () => {
     }
   };
 
-  // 🔹 Handle size selection
   const handleSizeSelection = (size) => {
     if (!size) return;
     setSelectedSize(size);
@@ -490,6 +484,18 @@ const ProductDetail = () => {
           `http://localhost:5000/uploads/${variant.VariantImage.trim()}`
         );
       }
+    }
+  };
+
+  const handleThumbnailClick = (variant) => {
+    if (!variant) return;
+
+    setMainImage(
+      `http://localhost:5000/uploads/${variant.VariantImage?.trim()}`
+    );
+
+    if (variant.Color) {
+      handleColorSelection(variant.Color);
     }
   };
 
@@ -534,19 +540,11 @@ const ProductDetail = () => {
   return (
     <div className="product-page">
       <div className="product-header">
-        {/* 🔹 Images */}
         <div className="product-images">
           <img src={mainImage} alt={product.Name} className="main-image" />
+
           <div className="thumbnail-container">
-            {(selectedColor
-              ? variantImages.filter(
-                  (v) =>
-                    v.Color &&
-                    v.Color.trim().toLowerCase() ===
-                      selectedColor.trim().toLowerCase()
-                )
-              : variantImages
-            ).map((variant, i) => {
+            {variantImages.map((variant, i) => {
               if (!variant?.VariantImage) return null;
               return (
                 <img
@@ -554,15 +552,10 @@ const ProductDetail = () => {
                   src={`http://localhost:5000/uploads/${variant.VariantImage.trim()}`}
                   alt={`Thumb ${i}`}
                   className="thumbnail"
-                  onClick={() =>
-                    setMainImage(
-                      `http://localhost:5000/uploads/${variant.VariantImage.trim()}`
-                    )
-                  }
+                  onClick={() => handleThumbnailClick(variant)}
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src =
-                      "http://localhost:5000/uploads/default.jpg";
+                    e.target.src = "http://localhost:5000/uploads/default.jpg";
                   }}
                 />
               );
@@ -570,15 +563,11 @@ const ProductDetail = () => {
           </div>
         </div>
 
-        {/* 🔹 Product info */}
         <div className="product-info">
           <h1 className="product-title">{product.Name}</h1>
           <p className="product-brand">{product.Brand}</p>
-          <div className="price">
-            ₹{selectedVariant?.Price || product.Price}
-          </div>
+          <div className="price">₹{selectedVariant?.Price || product.Price}</div>
 
-          {/* Color options */}
           <div className="option-selector">
             <label className="option-label">Color</label>
             <div className="color-options">
@@ -596,18 +585,15 @@ const ProductDetail = () => {
             {selectedColor && <p>Selected Color: {selectedColor}</p>}
           </div>
 
-          {/* Size options */}
           <div className="option-selector">
             <label className="option-label">Size</label>
             <div className="size-options">
               {availableSizes.map((size) => {
                 const variant = variantImages.find(
                   (v) =>
-                    v.Size &&
-                    v.Size.trim().toLowerCase() === size.toLowerCase() &&
+                    v.Size && v.Size.trim().toLowerCase() === size.toLowerCase() &&
                     v.Color &&
-                    v.Color.trim().toLowerCase() ===
-                      selectedColor.toLowerCase()
+                    v.Color.trim().toLowerCase() === selectedColor.toLowerCase()
                 );
                 const isDisabled = !variant || variant.Stock <= 0;
 
@@ -617,9 +603,7 @@ const ProductDetail = () => {
                     className={`size-option ${
                       selectedSize === size ? "selected" : ""
                     } ${isDisabled ? "disabled" : ""}`}
-                    onClick={() =>
-                      !isDisabled && handleSizeSelection(size)
-                    }
+                    onClick={() => !isDisabled && handleSizeSelection(size)}
                   >
                     {size}
                   </div>
@@ -628,7 +612,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Quantity */}
           <div className="quantity-selector">
             <label className="option-label">Quantity</label>
             <div className="quantity-controls">
@@ -642,7 +625,6 @@ const ProductDetail = () => {
             </div>
           </div>
 
-          {/* Stock */}
           <div className="stock-info">
             {selectedVariant
               ? selectedVariant.Stock > 0
@@ -653,14 +635,11 @@ const ProductDetail = () => {
               : "Select size & color to see availability"}
           </div>
 
-          {/* Add to cart */}
           <div className="action-buttons">
             <button
               className="add-to-cart-btn"
               onClick={handleAddToCart}
-              disabled={
-                !selectedSize || !selectedVariant || selectedVariant.Stock <= 0
-              }
+              disabled={!selectedSize || !selectedVariant || selectedVariant.Stock <= 0}
             >
               Add to Cart
             </button>
@@ -668,7 +647,6 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Description */}
       <div className="description-section">
         <h2 className="description-title">Description</h2>
         <p className="description-content">{product.Description}</p>
@@ -689,7 +667,6 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Reviews */}
       <div className="reviews-section">
         <h2 className="reviews-title">Customer Reviews</h2>
         <div className="reviews-container">
@@ -698,9 +675,7 @@ const ProductDetail = () => {
           ) : (
             reviews.map((review, i) => (
               <div key={review.ReviewID || i} className="review">
-                <div className="review-user">
-                  {review.FirstName || "User"}
-                </div>
+                <div className="review-user">{review.FirstName || "User"}</div>
                 <div className="review-rating">
                   {"★".repeat(review.Rating)}
                   {"☆".repeat(5 - review.Rating)}
@@ -712,7 +687,6 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      {/* Similar products */}
       <div className="similar-products-section">
         <h3>Similar Products</h3>
         <div className="product-grid">
@@ -726,12 +700,10 @@ const ProductDetail = () => {
         </div>
       </div>
 
-      <CartDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setDrawerOpen(false)}
-      />
+      <CartDrawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
   );
 };
 
 export default ProductDetail;
+

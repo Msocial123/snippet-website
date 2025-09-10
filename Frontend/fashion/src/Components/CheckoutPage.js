@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import "./CheckoutPage.css";
@@ -17,6 +18,11 @@ const CheckoutPage = () => {
   const [orderId, setOrderId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [couponId, setCouponId] = useState(null);
+const getImagePath = (image) => {
+  if (!image) return "http://localhost:5000/uploads/default-product.jpg";
+  const cleanName = image.replace(/^\/?(uploads|images)\//, ""); 
+  return `http://localhost:5000/uploads/${cleanName}`;
+};
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = 49;
@@ -134,7 +140,16 @@ const CheckoutPage = () => {
           ) : (
             cartItems.map((item) => (
               <div key={item.variantId} className="checkout-item">
-                <img src={item.image ? `/images/${item.image.replace(/^\/?images\//, "")}` : "/images/default-product.jpg"} alt={item.name} />
+                <img
+  src={getImagePath(item.image)}
+  alt={item.name}
+  onError={(e) => {
+    e.target.src = "http://localhost:5000/uploads/default-product.jpg";
+  }}
+/>
+
+
+
                 <div className="checkout-item-details">
                   <h4>{item.name}</h4>
                   <p>Size: {item.size}</p>
