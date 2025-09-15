@@ -184,8 +184,8 @@ const OrderDetailsPage = () => {
         <p>Status: <b>{order.Status}</b></p>
         <p>Order Date: <b>{new Date(order.OrderDate).toLocaleDateString()}</b></p>
         <p>Total: <b>₹{order.TotalPrice}</b></p>
-        <p>Payment: <b>{order.PaymentMethod}</b> ({order.PaymentStatus})</p>
-        <p>Shipping Address: <b>{order.ShippingAddress}</b></p>
+        {/* <p>Payment: <b>{order.PaymentMethod}</b> ({order.PaymentStatus})</p>
+        <p>Shipping Address: <b>{order.ShippingAddress}</b></p> */}
         {order.CouponCode && (
           <p>Coupon Applied: <b>{order.CouponCode}</b> (Discount: ₹{order.DiscountAmount})</p>
         )}

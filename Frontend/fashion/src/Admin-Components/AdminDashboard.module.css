@@ -1,37 +1,49 @@
+/* Wrapper for the whole dashboard */
+.dashboardWrapper {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Header gap if needed */
+.headerGap {
+  height: 0;
+}
+
 /* Container */
-.dashboard-container {
+.dashboardContainer {
   display: flex;
-  height: 100vh; /* Always full screen */
+  height: 100vh;
   font-family: Arial, sans-serif;
   background: #f8f9fa;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 450px; /* Increased width */
+  width: 450px;
   background-color: #2c3e50;
   color: white;
   padding: 20px 0;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   height: 100vh;
-  position: fixed; /* Sidebar stays fixed */
+  position: fixed;
   top: 0;
   left: 0;
+  z-index: 10;
 }
 
-.sidebar-menu {
+.sidebarMenu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar-menu li {
+.sidebarMenu li {
   padding: 15px 25px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 25px; /* Increased font size */
+  font-size: 25px;
   font-weight: 500;
   color: #d1d5db;
   border-radius: 8px;
@@ -39,57 +51,71 @@
   transition: background 0.3s, color 0.3s;
 }
 
-.sidebar-menu li:hover {
+.sidebarMenu li:hover {
   background-color: #34495e;
   color: #fff;
 }
 
-.sidebar-menu li.active {
+.sidebarMenu li.active {
   background: #1d4ed8;
   color: #fff;
   font-weight: 600;
 }
 
-.sidebar-menu .icon {
+.icon {
   margin-right: 12px;
-  font-size: 50px; /* Bigger icons */
+  font-size: 50px;
 }
 
 /* Main Content */
-.main-content {
+.mainContent {
   flex: 1;
-  margin-left: 450px; /* Offset for fixed sidebar */
+  margin-left: 450px;
   padding: 30px;
   min-height: 100vh;
   background: #f8f9fa;
 }
 
-.main-content h2 {
+.mainContent h2 {
   font-size: 26px;
   font-weight: 600;
   margin-bottom: 20px;
   color: #111827;
 }
 
-/* Button */
-button {
-  padding: 12px 22px;
-  background-color: #1d4ed8;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 22px;
-  font-weight: 500;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: background 0.3s;
+/* Stats Cards */
+.statsCards {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
-button:hover {
-  background-color: #2563eb;
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 220px;
+}
+
+.cardIcon {
+  font-size: 48px;
+  color: #1d4ed8;
 }
 
 /* Table */
+.tableContainer {
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.tableContainer h3 {
+  margin-bottom: 12px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -121,8 +147,35 @@ tr:hover td {
   background-color: #f9fafb;
 }
 
+/* Chart Container */
+.chartContainer {
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 24px 32px;
+}
+
+/* Button */
+button {
+  padding: 12px 22px;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 22px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
 /* Edit Button */
-.edit-btn {
+.editBtn {
   padding: 8px 16px;
   background-color: #e5e7eb;
   border: none;
@@ -132,7 +185,7 @@ tr:hover td {
   transition: 0.2s;
 }
 
-.edit-btn:hover {
+.editBtn:hover {
   background-color: #d1d5db;
 }
 
