@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const db = require("../db");
 const {
   getAllUsers,
  
@@ -7,7 +8,6 @@ const {
 } = require("../Controller/userController");
 
 
-// Routes
 router.get("/", getAllUsers);
 
 router.delete("/:id", deleteUser);

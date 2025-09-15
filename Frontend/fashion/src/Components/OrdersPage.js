@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+
 import axios from "axios";
 import { FaStar } from "react-icons/fa";
 import "./OrdersPage.css";
@@ -121,11 +123,16 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+
+//         const storedUser = JSON.parse(localStorage.getItem("user"));
+//         const uid = storedUser?.UID;
+
         const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
         const uid =
           currentUser.UID ||
           localStorage.getItem("uid") ||
           localStorage.getItem("userId");
+
         if (!uid) {
           alert("Please log in to view your orders.");
           setLoading(false);

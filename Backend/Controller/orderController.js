@@ -48,6 +48,33 @@ exports.createOrder = async (req, res) => {
           "UPDATE coupons SET TimesUsed = TimesUsed + 1 WHERE CouponID = ?",
           [couponId]
         );
+        // After order is created and you have orderId and uid
+await db.query(
+  "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
+  [uid, "Order Placed", `Your order #${orderId} has been placed successfully!`, "order"]
+);
+// For shipped
+await db.query(
+  "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
+  [uid, "Order Shipped", `Your order #${orderId} has been shipped!`, "shipping"]
+);
+
+// For delivered
+await db.query(
+  "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
+  [uid, "Order Delivered", `Your order #${orderId} has been delivered!`, "delivered"]
+);
+// For a specific user
+await db.query(
+  "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
+  [uid, "Special Offer!", "Get 20% off on your next purchase. Use code SAVE20.", "offer"]
+);
+
+// For a voucher
+await db.query(
+  "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
+  [uid, "Voucher Unlocked!", "You have received a ₹100 voucher. Use it before it expires!", "voucher"]
+);
       }
     }
 
@@ -76,7 +103,9 @@ exports.createOrder = async (req, res) => {
     [orderId, item.productId, item.variantId || null, item.quantity, item.price]
   );
 
+
   // 2. Reduce stock in product_variants
+
   // if (item.variantId) {
   //   await connection.query(
   //     `UPDATE product_variants 

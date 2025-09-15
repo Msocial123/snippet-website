@@ -6,28 +6,65 @@ const sendGenericError = (res) => {
   res.status(400).json({ message: 'Signup failed. Please try again.' });
 };
 
+// exports.signup = async (req, res) => {
+//   const { firstName, lastName, email, contact, password } = req.body;
+//   if (!firstName || !lastName || !email || !contact || !password) {
+//     return sendGenericError(res);
+//   }
+
+//   try {
+//     const [existing] = await db.query('SELECT * FROM users WHERE Email = ?', [email]);
+//     if (existing.length > 0) return sendGenericError(res);
+
+//     const hashed = await bcrypt.hash(password, 10);
+//     await db.query(
+//       'INSERT INTO users (FirstName, LastName, Email, PasswordHash, Contact) VALUES (?, ?, ?, ?, ?)',
+//       [firstName, lastName, email, hashed, contact]
+//     );
+
+//     res.json({ message: 'Signup successful' });
+//   } catch (err) {
+//     console.error(err);
+//     sendGenericError(res);
+//   }
+// };
+
+// ===================== SIGNUP =====================
 exports.signup = async (req, res) => {
-  const { firstName, lastName, email, contact, password } = req.body;
-  if (!firstName || !lastName || !email || !contact || !password) {
-    return sendGenericError(res);
-  }
-
   try {
-    const [existing] = await db.query('SELECT * FROM users WHERE Email = ?', [email]);
-    if (existing.length > 0) return sendGenericError(res);
+    const { firstName, lastName, email, password, contact, address } = req.body;
 
-    const hashed = await bcrypt.hash(password, 10);
-    await db.query(
-      'INSERT INTO users (FirstName, LastName, Email, PasswordHash, Contact) VALUES (?, ?, ?, ?, ?)',
-      [firstName, lastName, email, hashed, contact]
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ message: "All required fields must be filled" });
+    }
+
+    const normalizedEmail = email.toLowerCase();
+
+    // Check if email exists
+    const [existing] = await db.query("SELECT * FROM users WHERE Email = ?", [normalizedEmail]);
+    if (existing.length > 0) {
+      return res.status(400).json({ message: "Signup failed. Please try again" }); // generic message
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert into DB
+    const [result] = await db.query(
+      "INSERT INTO users (FirstName, LastName, Email, PasswordHash, Contact, Address, CreatedAt) VALUES (?, ?, ?, ?, ?, ?, NOW())",
+      [firstName, lastName, normalizedEmail, hashedPassword, contact || null, address || null]
     );
 
-    res.json({ message: 'Signup successful' });
+    return res.status(201).json({
+      message: "Signup successful 🎉",
+      UID: result.insertId,
+    });
   } catch (err) {
-    console.error(err);
-    sendGenericError(res);
+    console.error("Signup Error:", err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 exports.googleSignup = async (req, res) => {
   const { firstName, lastName, email, contact, googleUid } = req.body;
