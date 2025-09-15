@@ -196,69 +196,160 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
+// exports.getOrderById = async (req, res) => {
+//   const { orderId } = req.params;
+
+//   try {
+//     const [orderDetails] = await db.query(
+//       `SELECT 
+//   o.*,
+//   ANY_VALUE(c.Code) as CouponCode,     
+//   ANY_VALUE(c.DiscountPercent) as DiscountPercent,
+//   ANY_VALUE(o.DiscountAmount) as DiscountAmount,
+//   (o.TotalPrice - o.DiscountAmount) AS FinalAmount,
+//   ANY_VALUE(p.PaymentStatus) as PaymentStatus,
+//   ANY_VALUE(p.TransactionID) as TransactionID,
+//   ANY_VALUE(u.FirstName) as FirstName,
+//   ANY_VALUE(u.LastName) as LastName,
+//   ANY_VALUE(u.Email) as Email,
+//   ANY_VALUE(u.Contact) as Contact,
+//   ANY_VALUE(u.Address) as Address,
+//   JSON_ARRAYAGG(
+//     JSON_OBJECT(
+//       'item_id', oi.OrderItemID,  
+//       'product_id', oi.PID,
+//       'variant_id', oi.VariantID,      
+//       'quantity', oi.Quantity,
+//       'price', oi.Price,
+//       'product_name', pr.Name,
+//       'color', pv.Color,
+//       'size', pv.Size,
+//       'image', CONCAT('uploads/', REPLACE(COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]'))), 'uploads/', ''))
+
+//     )
+//   ) as items
+// FROM orders o
+// LEFT JOIN (
+//    SELECT DISTINCT OrderItemID, OrderID, PID, VariantID, Quantity, Price
+//    FROM order_items
+// ) oi ON o.OrderID = oi.OrderID
+// LEFT JOIN coupons c ON o.CouponID = c.CouponID
+// LEFT JOIN (
+//    SELECT OrderID, MAX(PaymentStatus) as PaymentStatus, MAX(TransactionID) as TransactionID
+//    FROM payments
+//    GROUP BY OrderID
+// ) p ON o.OrderID = p.OrderID
+// LEFT JOIN users u ON o.UID = u.UID
+// LEFT JOIN products pr ON oi.PID = pr.PID
+// LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
+// LEFT JOIN product_details pd ON pr.PID = pd.PID
+// WHERE o.OrderID = ?
+// GROUP BY o.OrderID;
+// `,
+//       [orderId]
+//     );
+
+//     if (orderDetails.length === 0) {
+//       return res.status(404).json({ error: "Order not found" });
+//     }
+
+//     res.status(200).json(orderDetails[0]);
+//   } catch (err) {
+//     console.error("Error fetching order details:", err);
+//     res.status(500).json({ error: "Failed to fetch order details" });
+//   }
+// };
+
+
+// orderController.js
 exports.getOrderById = async (req, res) => {
   const { orderId } = req.params;
 
   try {
-    const [orderDetails] = await db.query(
-      `SELECT 
-  o.*,
-  ANY_VALUE(c.Code) as CouponCode,     
-  ANY_VALUE(c.DiscountPercent) as DiscountPercent,
-  ANY_VALUE(o.DiscountAmount) as DiscountAmount,
-  (o.TotalPrice - o.DiscountAmount) AS FinalAmount,
-  ANY_VALUE(p.PaymentStatus) as PaymentStatus,
-  ANY_VALUE(p.TransactionID) as TransactionID,
-  ANY_VALUE(u.FirstName) as FirstName,
-  ANY_VALUE(u.LastName) as LastName,
-  ANY_VALUE(u.Email) as Email,
-  ANY_VALUE(u.Contact) as Contact,
-  ANY_VALUE(u.Address) as Address,
-  JSON_ARRAYAGG(
-    JSON_OBJECT(
-      'item_id', oi.OrderItemID,  
-      'product_id', oi.PID,
-      'variant_id', oi.VariantID,      
-      'quantity', oi.Quantity,
-      'price', oi.Price,
-      'product_name', pr.Name,
-      'color', pv.Color,
-      'size', pv.Size,
-      'image', CONCAT('uploads/', REPLACE(COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]'))), 'uploads/', ''))
+    const conn = await db.getConnection();
 
-    )
-  ) as items
-FROM orders o
-LEFT JOIN (
-   SELECT DISTINCT OrderItemID, OrderID, PID, VariantID, Quantity, Price
-   FROM order_items
-) oi ON o.OrderID = oi.OrderID
-LEFT JOIN coupons c ON o.CouponID = c.CouponID
-LEFT JOIN (
-   SELECT OrderID, MAX(PaymentStatus) as PaymentStatus, MAX(TransactionID) as TransactionID
-   FROM payments
-   GROUP BY OrderID
-) p ON o.OrderID = p.OrderID
-LEFT JOIN users u ON o.UID = u.UID
-LEFT JOIN products pr ON oi.PID = pr.PID
-LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
-LEFT JOIN product_details pd ON pr.PID = pd.PID
-WHERE o.OrderID = ?
-GROUP BY o.OrderID;
-`,
-      [orderId]
-    );
+    // 1️⃣ Fetch main order info (order + user + first address + coupon + payment)
+    const [orderRows] = await conn.query(`
+  SELECT 
+    o.OrderID,
+    o.UID,
+    o.OrderDate,
+    o.Status,
+    o.TotalPrice,
+    o.DiscountAmount,
+    (o.TotalPrice - o.DiscountAmount) AS FinalAmount,
+    
+    -- Coupon Info
+    c.Code AS CouponCode,
+    c.DiscountPercent AS DiscountPercent,
 
-    if (orderDetails.length === 0) {
+    -- Payment Info
+    p.PaymentStatus AS PaymentStatus,
+    p.TransactionID AS TransactionID,
+    p.PaymentMethod AS PaymentMethod,
+
+    -- User Info
+    u.FirstName,
+    u.LastName,
+    u.Email,
+    -- fetch phone from addresses table, alias as Contact
+    a.Phone AS Contact,  
+
+    -- Normal Address (first address only)
+    a.Address,
+    a.City,
+    a.State,
+    a.Pincode
+  FROM orders o
+  LEFT JOIN users u ON o.UID = u.UID
+  LEFT JOIN addresses a ON u.UID = a.UID
+  LEFT JOIN coupons c ON o.CouponID = c.CouponID
+  LEFT JOIN payments p ON o.OrderID = p.OrderID
+  WHERE o.OrderID = ?
+  LIMIT 1
+`, [orderId]);
+
+
+    if (orderRows.length === 0) {
       return res.status(404).json({ error: "Order not found" });
     }
 
-    res.status(200).json(orderDetails[0]);
+    const order = orderRows[0];
+
+    // 2️⃣ Fetch order items separately to avoid duplicates
+    const [itemsRows] = await conn.query(`
+      SELECT 
+        oi.OrderItemID AS item_id,
+        oi.PID AS product_id,
+        oi.VariantID AS variant_id,
+        oi.Quantity AS quantity,
+        oi.Price AS price,
+        pr.Name AS product_name,
+        pv.Color AS color,
+        pv.Size AS size,
+        CONCAT('uploads/', REPLACE(COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images,'$[0]'))), 'uploads/', '')) AS image
+      FROM order_items oi
+      LEFT JOIN products pr ON oi.PID = pr.PID
+      LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
+      LEFT JOIN product_details pd ON pr.PID = pd.PID
+      WHERE oi.OrderID = ?
+    `, [orderId]);
+
+    // 3️⃣ Combine order + items
+    const fullOrder = { ...order, items: itemsRows };
+
+    res.status(200).json(fullOrder);
+
   } catch (err) {
     console.error("Error fetching order details:", err);
     res.status(500).json({ error: "Failed to fetch order details" });
   }
 };
+
+
+
+
+
 
 exports.deleteOrderItem = async (req, res) => {
   const { itemId } = req.params;
