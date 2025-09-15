@@ -77,22 +77,22 @@ exports.createOrder = async (req, res) => {
   );
 
   // 2. Reduce stock in product_variants
-  if (item.variantId) {
-    await connection.query(
-      `UPDATE product_variants 
-       SET Stock = Stock - ? 
-       WHERE VariantID = ? AND Stock >= ?`,
-      [item.quantity, item.variantId, item.quantity]
-    );
-  } else {
-    // If no variant, reduce stock in products table
-    await connection.query(
-      `UPDATE products 
-       SET Stock = Stock - ? 
-       WHERE PID = ? AND Stock >= ?`,
-      [item.quantity, item.productId, item.quantity]
-    );
-  }
+  // if (item.variantId) {
+  //   await connection.query(
+  //     `UPDATE product_variants 
+  //      SET Stock = Stock - ? 
+  //      WHERE VariantID = ? AND Stock >= ?`,
+  //     [item.quantity, item.variantId, item.quantity]
+  //   );
+  // } else {
+  //   // If no variant, reduce stock in products table
+  //   await connection.query(
+  //     `UPDATE products 
+  //      SET Stock = Stock - ? 
+  //      WHERE PID = ? AND Stock >= ?`,
+  //     [item.quantity, item.productId, item.quantity]
+  //   );
+  // }
 }
 
 
