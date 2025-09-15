@@ -52,21 +52,6 @@ const OrdersPage = () => {
     }));
   };
 
-  // const cancelOrder = async (orderId) => {
-  //   try {
-  //     await axios.post(`http://localhost:5000/api/orders/cancel/${orderId}`);
-  //     alert("Order cancelled successfully");
-  //     setOrders((prev) =>
-  //       prev.map((o) =>
-  //         o.OrderID === orderId ? { ...o, Status: "Cancelled" } : o
-  //       )
-  //     );
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert("Failed to cancel order");
-  //   }
-  // };
-
   const cancelOrder = async (orderId) => {
   const reason = prompt("Please enter the reason for cancelling this order:");
   if (!reason || !reason.trim()) {
@@ -90,35 +75,33 @@ const OrdersPage = () => {
   }
 };
 
+const submitReview = async (productId, variantId, rating, reviewText, userId) => {
+  const uid = userId || JSON.parse(localStorage.getItem("user"))?.UID;
 
-  const submitReview = async (productId, rating, reviewText, userId) => {
-    try {
-      if (!rating || rating < 1 || rating > 5) {
-        alert("Please select a rating between 1 and 5");
-        return;
-      }
-      if (!reviewText.trim()) {
-        alert("Please enter your review");
-        return;
-      }
+  console.log({ userId: uid, productId, variantId, rating, reviewText });
 
-      await axios.post("http://localhost:5000/api/reviews/add-review", {
-        userId,
-        productId,
-        rating,
-        reviewText,
-      });
+  if (!uid || !productId || !variantId || !rating || !reviewText) {
+    alert("All fields are required");
+    return;
+  }
 
-      alert("Review submitted successfully");
-      setReviewInputs((prev) => ({
-        ...prev,
-        [productId]: { rating: 0, text: "" },
-      }));
-    } catch (err) {
-      console.error("Review submit failed", err);
-      alert("Failed to submit review");
-    }
-  };
+  try {
+    await axios.post("http://localhost:5000/api/reviews/add-review", {
+      userId: uid,
+      productId,
+      variantId,
+      rating,
+      reviewText,
+    });
+
+    alert("✅ Review submitted successfully!");
+    // ❌ Do not clear the reviewInputs so they stay visible
+  } catch (err) {
+    console.error("Review submit failed", err);
+    alert("❌ Failed to submit review");
+  }
+};
+
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -204,15 +187,15 @@ const OrdersPage = () => {
                           size={24}
                           className="cursor-pointer transition-colors"
                           color={
-                            star <= (reviewInputs[item.product_id]?.rating || 0)
+                            star <= (reviewInputs[item.variant_id]?.rating || 0)
                               ? "#facc15"
                               : "#d1d5db"
                           }
                           onClick={() =>
                             setReviewInputs((prev) => ({
                               ...prev,
-                              [item.product_id]: {
-                                ...(prev[item.product_id] || {}),
+                              [item.variant_id]: {
+                                ...(prev[item.variant_id] || {}),
                                 rating: star,
                               },
                             }))
@@ -220,26 +203,26 @@ const OrdersPage = () => {
                         />
                       ))}
                       <span className="ml-2 text-sm">
-                        {reviewInputs[item.product_id]?.rating
-                          ? `${reviewInputs[item.product_id].rating} / 5`
+                        {reviewInputs[item.variant_id]?.rating
+                          ? `${reviewInputs[item.variant_id].rating} / 5`
                           : "No rating"}
                       </span>
                     </div>
 
                     <textarea
                       placeholder="Write your review"
-                      value={reviewInputs[item.product_id]?.text || ""}
+                      value={reviewInputs[item.variant_id]?.text || ""}
                       onChange={(e) =>
                         setReviewInputs((prev) => ({
                           ...prev,
-                          [item.product_id]: {
-                            ...(prev[item.product_id] || {}),
+                          [item.variant_id]: {
+                            ...(prev[item.variant_id] || {}),
                             text: e.target.value,
                           },
                         }))
                       }
                     />
-                    <button
+                    {/* <button
                       onClick={() =>
                         submitReview(
                           item.product_id,
@@ -250,7 +233,21 @@ const OrdersPage = () => {
                       }
                     >
                       Submit Review
-                    </button>
+                    </button> */}
+                    <button
+  onClick={() =>
+    submitReview(
+      item.product_id || item.PID,  // fallback
+      item.variant_id,
+      reviewInputs[item.variant_id]?.rating,
+      reviewInputs[item.variant_id]?.text,
+      order.UserID || JSON.parse(localStorage.getItem("user"))?.UID
+    )
+  }
+>
+  Submit Review
+</button>
+
                   </div>
                 </div>
               </div>
