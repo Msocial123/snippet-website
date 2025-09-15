@@ -297,9 +297,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ======================================================
-// PATCH /api/admin/orders/:id/status (update + inventory)
-// ======================================================
 router.patch("/:id/status", async (req, res) => {
   const conn = await db.getConnection();
   try {

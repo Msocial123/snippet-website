@@ -22,7 +22,7 @@
   /* Background Image with Gradient Overlay */
   background:
 
-url("C:\Users\91984\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg") no-repeat center center;
+url("/public/images/Signupbanner.jpg") no-repeat center center;
 background-size: 60% 90%;
 /* C:\Users\Anand\Desktop\snippet-website\Frontend\fashion\public\images\Signupbanner.jpg */
   padding: 20px;

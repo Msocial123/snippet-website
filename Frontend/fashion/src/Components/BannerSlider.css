@@ -6,9 +6,10 @@
 .container-fluid-slider {
   width: 100%;
   overflow: hidden;
-  margin-top: 10px; /* Adjust if header is fixed */
+  margin-top: 90px; /* Adjust if header is fixed */
   margin-bottom: 20px;
   padding: 0;
+  
 }
 
 /* Image base style */

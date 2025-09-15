@@ -202,6 +202,7 @@ app.use((req, res, next) => {
 
 app.use("/api/admin/products", adminProducts);
 app.use("/api/admin/users", userRoutes);
+// app.use("/api", userRoutes);
 app.post("/api/signup", signup);
 app.post("/api/google-signup", googleSignup);
 app.post("/api/facebook-signup", facebookSignup);
@@ -218,6 +219,10 @@ app.use("/api/search", searchRoutes);
 app.post("/login", authController.login);
 app.post("/forgot-password", authController.forgotPassword);
 app.post("/reset-password", authController.resetPassword);
+// app.get("/api/profile", authController.getUserProfile);
+app.get("/api/profile/:uid", authController.getUserProfile);
+
+
 
 // Product APIs
 app.get("/api/products", productController.getAllProducts);
@@ -348,8 +353,17 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.get("/", (req, res) => {
   res.send("Snitch Store API running");
 });
+
+const addressRoutes = require("./Routes/addressRoutes");
+app.use("/api/addresses", addressRoutes);
+const profileRoutes = require("./Routes/profileRoutes");
+app.use("/api", profileRoutes);
+
+const notificationRoutes = require("./Routes/notificationRoutes");
+app.use("/api", notificationRoutes);
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log("✅ Registering product routes at /api/products");
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+

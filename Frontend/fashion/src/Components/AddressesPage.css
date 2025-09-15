@@ -1,0 +1,21 @@
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.address-form-row {
+  display: flex;
+  gap: 12px;
+}
+.address-form input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  flex: 1;
+}
+.address-form button.edit-btn {
+  width: fit-content;
+  align-self: flex-end;
+}
