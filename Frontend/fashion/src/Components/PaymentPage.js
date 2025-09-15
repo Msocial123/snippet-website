@@ -32,22 +32,25 @@ const PaymentPage = () => {
     fetchOrderDetails();
   }, [orderId]);
 
+
+
   const fetchOrderDetails = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
-      setOrderDetails(response.data);
-      setPaymentData(prev => ({
-        ...prev,
-        amount: (response.data.TotalPrice || 0) - (response.data.DiscountAmount || 0),
-        paymentMethod: response.data.PaymentMethod || "Card",
-      }));
-    } catch {
-      setError("Failed to fetch order details");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  setIsLoading(true);
+  try {
+    const response = await axios.get(`http://localhost:5000/api/orders/order/${orderId}`);
+    setOrderDetails(response.data);
+    setPaymentData(prev => ({
+      ...prev,
+      amount: (response.data.TotalPrice || 0) - (response.data.DiscountAmount || 0),
+      paymentMethod: response.data.PaymentMethod || "Card",
+    }));
+  } catch {
+    setError("Failed to fetch order details");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const generateTransactionId = () => `TXN${Date.now()}${Math.random().toString(36).substr(2,5)}`.toUpperCase();
   const generatePaymentId = () => `PAY${Date.now()}${Math.random().toString(36).substr(2,5)}`.toUpperCase();
