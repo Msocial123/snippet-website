@@ -103,7 +103,9 @@ await db.query(
     [orderId, item.productId, item.variantId || null, item.quantity, item.price]
   );
 
-  // // 2. Reduce stock in product_variants
+
+  // 2. Reduce stock in product_variants
+
   // if (item.variantId) {
   //   await connection.query(
   //     `UPDATE product_variants 
