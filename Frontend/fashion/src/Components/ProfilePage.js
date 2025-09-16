@@ -74,8 +74,9 @@ function ProfilePage() {
   );
 
  const OrdersSection = () => (
-  <div className="profile-card">
-    <h2 className="profile-title">Your Orders</h2>
+  // <div className="profile-card">
+  <div className="orders-section">
+    <h2 className="profile-title"></h2>
     <OrdersPage />
   </div>
 );
@@ -352,6 +353,7 @@ function ProfilePage() {
     }
   };
 
+  
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
