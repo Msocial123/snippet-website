@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -79,6 +80,79 @@ function ProfilePage() {
     <OrdersPage />
   </div>
 );
+
+// ProfilePage.js (inside OrdersSection component)
+
+
+// const OrdersSection = () => {
+//   const [orders, setOrders] = useState([]);
+//   const [selectedOrder, setSelectedOrder] = useState(null);
+//   const [tracking, setTracking] = useState([]);
+
+//   useEffect(() => {
+//     const storedUser = JSON.parse(localStorage.getItem("user"));
+//     if (!storedUser?.UID) return;
+
+//     axios
+//       .get(`http://localhost:5000/api/orders/user/${storedUser.UID}`)
+//       .then(res => setOrders(res.data))
+//       .catch(err => console.error(err));
+//   }, []);
+
+//   const viewTracking = async (orderId) => {
+//     try {
+//       const res = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+//       setSelectedOrder(res.data.order);
+//       setTracking(res.data.tracking);
+//     } catch (err) {
+//       console.error(err);
+//       alert("Failed to fetch order tracking.");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h3>Your Orders</h3>
+//       {orders.length === 0 ? (
+//         <p>No orders found.</p>
+//       ) : (
+//         <ul>
+//           {orders.map(order => (
+//             <li key={order.OrderID} style={{ marginBottom: 12, borderBottom: "1px solid #ccc", paddingBottom: 8 }}>
+//               <b>Order ID:</b> {order.OrderID} | <b>Status:</b> {order.Status} | <b>Total:</b> ₹{order.TotalPrice}
+//               <button onClick={() => viewTracking(order.OrderID)} style={{ marginLeft: 12 }}>View Tracking</button>
+//             </li>
+//           ))}
+//         </ul>
+//       )}
+
+//       {selectedOrder && (
+//         <div className="tracking-section" style={{ marginTop: 20, padding: 12, border: "1px solid #ddd", borderRadius: 8 }}>
+//           <h4>Tracking for Order ID: {selectedOrder.OrderID}</h4>
+//           <p><b>Shipped Date:</b> {selectedOrder.ShippedDate ? new Date(selectedOrder.ShippedDate).toLocaleString() : "N/A"}</p>
+//           <p><b>Estimated Delivery:</b> {selectedOrder.EstimatedDeliveryDate ? new Date(selectedOrder.EstimatedDeliveryDate).toLocaleString() : "N/A"}</p>
+//           <p><b>Tracking Number:</b> {selectedOrder.TrackingNumber || "N/A"}</p>
+//           <p><b>Courier Service:</b> {selectedOrder.CourierService || "N/A"}</p>
+
+//           <h5>Tracking History:</h5>
+//           {tracking.length === 0 ? (
+//             <p>No tracking updates yet.</p>
+//           ) : (
+//             <ul>
+//               {tracking.map(t => (
+//                 <li key={t.UpdatedAt}>
+//                   <b>{t.Status}</b> - {t.StatusMessage} ({t.Location}) <i>{new Date(t.UpdatedAt).toLocaleString()}</i>
+//                 </li>
+//               ))}
+//             </ul>
+//           )}
+//           <button onClick={() => setSelectedOrder(null)} style={{ marginTop: 12 }}>Close</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
 
   const AddressesSection = () => (
     <div className="profile-card">
