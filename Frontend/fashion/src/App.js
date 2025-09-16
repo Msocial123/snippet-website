@@ -57,6 +57,9 @@ import PaymentPage from "./Components/PaymentPage";
 import OrdersPage from "./Components/OrdersPage";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import ProfilePage from "./Components/ProfilePage";
+
+
+import ContactUs from "./Components/ContactUs";
 // ==============================
 // App Content Component
 // ==============================
@@ -64,13 +67,14 @@ const AppContent = () => {
   const location = useLocation();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login", "/signup","/admin","/admin/products","/admin/users"];
+  const hideNavbarRoutes = ["/forgot-password", "/reset-password", "/login", "/signup","/admin","/admin/products","/admin/users","/contact-us"];
   const hideFooterRoutes = [
     "/forgot-password",
     "/reset-password",
     "/login",
     "/about-us/about-snippet",
-     "/signup","/admin","/admin/products","/admin/users"
+     "/signup","/admin","/admin/products","/admin/users",
+    "/contact-us",
   ];
 
   return (
@@ -136,6 +140,7 @@ const AppContent = () => {
        <Route path="/payment/:orderId" element={<PaymentPage />} />
 
 <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/contact-us" element={<ContactUs />} />
 
 <Route
           path="/profile"

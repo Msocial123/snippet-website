@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import { CartContext } from "./CartContext"; // adjust path if needed
+
 import { useParams, useNavigate } from "react-router-dom";
 import "./PaymentPage.css";
 
 const PaymentPage = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
+
+   const { fetchCartItems } = useContext(CartContext);  // Get fetchCartItems from context
 
   // State management
   const [orderDetails, setOrderDetails] = useState(null);
@@ -70,14 +75,27 @@ const PaymentPage = () => {
     setIsProcessing(true);
     setError("");
     try {
+      // await axios.post("http://localhost:5000/api/payments/confirm", {
+      //   orderId,
+      //   paymentMethod: "COD",
+      //   paymentId: "",
+      //   transactionId: "",
+      //   status: "Pending"
+      // });
+      // setSuccess(true);
+
       await axios.post("http://localhost:5000/api/payments/confirm", {
-        orderId,
-        paymentMethod: "COD",
-        paymentId: "",
-        transactionId: "",
-        status: "Pending"
-      });
-      setSuccess(true);
+  orderId,
+  paymentMethod: paymentData.paymentMethod,
+  paymentId: paymentData.paymentId,
+  transactionId: paymentData.transactionId,
+  status: "Completed"
+});
+
+// After payment confirmed, refresh cart state here:
+await fetchCartItems(); // Make sure this method is accessible in PaymentPage or trigger context update
+
+setSuccess(true);
       setTimeout(() => navigate("/orders"), 4000);
     } catch {
       setError("Failed to confirm COD order. Please try again.");
@@ -103,6 +121,8 @@ const PaymentPage = () => {
         transactionId: paymentData.transactionId,
         status: "Completed"
       });
+
+       await fetchCartItems();
       setSuccess(true);
       setTimeout(() => navigate("/orders"), 4000);
     } catch {
