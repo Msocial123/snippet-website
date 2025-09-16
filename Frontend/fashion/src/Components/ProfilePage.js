@@ -1,92 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-// import "./ProfilePage.css"; // make sure to style as per the screenshot
-
-// function ProfilePage() {
-//   const [user, setUser] = useState(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const storedUser = JSON.parse(localStorage.getItem("user"));
-//     if (!storedUser?.UID) {
-//       navigate("/login"); // redirect if not logged in
-//       return;
-//     }
-
-//     // Fetch user profile
-//     axios
-//       .get(`http://localhost:5000/api/profile/${storedUser.UID}`)
-//       .then((res) => {
-//         setUser(res.data.user);
-//       })
-//       .catch((err) => {
-//         console.error("Profile fetch error:", err);
-//         alert("Failed to load profile");
-//       });
-//   }, [navigate]);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("user");
-//     navigate("/login");
-//   };
-
-//   if (!user) return <p>Loading profile...</p>;
-
-//   return (
-//     <div className="dashboard-container">
-//       {/* Sidebar */}
-//       <aside className="sidebar">
-//         <h2 className="sidebar-logo">Clahan Organic</h2>
-//         <ul className="sidebar-menu">
-//           <li className="active">Overview</li>
-//           <li>Orders</li>
-//           <li>Addresses</li>
-//           <li>Wishlist</li>
-//           <li>Notifications</li>
-//           <li>Change Password</li>
-//           <li onClick={handleLogout} className="logout-btn">
-//             Logout
-//           </li>
-//         </ul>
-//       </aside>
-
-//       {/* Main Content */}
-//       <main className="profile-main">
-//         <header className="profile-header">User Details</header>
-//         <div className="profile-card">
-//           <div className="profile-avatar">
-//             <img
-//               src="/default-avatar.png" // replace with user uploaded image later
-//               alt="Profile"
-//             />
-//           </div>
-//           <div className="profile-details">
-//             <p>
-//               <strong>Full Name:</strong> {user.FirstName} {user.LastName}
-//             </p>
-//             <p>
-//               <strong>Email:</strong> {user.Email}
-//             </p>
-//             <p>
-//               <strong>Phone Number:</strong> {user.Contact || "N/A"}
-//             </p>
-//             <p>
-//               <strong>Address:</strong> {user.Address || "N/A"}
-//             </p>
-//             <p>
-//               <strong>Member since:</strong>{" "}
-//               {new Date(user.CreatedAt).toDateString()}
-//             </p>
-//             <button className="edit-btn">Edit Profile</button>
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-
-// export default ProfilePage;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -162,8 +73,9 @@ function ProfilePage() {
   );
 
  const OrdersSection = () => (
-  <div className="profile-card">
-    <h2 className="profile-title">Your Orders</h2>
+  // <div className="profile-card">
+  <div className="orders-section">
+    <h2 className="profile-title"></h2>
     <OrdersPage />
   </div>
 );
@@ -367,6 +279,7 @@ function ProfilePage() {
     }
   };
 
+  
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
