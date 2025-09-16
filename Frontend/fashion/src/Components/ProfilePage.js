@@ -1,92 +1,4 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { useNavigate } from "react-router-dom";
-// import "./ProfilePage.css"; // make sure to style as per the screenshot
 
-// function ProfilePage() {
-//   const [user, setUser] = useState(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const storedUser = JSON.parse(localStorage.getItem("user"));
-//     if (!storedUser?.UID) {
-//       navigate("/login"); // redirect if not logged in
-//       return;
-//     }
-
-//     // Fetch user profile
-//     axios
-//       .get(`http://localhost:5000/api/profile/${storedUser.UID}`)
-//       .then((res) => {
-//         setUser(res.data.user);
-//       })
-//       .catch((err) => {
-//         console.error("Profile fetch error:", err);
-//         alert("Failed to load profile");
-//       });
-//   }, [navigate]);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("user");
-//     navigate("/login");
-//   };
-
-//   if (!user) return <p>Loading profile...</p>;
-
-//   return (
-//     <div className="dashboard-container">
-//       {/* Sidebar */}
-//       <aside className="sidebar">
-//         <h2 className="sidebar-logo">Clahan Organic</h2>
-//         <ul className="sidebar-menu">
-//           <li className="active">Overview</li>
-//           <li>Orders</li>
-//           <li>Addresses</li>
-//           <li>Wishlist</li>
-//           <li>Notifications</li>
-//           <li>Change Password</li>
-//           <li onClick={handleLogout} className="logout-btn">
-//             Logout
-//           </li>
-//         </ul>
-//       </aside>
-
-//       {/* Main Content */}
-//       <main className="profile-main">
-//         <header className="profile-header">User Details</header>
-//         <div className="profile-card">
-//           <div className="profile-avatar">
-//             <img
-//               src="/default-avatar.png" // replace with user uploaded image later
-//               alt="Profile"
-//             />
-//           </div>
-//           <div className="profile-details">
-//             <p>
-//               <strong>Full Name:</strong> {user.FirstName} {user.LastName}
-//             </p>
-//             <p>
-//               <strong>Email:</strong> {user.Email}
-//             </p>
-//             <p>
-//               <strong>Phone Number:</strong> {user.Contact || "N/A"}
-//             </p>
-//             <p>
-//               <strong>Address:</strong> {user.Address || "N/A"}
-//             </p>
-//             <p>
-//               <strong>Member since:</strong>{" "}
-//               {new Date(user.CreatedAt).toDateString()}
-//             </p>
-//             <button className="edit-btn">Edit Profile</button>
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-
-// export default ProfilePage;
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -167,6 +79,79 @@ function ProfilePage() {
     <OrdersPage />
   </div>
 );
+
+// ProfilePage.js (inside OrdersSection component)
+
+
+// const OrdersSection = () => {
+//   const [orders, setOrders] = useState([]);
+//   const [selectedOrder, setSelectedOrder] = useState(null);
+//   const [tracking, setTracking] = useState([]);
+
+//   useEffect(() => {
+//     const storedUser = JSON.parse(localStorage.getItem("user"));
+//     if (!storedUser?.UID) return;
+
+//     axios
+//       .get(`http://localhost:5000/api/orders/user/${storedUser.UID}`)
+//       .then(res => setOrders(res.data))
+//       .catch(err => console.error(err));
+//   }, []);
+
+//   const viewTracking = async (orderId) => {
+//     try {
+//       const res = await axios.get(`http://localhost:5000/api/orders/${orderId}`);
+//       setSelectedOrder(res.data.order);
+//       setTracking(res.data.tracking);
+//     } catch (err) {
+//       console.error(err);
+//       alert("Failed to fetch order tracking.");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h3>Your Orders</h3>
+//       {orders.length === 0 ? (
+//         <p>No orders found.</p>
+//       ) : (
+//         <ul>
+//           {orders.map(order => (
+//             <li key={order.OrderID} style={{ marginBottom: 12, borderBottom: "1px solid #ccc", paddingBottom: 8 }}>
+//               <b>Order ID:</b> {order.OrderID} | <b>Status:</b> {order.Status} | <b>Total:</b> ₹{order.TotalPrice}
+//               <button onClick={() => viewTracking(order.OrderID)} style={{ marginLeft: 12 }}>View Tracking</button>
+//             </li>
+//           ))}
+//         </ul>
+//       )}
+
+//       {selectedOrder && (
+//         <div className="tracking-section" style={{ marginTop: 20, padding: 12, border: "1px solid #ddd", borderRadius: 8 }}>
+//           <h4>Tracking for Order ID: {selectedOrder.OrderID}</h4>
+//           <p><b>Shipped Date:</b> {selectedOrder.ShippedDate ? new Date(selectedOrder.ShippedDate).toLocaleString() : "N/A"}</p>
+//           <p><b>Estimated Delivery:</b> {selectedOrder.EstimatedDeliveryDate ? new Date(selectedOrder.EstimatedDeliveryDate).toLocaleString() : "N/A"}</p>
+//           <p><b>Tracking Number:</b> {selectedOrder.TrackingNumber || "N/A"}</p>
+//           <p><b>Courier Service:</b> {selectedOrder.CourierService || "N/A"}</p>
+
+//           <h5>Tracking History:</h5>
+//           {tracking.length === 0 ? (
+//             <p>No tracking updates yet.</p>
+//           ) : (
+//             <ul>
+//               {tracking.map(t => (
+//                 <li key={t.UpdatedAt}>
+//                   <b>{t.Status}</b> - {t.StatusMessage} ({t.Location}) <i>{new Date(t.UpdatedAt).toLocaleString()}</i>
+//                 </li>
+//               ))}
+//             </ul>
+//           )}
+//           <button onClick={() => setSelectedOrder(null)} style={{ marginTop: 12 }}>Close</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
 
   const AddressesSection = () => (
     <div className="profile-card">
