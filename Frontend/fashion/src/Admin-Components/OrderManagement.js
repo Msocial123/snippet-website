@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import "./OrderManagement.css";
+import AdminOrderTracking from "./OrderTracking";
 
 // CRA env variable (fallback provided)
 const api = axios.create({
@@ -53,11 +54,9 @@ export default function OrderManagement() {
     setError("");
     try {
       const resp = await api.get("/api/admin/orders", { params: { status, q, page, limit } });
-      console.log("FRONTEND: /api/admin/orders response:", resp.data);
       setRows(resp.data.data || []);
       setTotal(resp.data.total || 0);
     } catch (e) {
-      console.error("fetchList error:", e);
       setError(e.message);
     } finally {
       setLoading(false);
@@ -68,10 +67,8 @@ export default function OrderManagement() {
     setError("");
     try {
       const resp = await api.get(`/api/admin/orders/${orderId}`);
-      console.log("FRONTEND: /api/admin/orders/:id response:", resp.data);
       setDetails(resp.data);
     } catch (e) {
-      console.error("fetchDetails error:", e);
       setError(e.message);
     }
   };
@@ -206,6 +203,12 @@ export default function OrderManagement() {
             <div className="totals">
               <span>Discount: ₹{(details.order?.discountAmount || 0).toFixed(2)}</span>
               <strong>Total: ₹{details.order?.totalPrice.toFixed(2)}</strong>
+            </div>
+
+            {/* 🟡 Admin Order Tracking Section */}
+            <div style={{ marginTop: "2rem", borderTop: "1px solid #eee", paddingTop: "1rem" }}>
+              <h4>Order Tracking</h4>
+              <AdminOrderTracking orderId={selected?.orderId} />
             </div>
           </div>
         )}

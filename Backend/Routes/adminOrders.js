@@ -342,4 +342,50 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
+
+
+// Get tracking info for an order
+router.get('/order/:orderId/tracking', async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const [tracking] = await db.query(
+      `SELECT * FROM order_tracking WHERE OrderID = ? ORDER BY UpdatedAt ASC`,
+      [orderId]
+    );
+    res.json(tracking);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch tracking info' });
+  }
+});
+
+// Add a new tracking step
+router.post('/order/:orderId/tracking', async (req, res) => {
+  const { orderId } = req.params;
+  const { status, statusMessage, location } = req.body;
+  try {
+    await db.query(
+      `INSERT INTO order_tracking (OrderID, Status, StatusMessage, Location) VALUES (?, ?, ?, ?)`,
+      [orderId, status, statusMessage, location]
+    );
+    res.json({ message: 'Tracking step added' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add tracking step' });
+  }
+});
+
+// Optionally: Update a tracking step
+router.put('/order/:orderId/tracking/:trackingId', async (req, res) => {
+  const { orderId, trackingId } = req.params;
+  const { status, statusMessage, location } = req.body;
+  try {
+    await db.query(
+      `UPDATE order_tracking SET Status = ?, StatusMessage = ?, Location = ? WHERE TrackingID = ? AND OrderID = ?`,
+      [status, statusMessage, location, trackingId, orderId]
+    );
+    res.json({ message: 'Tracking step updated' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update tracking step' });
+  }
+});
+
 module.exports = router;

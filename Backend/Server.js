@@ -147,6 +147,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use('/api/variants', variantsRouter);
 
 app.use("/api/orders", ordersPageRoutes);
+
 app.get("/", (req, res) => {
   res.send("Snitch Store API running");
 });
