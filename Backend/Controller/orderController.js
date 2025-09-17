@@ -221,56 +221,6 @@ exports.getOrderById = async (req, res) => {
 
 
     if (orderRows.length === 0) {
-// =======
-//     const [orderDetails] = await db.query(
-//       `SELECT 
-//   o.*,
-//   ANY_VALUE(c.Code) as CouponCode,     
-//   ANY_VALUE(c.DiscountPercent) as DiscountPercent,
-//   ANY_VALUE(o.DiscountAmount) as DiscountAmount,
-//   (o.TotalPrice - o.DiscountAmount) AS FinalAmount,
-//   ANY_VALUE(p.PaymentStatus) as PaymentStatus,
-//   ANY_VALUE(p.TransactionID) as TransactionID,
-//   ANY_VALUE(u.FirstName) as FirstName,
-//   ANY_VALUE(u.LastName) as LastName,
-//   ANY_VALUE(u.Email) as Email,
-//   ANY_VALUE(u.Contact) as Contact,
-//   ANY_VALUE(u.Address) as Address,
-//   JSON_ARRAYAGG(
-//     JSON_OBJECT(
-//       'item_id', oi.OrderItemID,  
-//       'product_id', oi.PID,
-//       'variant_id', oi.VariantID,      
-//       'quantity', oi.Quantity,
-//       'price', oi.Price,
-//       'product_name', pr.Name,
-//       'color', pv.Color,
-//       'size', pv.Size,
-//       'image', CONCAT('uploads/', REPLACE(COALESCE(pv.VariantImage, JSON_UNQUOTE(JSON_EXTRACT(pd.Images, '$[0]'))), 'uploads/', ''))
-//     )
-//   ) as items
-// FROM orders o
-// LEFT JOIN (
-//    SELECT DISTINCT OrderItemID, OrderID, PID, VariantID, Quantity, Price
-//    FROM order_items
-// ) oi ON o.OrderID = oi.OrderID
-// LEFT JOIN coupons c ON o.CouponID = c.CouponID
-// LEFT JOIN (
-//    SELECT OrderID, MAX(PaymentStatus) as PaymentStatus, MAX(TransactionID) as TransactionID
-//    FROM payments
-//    GROUP BY OrderID
-// ) p ON o.OrderID = p.OrderID
-// LEFT JOIN users u ON o.UID = u.UID
-// LEFT JOIN products pr ON oi.PID = pr.PID
-// LEFT JOIN product_variants pv ON oi.VariantID = pv.VariantID
-// LEFT JOIN product_details pd ON pr.PID = pd.PID
-// WHERE o.OrderID = ?
-// GROUP BY o.OrderID`,
-//       [orderId]
-//     );
-
-//     if (orderDetails.length === 0) {
-// >>>>>>> main
       return res.status(404).json({ error: "Order not found" });
     }
 

@@ -433,6 +433,17 @@ const ProductDetail = () => {
     // eslint-disable-next-line
   }, [id]);
 
+  const uniqueVariantsByColor = React.useMemo(() => {
+  const seenColors = new Set();
+  return variantImages.filter(variant => {
+    if (!variant.Color) return false;
+    if (seenColors.has(variant.Color.toLowerCase())) return false;
+    seenColors.add(variant.Color.toLowerCase());
+    return true;
+  });
+}, [variantImages]);
+
+
   const handleColorSelection = (color, variants = variantImages) => {
     if (!color) return;
     setSelectedColor(color);
@@ -543,7 +554,7 @@ const ProductDetail = () => {
         <div className="product-images">
           <img src={mainImage} alt={product.Name} className="main-image" />
 
-          <div className="thumbnail-container">
+          {/* <div className="thumbnail-container">
             {variantImages.map((variant, i) => {
               if (!variant?.VariantImage) return null;
               return (
@@ -560,7 +571,23 @@ const ProductDetail = () => {
                 />
               );
             })}
-          </div>
+          </div> */}
+          <div className="thumbnail-container">
+  {uniqueVariantsByColor.map((variant, i) => (
+    <img
+      key={i}
+      src={`http://localhost:5000/uploads/${variant.VariantImage.trim()}`}
+      alt={`Thumb ${i}`}
+      className="thumbnail"
+      onClick={() => handleThumbnailClick(variant)}
+      onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = "http://localhost:5000/uploads/default.jpg";
+      }}
+    />
+  ))}
+</div>
+
         </div>
 
         <div className="product-info">
