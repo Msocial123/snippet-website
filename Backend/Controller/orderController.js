@@ -12,13 +12,13 @@ exports.createOrder = async (req, res) => {
   try {
     await connection.beginTransaction();
 
-    // 🔹 Step 1: Update phone + address
+    // Step 1: Update phone + address
     await connection.query(
       `UPDATE users SET Contact = ?, Address = ? WHERE UID = ?`,
       [phone, ShippingAddress, uid]
     );
 
-    // 🔹 Step 2: Handle coupon logic
+    // Step 2: Handle coupon logic
     let couponId = null;
     let discountAmount = 0;
 
@@ -48,7 +48,7 @@ exports.createOrder = async (req, res) => {
       }
     }
 
-    // 🔹 Step 3: Insert order
+    // Step 3: Insert order
     const [orderResult] = await connection.query(
       `INSERT INTO orders 
         (UID, OrderDate, TotalPrice, Status, PaymentMethod, ShippingAddress, CouponID, DiscountAmount)
@@ -66,19 +66,38 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    // 🔹 Step 4: Insert order items
+    // Step 4: Insert order items & reduce stock
     for (const item of items) {
       await connection.query(
         `INSERT INTO order_items (OrderID, PID, VariantID, Quantity, Price)
          VALUES (?, ?, ?, ?, ?)`,
         [orderId, item.productId, item.variantId || null, item.quantity, item.price]
       );
+
+      // Reduce stock for each variant (if variantId is present)
+      if (item.variantId) {
+        // Debug log
+        console.log(`Reducing stock for VariantID=${item.variantId}, Quantity=${item.quantity}`);
+        const [result] = await connection.query(
+          `UPDATE product_variants 
+           SET StockQuantity = StockQuantity - ? 
+           WHERE VariantID = ? AND StockQuantity >= ?`,
+          [item.quantity, item.variantId, item.quantity]
+        );
+        if (result.affectedRows === 0) {
+          await connection.rollback();
+          return res.status(400).json({ error: `Insufficient stock for variant ${item.variantId}` });
+        }
+      } else {
+        // If no variantId, optionally reduce stock for the product (not recommended for fashion)
+        console.warn(`No variantId for item:`, item);
+      }
     }
 
-    // ✅ Step 5: Commit transaction FIRST
+    // Step 5: Commit transaction FIRST
     await connection.commit();
 
-    // ✅ Step 6: Now create notifications OUTSIDE transaction
+    // Step 6: Now create notifications OUTSIDE transaction
     await db.query(
       "INSERT INTO notifications (UID, Title, Message, Type) VALUES (?, ?, ?, ?)",
       [uid, "Order Placed", `Your order #${orderId} has been placed successfully!`, "order"]

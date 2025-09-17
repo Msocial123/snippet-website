@@ -1,0 +1,91 @@
+.order-tracking-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem;
+  margin: 1rem 0;
+  max-width: 600px;
+}
+
+.order-tracking-container h3 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #2d3748;
+}
+
+.order-tracking-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.order-tracking-container li {
+  background: #f7fafc;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  font-size: 1rem;
+  position: relative;
+}
+
+.order-tracking-container li b {
+  color: #3182ce;
+  font-size: 1.05rem;
+}
+
+.order-tracking-container li small {
+  color: #718096;
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.order-tracking-container .error {
+  color: #e53e3e;
+  margin-bottom: 1rem;
+}
+
+.order-tracking-container h4 {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #4a5568;
+}
+
+.order-tracking-container select,
+.order-tracking-container input {
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #cbd5e0;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.order-tracking-container select:focus,
+.order-tracking-container input:focus {
+  border-color: #3182ce;
+}
+
+.order-tracking-container button {
+  background: #3182ce;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.order-tracking-container button:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.order-tracking-container span {
+  color: #38a169;
+  font-weight: 500;
+}

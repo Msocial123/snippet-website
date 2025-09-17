@@ -15,6 +15,7 @@ body, html {
   width: 100%;
   height: 66vh;
   min-height: 430px;
+
   background: url('/public/images/ContactUsFinal.png') center/cover no-repeat; 
   display: flex;
   align-items: center;
