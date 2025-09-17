@@ -15,7 +15,8 @@ body, html {
   width: 100%;
   height: 66vh;
   min-height: 430px;
-  background: url('/public/images/AboutFinal.png') center/cover no-repeat; 
+
+  background: url('/public/images/ContactUsFinal.png') center/cover no-repeat; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +36,7 @@ body, html {
   text-align: center;
   color: #fff;
   width: 100%;
-  max-width: 520px;
+  max-width: 590px;
   margin: 0 auto;
   padding: 36px 26px 24px 26px;
 }
@@ -49,8 +50,9 @@ body, html {
 }
 
 .brand-highlight {
-  color: #c75cff;
+  color: white;
   letter-spacing: 0.01em;
+  font-weight: bold;
 }
 
 .hero-content p {
@@ -366,4 +368,58 @@ body, html {
     padding: 40px 5vw 18px 5vw;
     gap: 18px;
   }
+}
+
+.hero-section {
+  position: relative;
+  width: 100vw;
+  height: 66vh; /* or 100vh for full viewport */
+  min-height: 430px;
+ 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 10, 32, 0.60);
+  z-index: 1;
+}
+
+.hero-center-content {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.14); /* subtle for contrast if needed */
+  padding: 38px 36px;
+  border-radius: 18px;
+  box-shadow: 0 8px 36px rgba(30,0,40,0.08);
+  text-align: center;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.hero-center-content h1 {
+  font-size: 2.6rem;
+  font-weight: 900;
+  margin-bottom: 14px;
+  line-height: 1.13;
+  color: white;
+  letter-spacing: -0.03em;
+
+}
+
+.brand-highlight {
+  color: #c75cff;
+  display: block;
+  font-weight: 900;
+  font-size: inherit;
+}
+
+.hero-center-content p {
+  color: white;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  opacity: 0.93;
 }

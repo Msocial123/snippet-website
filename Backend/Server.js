@@ -105,11 +105,11 @@ app.get("/api/profile/:uid", authController.getUserProfile);
 
 
 // Product APIs
-app.get("/api/products", productController.getAllProducts);
-app.get("/api/products/category/:category", productController.getProductsByCategory);
-app.get("/api/products/:id", productController.getProductById);
-app.get("/api/reviews/:id", productController.getProductReviews);
-app.get("/api/products/women", productController.getWomenProducts);
+// app.get("/api/products", productController.getAllProducts);
+// app.get("/api/products/category/:category", productController.getProductsByCategory);
+// app.get("/api/products/:id", productController.getProductById);
+// app.get("/api/reviews/:id", productController.getProductReviews);
+// app.get("/api/products/women", productController.getWomenProducts);
 
 // Variant APIs
 app.get("/api/variants", variantController.getVariantsByProductId);

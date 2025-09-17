@@ -1,35 +1,26 @@
-// // routes/productRoutes.js
-// const express = require("express");
-// const router = express.Router();
-// const productController = require("../Controller/productController");
-// const variantController = require("../Controller/variantController");
-
-// // Get variant by PID, Color, Size
-// router.get("/variant/one", variantController.getVariantByAttributes);
-
-// router.get("/:id", productController.getProductById);
-
-// module.exports = router;
-
-
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const productController = require("../Controller/productController");
-const variantController = require("../Controller/variantController");
+const productController = require('../Controller/productController');
 
-// ✅ All products
-router.get("/", productController.getAllProducts);
+// Debug log
+router.use((req, res, next) => {
+  console.log(`🌟 Route hit: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// ✅ Category route FIRST (before /:id)
+router.get('/category/:category', productController.getProductsByCategory);
 
 // ✅ Women products
-router.get("/women", productController.getWomenProducts);
+router.get('/women', productController.getWomenProducts);
 
-// ✅ Products by category
-router.get("/category/:category", productController.getProductsByCategory);
+// ✅ All products
+router.get('/', productController.getAllProducts);
 
-// ✅ Variant by PID, Color, Size
-router.get("/variant/one", variantController.getVariantByAttributes);
+// ✅ Product by ID — must come after category route
+router.get('/:id', productController.getProductById);
 
-// ✅ Single product by ID
-router.get("/:id", productController.getProductById);
+// ✅ Reviews for product
+router.get('/:id/reviews', productController.getProductReviews);
 
 module.exports = router;

@@ -38,10 +38,24 @@ router.get("/", async (req, res) => {
 
     for (const p of products) {
       const [[details]] = await db.query("SELECT * FROM product_details WHERE PID=?", [p.PID]);
+      // const [variants] = await db.query(
+      //   "SELECT VariantID, Size, Color, StockQuantity, SKU, VariantImage FROM product_variants WHERE PID=?",
+      //   [p.PID]
+      // );
+
       const [variants] = await db.query(
-        "SELECT VariantID, Size, Color, StockQuantity, SKU, VariantImage FROM product_variants WHERE PID=?",
-        [p.PID]
-      );
+  `SELECT pv1.Color, pv1.VariantImage
+  FROM product_variants pv1
+  INNER JOIN (
+    SELECT Color, MIN(VariantID) AS min_id
+    FROM product_variants
+    WHERE PID = ?
+    GROUP BY Color
+  ) AS pv2 ON pv1.Color = pv2.Color AND pv1.VariantID = pv2.min_id
+  WHERE pv1.PID = ?`,
+  [p.PID, p.PID]
+);
+
 
       // If product_details.Images is JSON stored as string, keep as parsed array (otherwise return as-is)
       let images = null;
@@ -76,10 +90,34 @@ router.get("/:pid", async (req, res) => {
     if (!product) return res.status(404).json({ error: "Product not found" });
 
     const [details] = await db.query("SELECT * FROM product_details WHERE PID=?", [pid]);
+    // const [variants] = await db.query(
+    //   "SELECT VariantID, Size, Color, StockQuantity, SKU, VariantImage FROM product_variants WHERE PID=?",
+    //   [pid]
+    // );
+
     const [variants] = await db.query(
-      "SELECT VariantID, Size, Color, StockQuantity, SKU, VariantImage FROM product_variants WHERE PID=?",
-      [pid]
-    );
+  `SELECT pv1.*
+   FROM product_variants pv1
+   INNER JOIN (
+     SELECT Color, MIN(VariantID) AS min_id
+     FROM product_variants
+     WHERE PID = ?
+     GROUP BY Color
+   ) pv2 ON pv1.Color = pv2.Color AND pv1.VariantID = pv2.min_id
+   WHERE pv1.PID = ?`,
+  [pid, pid]
+);
+
+const uniqueVariantsByColor = React.useMemo(() => {
+  const seenColors = new Set();
+  return variantImages.filter(variant => {
+    if (!variant.Color) return false;
+    if (seenColors.has(variant.Color.toLowerCase())) return false;
+    seenColors.add(variant.Color.toLowerCase());
+    return true;
+  });
+}, [variantImages]);
+
 
     let images = null;
     if (details[0] && details[0].Images) {

@@ -51,21 +51,21 @@ function DropDiaries() {
         <div className="drops-grid">
           <div className="drop-card">
             <span className="status-badge just-dropped">Just Dropped</span>
-            <img src="/sneakers.jpg" alt="Urban Runner Collection" />
+            <img src="/images/Urban.png" alt="Urban Runner Collection" />
             <div className="drop-info">
               <div className="drop-title-row">
-                <h3>Urban Runner Collection</h3>
+                <h3>Urban Collection</h3>
                 <span className="drop-price">$189</span>
               </div>
               <div className="drop-sub">
-                Limited edition streetwear sneakers that blend comfort with cutting-edge design.
+                Limited edition streetwear hoodies that blend comfort with cutting-edge design.
               </div>
               <button>Shop Now</button>
             </div>
           </div>
           <div className="drop-card">
             <span className="status-badge coming-soon">Coming Soon</span>
-            <img src="/jacket.jpg" alt="Minimalist Tech Jacket" />
+            <img src="/images/JacketContact.png" alt="Minimalist Tech Jacket" />
             <div className="drop-info">
               <div className="drop-title-row">
                 <h3>Minimalist Tech Jacket</h3>
@@ -87,7 +87,7 @@ function DropDiaries() {
         <div className="stories-grid">
           <div className="story-card">
             <span className="story-tag">Behind the Scenes</span>
-            <img src="/story1.jpg" alt="Behind the Design" />
+            <img src="/images/BTS.png" alt="Behind the Design" />
             <div className="story-meta">2 days ago • 5 min read</div>
             <div className="story-title">Behind the Design: Creating the Urban Runner</div>
             <div className="story-desc">
@@ -96,7 +96,7 @@ function DropDiaries() {
           </div>
           <div className="story-card">
             <span className="story-tag">Trends</span>
-            <img src="/jacket.jpg" alt="Tech Wear" />
+            <img src="/images/JacketContact.png" alt="Tech Wear" />
             <div className="story-meta">1 week ago • 3 min read</div>
             <div className="story-title">The Rise of Tech-Wear in Street Fashion</div>
             <div className="story-desc">
@@ -105,7 +105,7 @@ function DropDiaries() {
           </div>
           <div className="story-card">
             <span className="story-tag">Sustainability</span>
-            <img src="/sneakers.jpg" alt="Sustainable Streetwear" />
+            <img src="/images/Urban.png" alt="Sustainable Streetwear" />
             <div className="story-meta">2 weeks ago • 4 min read</div>
             <div className="story-title">Sustainable Streetwear: The Future is Now</div>
             <div className="story-desc">
