@@ -1,4 +1,4 @@
-const db = require('../db');s
+const db = require('../db');
 exports.searchSuggestions = async (req, res) => {
   const searchTerm = req.query.query; // renamed to avoid shadowing
   console.log("Incoming search query:", searchTerm);
