@@ -71,39 +71,65 @@ const PaymentPage = () => {
     setError("");
   };
 
-  const confirmCODOrder = async () => {
-    setIsProcessing(true);
-    setError("");
-    try {
-      // await axios.post("http://localhost:5000/api/payments/confirm", {
-      //   orderId,
-      //   paymentMethod: "COD",
-      //   paymentId: "",
-      //   transactionId: "",
-      //   status: "Pending"
-      // });
-      // setSuccess(true);
+//   const confirmCODOrder = async () => {
+//     setIsProcessing(true);
+//     setError("");
+//     try {
+//       // await axios.post("http://localhost:5000/api/payments/confirm", {
+//       //   orderId,
+//       //   paymentMethod: "COD",
+//       //   paymentId: "",
+//       //   transactionId: "",
+//       //   status: "Pending"
+//       // });
+//       // setSuccess(true);
 
-      await axios.post("http://localhost:5000/api/payments/confirm", {
-  orderId,
-  paymentMethod: paymentData.paymentMethod,
-  paymentId: paymentData.paymentId,
-  transactionId: paymentData.transactionId,
-  status: "Completed"
-});
+//       await axios.post("http://localhost:5000/api/payments/confirm", {
+//   orderId,
+//   paymentMethod: paymentData.paymentMethod,
+//   paymentId: paymentData.paymentId,
+//   transactionId: paymentData.transactionId,
+//   status: "Completed"
+// });
 
-// After payment confirmed, refresh cart state here:
-await fetchCartItems(); // Make sure this method is accessible in PaymentPage or trigger context update
+// // After payment confirmed, refresh cart state here:
+// await fetchCartItems(); // Make sure this method is accessible in PaymentPage or trigger context update
 
-setSuccess(true);
-      setTimeout(() => navigate("/orders"), 4000);
-    } catch {
-      setError("Failed to confirm COD order. Please try again.");
-      setPaymentStep(2);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+// setSuccess(true);
+//       setTimeout(() => navigate("/orders"), 4000);
+//     } catch {
+//       setError("Failed to confirm COD order. Please try again.");
+//       setPaymentStep(2);
+//     } finally {
+//       setIsProcessing(false);
+//     }
+//   };
+
+const confirmCODOrder = async () => {
+  setIsProcessing(true);
+  setError("");
+  try {
+    await axios.post("http://localhost:5000/api/payments/confirm", {
+      orderId,
+      paymentMethod: "COD",
+      paymentId: "",           // Intentionally empty for COD pending orders
+      transactionId: "",       // Intentionally empty for COD pending orders
+      status: "Pending"        // Set status as pending for COD
+    });
+
+    await fetchCartItems();
+    setSuccess(true);
+    setTimeout(() => navigate("/orders"), 4000);
+  } catch {
+    setError("Failed to confirm COD order. Please try again.");
+    setPaymentStep(2);
+  } finally {
+    setIsProcessing(false);
+  }
+};
+
+
+
 
   const confirmPayment = async () => {
     if (paymentData.paymentId === "" || paymentData.transactionId === "") {

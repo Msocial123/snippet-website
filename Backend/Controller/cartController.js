@@ -163,12 +163,13 @@ exports.getCartItems = async (req, res) => {
 // ✅ Update quantity
 exports.updateCartQuantity = async (req, res) => {
   const { uid, variantId, quantity } = req.body;
-
+ console.log('Received quantity update:', { uid, variantId, quantity });
   try {
     await db.query(
       "UPDATE cart SET Quantity = ? WHERE UID = ? AND VariantID = ?",
       [quantity, uid, variantId]
     );
+        console.log('Quantity updated successfully');
     res.json({ message: "Quantity updated" });
   } catch (err) {
     console.error("Error updating quantity:", err);
