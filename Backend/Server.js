@@ -230,7 +230,7 @@ app.get("/", (req, res) => {
 const addressRoutes = require("./Routes/addressRoutes");
 app.use("/api/addresses", addressRoutes);
 const profileRoutes = require("./Routes/profileRoutes");
-app.use("/api", profileRoutes);
+app.use("/api/profile", profileRoutes);
 
 const notificationRoutes = require("./Routes/notificationRoutes");
 app.use("/api", notificationRoutes);
