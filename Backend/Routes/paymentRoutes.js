@@ -46,64 +46,34 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Save payment details
-// router.post("/confirm", async (req, res) => {
-//   const { orderId, paymentId, transactionId, status, paymentMethod } = req.body;
-
-//   if (!orderId || !paymentId || !transactionId || !status) {
-//     return res.status(400).json({ error: "Missing required fields" });
-//   }
-
-//   try {
-//     let finalPaymentMethod = paymentMethod;
-
-//     // If paymentMethod is not provided, fallback to orders table
-//     if (!finalPaymentMethod) {
-//       const [orderResult] = await db.query(
-//         "SELECT PaymentMethod FROM orders WHERE OrderID = ?",
-//         [orderId]
-//       );
-
-//       if (orderResult.length === 0) {
-//         return res.status(404).json({ error: "Order not found" });
-//       }
-
-//       finalPaymentMethod = orderResult[0].PaymentMethod || "Unknown";
-//     }
-
-//     // Insert into Payments table
-//     await db.query(
-//       `INSERT INTO payments 
-//         (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt) 
-//        VALUES (?, ?, ?, ?, NOW())`,
-//       [orderId, finalPaymentMethod, status, transactionId]
-//     );
-
-//     // Update payment status if completed
-//     if (status.toLowerCase() === "completed") {
-//       await db.query(
-//         "UPDATE payments SET PaymentStatus = 'Completed' WHERE OrderID = ?",
-//         [orderId]
-//       );
-//     }
-
-//     res.json({ message: "✅ Payment saved successfully" });
-//   } catch (error) {
-//     console.error("❌ Error saving payment:", error);
-//     res.status(500).json({ error: "Failed to save payment" });
-//   }
-// });
 
 router.post("/confirm", async (req, res) => {
+  // const { orderId, paymentId, transactionId, status, paymentMethod } = req.body;
+
+  // console.log("Received payment confirm:", req.body);
+
+  // if (!orderId || !paymentId || !transactionId || !status) {
+  //   console.log("Missing required fields");
+  //   return res.status(400).json({ error: "Missing required fields" });
+  // }
+
   const { orderId, paymentId, transactionId, status, paymentMethod } = req.body;
 
   console.log("Received payment confirm:", req.body);
 
-  if (!orderId || !paymentId || !transactionId || !status) {
+  // Validate mandatory fields except paymentId/transactionId for COD with Pending status
+  if (!orderId || !paymentMethod || !status) {
     console.log("Missing required fields");
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  // COD + Pending status → allow empty paymentId and transactionId
+  if (!(paymentMethod === "COD" && status === "Pending")) {
+    if (!paymentId || !transactionId) {
+      console.log("Missing required fields for non-COD or completed payment");
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+  }
   try {
     // 1. Get UID and ordered variant IDs from order
     const [orderRows] = await db.query(
@@ -124,34 +94,49 @@ router.post("/confirm", async (req, res) => {
 
     const variantIds = orderItems.map(item => item.VariantID);
 
-    // 2. Insert into payments table
+   
+
+    // Insert payment record
+await db.query(
+  `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt) 
+   VALUES (?, ?, ?, ?, NOW())`,
+  [orderId, paymentMethod, status, transactionId]
+);
+
+if (paymentMethod === "COD") {
+  if (variantIds.length > 0) {
     await db.query(
-      `INSERT INTO payments (OrderID, PaymentMethod, PaymentStatus, TransactionID, PaidAt) 
-       VALUES (?, ?, ?, ?, NOW())`,
-      [orderId, paymentMethod, status, transactionId]
+      "DELETE FROM cart WHERE UID = ? AND VariantID IN (?)",
+      [userId, variantIds]
     );
+  }
+}
 
-    // 3. Update payment status when completed
-    if (status.toLowerCase() === "completed") {
-      await db.query(
-        "UPDATE payments SET PaymentStatus = 'Completed' WHERE OrderID = ?",
-        [orderId]
-      );
+// Update only for completed payments
+if (status.toLowerCase() === "completed") {
+  await db.query(
+    "UPDATE payments SET PaymentStatus = 'Completed' WHERE OrderID = ?",
+    [orderId]
+  );
 
-      // 4. Update orders table (status and payment method)
-      await db.query(
-        "UPDATE orders SET Status = 'Paid', PaymentMethod = ? WHERE OrderID = ?",
-        [paymentMethod, orderId]
-      );
+  await db.query(
+    "UPDATE orders SET Status = 'Paid', PaymentMethod = ? WHERE OrderID = ?",
+    [paymentMethod, orderId]
+  );
 
-      // 5. Delete ordered items from cart for user
-      if (variantIds.length > 0) {
-        await db.query(
-          "DELETE FROM cart WHERE UID = ? AND VariantID IN (?)",
-          [userId, variantIds]
-        );
-      }
-    }
+  if (variantIds.length > 0) {
+    await db.query(
+      "DELETE FROM cart WHERE UID = ? AND VariantID IN (?)",
+      [userId, variantIds]
+    );
+  }
+ } else if (paymentMethod === "COD" && status.toLowerCase() === "pending") {
+  // For COD with Pending status, update orders accordingly
+  await db.query(
+    "UPDATE orders SET Status = 'Pending', PaymentMethod = ? WHERE OrderID = ?",
+    [paymentMethod, orderId]
+  );
+}
 
     console.log("Payment record inserted and cart updated successfully");
 

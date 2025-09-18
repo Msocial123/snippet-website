@@ -19,6 +19,9 @@ const OrderDetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const safeTrim = (str) => (typeof str === "string" ? str.trim() : "");
+
+
   // Fetch order details
   useEffect(() => {
     const fetchOrder = async () => {
@@ -197,7 +200,7 @@ const OrderDetailsPage = () => {
       {/* Order Items */}
       <h3>Items Ordered:</h3>
       <div className="order-items">
-        {order.items && order.items.length > 0 ? (
+        {/* {order.items && order.items.length > 0 ? (
           order.items.map((item, idx) => (
             <div key={idx} className="order-item">
         <img
@@ -230,7 +233,43 @@ const OrderDetailsPage = () => {
           ))
         ) : (
           <p>No items found in this order.</p>
-        )}
+        )} */}
+
+        {order.items && order.items.length > 0 ? (
+  order.items.map((item, idx) => (
+    <div key={idx} className="order-item">
+      <img
+        src={getImagePath(item?.image)}
+        alt={safeTrim(item?.product_name) || "Product"}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "http://localhost:5000/uploads/default-product.jpg";
+        }}
+        style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 4 }}
+      />
+
+      <div className="order-item-details">
+        <h4>{safeTrim(item?.product_name) || "Product Name N/A"}</h4>
+        <p>Size: <b>{safeTrim(item?.size) || "N/A"}</b></p>
+        <p>Color: <b>{safeTrim(item?.color) || "N/A"}</b></p>
+        <p>Quantity: <b>{item?.quantity || 0}</b></p>
+        <p>Price per item: <b>₹{item?.price || 0}</b></p>
+        <p>Total: <b>₹{((item?.quantity || 0) * (item?.price || 0)).toFixed(2)}</b></p>
+
+        <button
+          onClick={() => handleDelete(item?.item_id)}
+          className="delete-btn"
+          title="Remove this item from order"
+        >
+          Remove Item
+        </button>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No items found in this order.</p>
+)}
+
       </div>
 
       {/* Order Total Summary */}

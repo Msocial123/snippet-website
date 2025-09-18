@@ -356,6 +356,8 @@ const ProductDetail = () => {
 
   const { addToCart } = useContext(CartContext);
 
+  const safeTrim = (val) => (typeof val === "string" ? val.trim() : "");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -365,7 +367,8 @@ const ProductDetail = () => {
 
         if (data.Images) {
           const imgArray = Array.isArray(data.Images)
-            ? data.Images.map((img) => (img ? img.trim() : ""))
+            // ? data.Images.map((img) => (img ? img.trim() : ""))
+             ? data.Images.map((img) => safeTrim(img))
             : typeof data.Images === "string"
             ? data.Images.split(",").map((img) => (img ? img.trim() : ""))
             : [];
@@ -401,7 +404,8 @@ const ProductDetail = () => {
           const colorSet = new Set();
           data.forEach((v) => {
             if (v.Color && typeof v.Color === "string") {
-              colorSet.add(v.Color.trim());
+              // colorSet.add(v.Color.trim());
+              colorSet.add(safeTrim(v.Color));
             }
           });
           setAvailableColors([...colorSet]);
@@ -450,7 +454,8 @@ const ProductDetail = () => {
 
     const colorVariants = variants.filter(
       (v) =>
-        v.Color && v.Color.trim().toLowerCase() === color.trim().toLowerCase()
+        // v.Color && v.Color.trim().toLowerCase() === color.trim().toLowerCase()
+    safeTrim(v.Color).toLowerCase() === safeTrim(color).toLowerCase()
     );
 
     if (colorVariants.length > 0) {
@@ -466,8 +471,9 @@ const ProductDetail = () => {
         ...new Set(
           colorVariants
             .map((v) =>
-              v.Size && typeof v.Size === "string" ? v.Size.trim() : ""
-            )
+              // v.Size && typeof v.Size === "string" ? v.Size.trim() : ""
+          v.Size && typeof v.Size === "string" ? safeTrim(v.Size) : ""  
+          )
             .filter(Boolean)
         ),
       ];
@@ -482,11 +488,14 @@ const ProductDetail = () => {
 
     const variant = variantImages.find(
       (v) =>
-        v.Color &&
-        v.Color.trim().toLowerCase() === selectedColor.trim().toLowerCase() &&
-        v.Size &&
-        v.Size.trim().toLowerCase() === size.trim().toLowerCase()
-    );
+    //     v.Color &&
+    //     v.Color.trim().toLowerCase() === selectedColor.trim().toLowerCase() &&
+    //     v.Size &&
+    //     v.Size.trim().toLowerCase() === size.trim().toLowerCase()
+    // );
+     safeTrim(v.Color).toLowerCase() === safeTrim(selectedColor).toLowerCase() &&
+safeTrim(v.Size).toLowerCase() === safeTrim(size).toLowerCase()
+);
 
     if (variant) {
       setSelectedVariant(variant);
@@ -576,7 +585,8 @@ const ProductDetail = () => {
   {uniqueVariantsByColor.map((variant, i) => (
     <img
       key={i}
-      src={`http://localhost:5000/uploads/${variant.VariantImage.trim()}`}
+      // src={`http://localhost:5000/uploads/${variant.VariantImage.trim()}`}
+      src={`http://localhost:5000/uploads/${safeTrim(variant.VariantImage)}`}
       alt={`Thumb ${i}`}
       className="thumbnail"
       onClick={() => handleThumbnailClick(variant)}
